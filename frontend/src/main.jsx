@@ -8,22 +8,20 @@ import Contact from './pages/Contact'
 import Browse_mentor from './pages/Browse_mentor'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
-import Register from './pages/Register'
 
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 <BrowserRouter>
-<Register />
-{/* <Header/> */}
-{/* <Routes>
+<Header/>
+<Routes>
   <Route path='/' element={<Home/>}></Route>
   <Route path='/about-us' element={<About/>}></Route>
   <Route path='/contact' element={<Contact/>}></Route>
   <Route path='/browse-mentor' element={<Browse_mentor/>}></Route>
   </Routes>
-  <Footer/> */}
+  <Footer/>
   </BrowserRouter>
   </StrictMode>,
 )
