@@ -8,7 +8,6 @@ function Header() {
             const header = headerRef.current;
             if(!header) return;
   window.addEventListener("scroll", () => {
-    console.log("hello")
       if (window.scrollY > 50) {
         header.classList.add("m-0","md:px-28","px-0");
         header.classList.remove("mx-2","md:mx-40", "my-2", "rounded-xl");
@@ -23,17 +22,26 @@ function Header() {
 
 
 
-const opneMenu = ()=>{
+ const opneMenu = () => {
     const nav = document.getElementById('nav');
-nav.classList.remove("hidden","-mt-80");
-nav.classList.add("top-0", "left-0", "w-full", "absolute", "h-fit", "p-5", "bg-white", "rounded-xl", "duration-200","ease-in-out", "mt-2");
-}
+    nav.classList.remove("hidden");
+    nav.classList.add("top-0", "left-0", "w-full", "absolute", "h-fit", "p-5", "bg-white", "rounded-xl", "mt-2", "z-50");
+    setTimeout(() => {
+      nav.classList.remove("-translate-y-full");
+      nav.classList.add("translate-y-0");
+    }, 10);
+  };
 
-const closeMenu = ()=>{
+  const closeMenu = () => {
     const nav = document.getElementById('nav');
-nav.classList.add("hidden", "-mt-80");
-nav.classList.remove("top-0", "left-0", "w-full", "absolute", "h-fit", "p-5", "bg-white", "rounded-xl", "duration-200","ease-in-out");
-}
+    nav.classList.remove("translate-y-0");
+    nav.classList.add("-translate-y-full");
+
+    setTimeout(() => {
+      nav.classList.add("hidden");
+      nav.classList.remove("top-0", "left-0", "w-full", "absolute", "h-fit", "p-5", "bg-white", "rounded-xl", "mt-2", "z-50");
+    }, 300); 
+  };
   
    
 
@@ -51,7 +59,7 @@ nav.classList.remove("top-0", "left-0", "w-full", "absolute", "h-fit", "p-5", "b
         </div>
 
         {/* Navigation Links */}
-        <div id='nav' className="nav -mt-80 md:mt-0 hidden md:block">
+        <div id='nav' className="nav transform -translate-y-full hidden md:block transition-all duration-300 ease-in-out md:translate-y-0 md:relative">
 
             <div className="logo md:hidden flex items-center justify-between border-b-1 mb-5 pb-3">
           <div className='flex items-center justify-start gap-2'>
@@ -64,23 +72,39 @@ nav.classList.remove("top-0", "left-0", "w-full", "absolute", "h-fit", "p-5", "b
         </div>
 
           <ul className="md:flex md:items-center md:justify-center md:gap-10">
-            <li className="text-gray-800 cursor-pointer font-bold transition duration-100 ease-in-out hover:text-indigo-500 mb-4 md:mb-0">
-              <NavLink to="/">Home</NavLink>
+            <li className="text-gray-800 cursor-pointer my-3 md:my-1">
+              <NavLink to="/" className={({ isActive }) =>
+    `transition duration-100 ease-in-out ${
+      isActive ? 'text-indigo-500 font-semibold' : 'text-gray-800 hover:text-indigo-500'
+    } mb-4 md:mb-0`
+  }>Home</NavLink>
             </li>
-            <li className="text-gray-800 cursor-pointer transition duration-100 ease-in-out hover:text-indigo-500 mb-4 md:mb-0">
-              <NavLink to="/browse-mentor">Browse Mentor</NavLink>
+            <li className="text-gray-800 cursor-pointer my-3 md:my-1">
+              <NavLink to="/browse-mentor" className={({ isActive }) =>
+    `transition duration-100 ease-in-out ${
+      isActive ? 'text-indigo-500 font-semibold' : 'text-gray-800 hover:text-indigo-500'
+    } mb-4 md:mb-0`
+  }>Browse Mentor</NavLink>
             </li>
-            <li className="text-gray-800 cursor-pointer transition duration-100 ease-in-out hover:text-indigo-500 mb-4 md:mb-0">
-              <NavLink to="/about-us">About Us</NavLink>
+            <li className="text-gray-800 cursor-pointer my-3 md:my-1">
+              <NavLink to="/about-us" className={({ isActive }) =>
+    `transition duration-100 ease-in-out ${
+      isActive ? 'text-indigo-500 font-semibold' : 'text-gray-800 hover:text-indigo-500'
+    } mb-4 md:mb-0`
+  }>About Us</NavLink>
             </li>
-             <li className="text-gray-800 cursor-pointer transition duration-100 ease-in-out hover:text-indigo-500 mb-4 md:mb-0">
-              <NavLink to="/contact">Contact</NavLink>
+             <li className="text-gray-800 cursor-pointer my-3 md:my-1">
+              <NavLink to="/contact" className={({ isActive }) =>
+    `transition duration-100 ease-in-out ${
+      isActive ? 'text-indigo-500 font-semibold' : 'text-gray-800 hover:text-indigo-500'
+    } mb-4 md:mb-0`
+  }>Contact</NavLink>
             </li>
           </ul>
         </div>
 
         {/* Login Button */}
-        <div className="login bg-gray-200 rounded-full py-1 px-3 border border-gray-300 transition duration-300 hover:text-indigo-500 hover:scale-105">
+        <div className="login bg-gray-200 rounded-full py-1 pb-1.5 px-3 border border-gray-300 transition duration-300 hover:text-indigo-500 hover:scale-105">
           <NavLink className="flex items-center justify-end gap-1" to="/login">
             Login
             <span>
