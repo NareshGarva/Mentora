@@ -46,7 +46,7 @@ function Header() {
    
 
   return (
-    <header ref={headerRef} className="relative mx-2 md:mx-40 my-2 rounded-xl py-2.5 px-5 bg-white sticky top-0 transition-all duration-300 ease-in-out"
+    <header ref={headerRef} className="relative mx-2 md:mx-40 my-2 rounded-xl py-2.5 px-5 bg-white sticky top-0 transition-all duration-300 ease-in-out z-40"
     >
       <div className="flex items-center justify-between">
         {/* Logo */}
