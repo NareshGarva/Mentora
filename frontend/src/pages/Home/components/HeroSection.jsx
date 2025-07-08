@@ -2,7 +2,7 @@ import React from 'react'
 
 function HeroSection() {
   return (
-     <section className='w-full bg-gradient-to-b from-transparent to-orange-100'>
+     <section className='w-full bg-gradient-to-b from-transparent to-orange-100' >
  <div className='mx-2 md:mx-28 flex justify-center items-center h-screen'>
 <div className='w-full'>
     {/* section heading text */}
