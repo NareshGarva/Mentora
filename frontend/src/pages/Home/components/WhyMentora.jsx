@@ -43,7 +43,8 @@ function WhyMentora() {
   </div>
 <h2 className='text-black my-3 text font-semibold'>Expert Mentors</h2>
 <p className='text-gray-500 text-sm my-2'>Access to industry professionals from top companies like Google, Meta, Netflix, and innovative startups.</p>
-</div></div>
+</div>
+</div>
 
 
 <div data-aos="fade-up"
