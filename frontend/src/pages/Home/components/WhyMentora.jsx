@@ -2,17 +2,17 @@ import React from 'react'
 
 function WhyMentora() {
   return (
-      <section className='w-full py-10 bg-gradient-to-b from-orange-100 to-transparent'>
+      <section data-aos-delay="0" className='w-full py-10 bg-gradient-to-b from-orange-100 to-transparent'>
 <div className='mx-2 md:mx-28 flex justify-center items-center'>
 <div className='w-full'>
 <div className='text-center'>
-<h1 className='text-3xl font-bold md:text-4xl'>Why Choose Mentora</h1>
-<p className='my-4 text-xl text-gray-500'>We make it easy to find, book, and learn from the best mentors in your field</p>
+<h1 className='text-3xl font-bold md:text-4xl' data-aos="fade-up" data-aos-delay="100">Why Choose Mentora</h1>
+<p className='my-4 text-xl text-gray-500' data-aos="fade-up" data-aos-delay="200">We make it easy to find, book, and learn from the best mentors in your field</p>
 </div>
 
 <div className='md:flex justify-between items-center mt-20'>
-
-<div className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
+<div data-aos="fade-up"
+     data-aos-delay="400" className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
 
   {/* Blur + Gradient Overlay on hover */}
   <div className="absolute inset-0 bg-gradient-to-br from-purple-300/10 via-purple-300/10 to-blue-300/10 rounded-xl backdrop-blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
@@ -32,7 +32,8 @@ function WhyMentora() {
 </div>
 
 
-<div className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
+<div data-aos="fade-up"
+     data-aos-delay="800" className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
   {/* Blur + Gradient Overlay on hover */}
   <div className="absolute inset-0 bg-gradient-to-br from-purple-300/10 via-cyan-300/10 to-blue-300/10 rounded-xl backdrop-blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
 
@@ -45,7 +46,8 @@ function WhyMentora() {
 </div></div>
 
 
-<div className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
+<div data-aos="fade-up"
+     data-aos-delay="1200" className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
  {/* Blur + Gradient Overlay on hover */}
   <div className="absolute inset-0 bg-gradient-to-br from-purple-300/10 via-orange-300/10 to-blue-300/10 rounded-xl backdrop-blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
 
@@ -58,7 +60,8 @@ function WhyMentora() {
 </div></div>
 
 
-<div className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
+<div data-aos="fade-up"
+     data-aos-delay="1600" className='text-center p-5 m-2 rounded-xl overflow-hidden relative group transition-transform duration-300 ease-in-out hover:scale-105'>
   {/* Blur + Gradient Overlay on hover */}
   <div className="absolute inset-0 bg-gradient-to-br from-purple-300/10 via-green-300/10 to-blue-300/10 rounded-xl backdrop-blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
 
