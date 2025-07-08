@@ -1,6 +1,9 @@
 import React, {useEffect,useRef} from 'react';
 import { NavLink } from 'react-router-dom';
 import Avatar from './Avatar';
+import NotificationDropdown from './NotificationDropdown';
+import {handleToggleClick, handleMouseOver, handleMouseLeave} from '../utils/over_click'
+import ProfileDropdown from './ProfileDropdown';
 
 function Header() {
           // check if new notification or not 
@@ -10,39 +13,65 @@ function Header() {
     0
   </span>)
   
-
   
   // check user is login or not 
     const isLogin = true;
     // if login then display this profile icon or notification icon 
-      const loginContent = (<div className='flex justify-center items-center gap-3'>
-<div className="relative p-2 rounded-full transition-all ease-in-out hover:bg-gray-100">
-  {/* Notification count badge */}
- {isNewNotification ? notificationCount : ''}
+      const loginContent = (<div className=' relative flex justify-center items-center gap-3'>
 
-  {/* Bell icon */}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lucide lucide-bell-icon lucide-bell"
+
+<div 
+  className="relative"
+  onMouseOver={()=>handleMouseOver('notificationDropdown')}
+  onMouseLeave={()=>handleMouseLeave('notificationDropdown')}
+>
+  {/* Bell Icon */}
+  <div 
+    className="p-2 rounded-full transition-all ease-in-out hover:bg-gray-100 cursor-pointer"
+    onClick={()=>handleToggleClick('notificationDropdown')}
   >
-    <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-    <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-  </svg>
+    {isNewNotification ? notificationCount : ''}
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-bell-icon lucide-bell"
+    >
+      <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+      <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+    </svg>
+  </div>
+
+  {/* Dropdown */}
+  <div 
+    className="absolute right-0 top-10 w-80 bg-white shadow-lg rounded-lg hidden z-50"
+    id="notificationDropdown"
+  >
+    <NotificationDropdown />
+  </div>
 </div>
 
-<div className='w-[40px] h-[40px] object-cover'>
-  <Avatar/>
+
+<div className='relative'  onMouseOver={()=>handleMouseOver('profileDropdown')}
+  onMouseLeave={()=>handleMouseLeave('profileDropdown')}>
+  <div className='w-[40px] h-[40px] object-contain'>
+  <Avatar onClick={()=>handleToggleClick('profileDropdown')}/>
+</div>
+<div  className="absolute right-0 top-10.5 w-60 bg-white shadow-lg rounded-lg hidden z-50"
+    id="profileDropdown">
+  <ProfileDropdown/>
+</div>
 </div>
     </div>
     );
+
     //if not login the display this login button
     const loginBtn = (<div className="login bg-gradient-to-bl from-indigo-100 to-transparent backdrop-blur-3xl rounded-full py-1 pb-1.5 px-3 border border-gray-300 transition duration-300 hover:text-indigo-500 hover:scale-105">
           <NavLink className="flex items-center justify-end gap-1" to="/login">

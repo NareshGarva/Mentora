@@ -20,7 +20,7 @@ function FeaturedMentors() {
     <MentorCard/>
 </div>
 <div className='text-center'>
-<button className=' p-2.5 px-7 rounded-lg bg-white border border-gray-400 mt-10'>View All Mentors</button>
+<button className='underline underline-offset-6 mt-10 transition-all ease-in-out duration-300 hover:scale-104'><span>View All Mentors</span></button>
 </div>
 </div>
 </div>
