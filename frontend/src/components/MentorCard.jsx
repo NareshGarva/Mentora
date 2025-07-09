@@ -8,7 +8,7 @@ function MentorCard() {
     const currency = "₹";
     // const avatar = "https://m.media-amazon.com/images/M/MV5BZjA0MDgyYmItNzkzMC00OTM2LThlYzktMWMxZWU3ZGNkNDI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg";
   return (
-   <div data-aos="fade-up" className=" bg-white/90 rounded-xl p-5 transition-transform duration-300 ease-in-out hover:scale-[1.01] hover:shadow-xl">
+   <div className="m-2 bg-white/90 rounded-xl p-5 transition-transform duration-300 ease-in-out hover:scale-[1.01] hover:shadow-xl">
   {/* Top: Avatar & Details */}
   <div className="flex items-center gap-5">
     <div className=" overflow-hidden">
