@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 
 function Login() {
     const LoginFn=()=>{
@@ -36,7 +37,7 @@ function Login() {
                 </div>
                 </div>
              </div>
-             
+             <NavLink to={'/register'}>Register Now</NavLink>
              </>
   )
 }

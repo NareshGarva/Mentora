@@ -1,6 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function HeroSection() {
+   const navigate = useNavigate();
+   const AllMentors = ()=>{
+    navigate('/browse-mentor/search-mentors')
+  }
   return (
      <section data-aos="fade-in" data-aos-duration="1000" data-aos-delay="100" className='w-full bg-gradient-to-b from-transparent to-orange-100' >
  <div className='mx-2 md:mx-28 flex justify-center items-center h-screen'>
@@ -16,7 +21,7 @@ function HeroSection() {
   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-calendar-icon lucide-calendar"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
   <span>Book a Session</span>
 </button>
-<button className='border border-indigo-100 border-1 bg-white/70 py-2.5 px-3 md:px-5 rounded text-indigo-600 cursor-pointer hover:bg-indigo-50 font-semibold'>
+<button onClick={AllMentors} className='border border-indigo-100 border-1 bg-white/70 py-2.5 px-3 md:px-5 rounded text-indigo-600 cursor-pointer hover:bg-indigo-50 font-semibold'>
   <span>Browse mentors</span>
 </button>
 </div>
