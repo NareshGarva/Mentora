@@ -124,7 +124,7 @@ function Login() {
                 </div>
                 </div>
              </div>
-             
+             <NavLink to={'/register'}>Register Now</NavLink>
              </>
   )
 }
