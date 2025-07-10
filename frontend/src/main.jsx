@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
+import Register from './pages/register/Register'
 
 
 
@@ -16,14 +17,17 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
 <BrowserRouter>
 <Header/>
-<Routes>
+{/* <Routes>
   <Route path='/' element={<Home/>}></Route>
   <Route path='/about-us' element={<About/>}></Route>
   <Route path='/contact' element={<Contact/>}></Route>
   <Route path='/browse-mentor' element={<Browse_mentor/>}></Route>
   <Route path='/login' element={<Login/>}></Route>
+  <Route path='/Register' element={<Login/>}></Route>
   </Routes>
   <Footer/>
+  <Register /> */}
+  <Login />
   </BrowserRouter>
   </StrictMode>,
 )
