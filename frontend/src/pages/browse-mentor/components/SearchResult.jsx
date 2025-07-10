@@ -20,9 +20,7 @@ return (<p className='text-center text-gray-600'>No mentors found.</p>)
     <h1 className='text-3xl font-bold '>Available Mentors</h1>
 <p className='text-sm text-gray-400'><span className='text-2xl font-bold bg-gradient-to-br from-yellow-500/30 via-green-400/90 to-pink-500/30 bg-clip-text text-transparent'>{filteredMentors.length > 999 ? '999+' :filteredMentors.length}</span> mentor ready to help you succeed</p>
 </div>
-<div>
-    
-</div>
+
 </div>
 <div className='md:grid md:grid-cols-3 md:grid-rows-2 md:gap-1 mt-14'>
 {renderMentors()}

@@ -1,5 +1,6 @@
 import React from 'react'
 import AvatarImg from '../assets/avatar.jpg'
+import { User } from 'lucide-react';
 
 function Avatar() {
   const isAvatar = false;
@@ -19,28 +20,14 @@ const randomBg = bgColors[Math.floor(Math.random() * bgColors.length)];
 
   const defaultAvatar = (
    <div className={`${randomBg} p-2 rounded-full cursor-pointer`}>
-     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-user-icon"
-    >
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
+   <User/>
    </div>
   );
 
   return (
     <>
       {isAvatar ? (
-        <img src={isAvatar} alt="User Avatar" className="w-[50px] h-[50px] rounded-full" />
+        <img src={AvatarImg} alt="User Avatar" className="w-[50px] h-[50px] rounded-full" />
       ) : (
         defaultAvatar
       )}
