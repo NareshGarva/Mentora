@@ -16,7 +16,7 @@ function Header() {
   
   
   // check user is login or not 
-    const isLogin = false;
+    const isLogin = true;
     // if login then display this profile icon or notification icon 
       const loginContent = (<div className=' relative flex justify-center items-center gap-3'>
 
