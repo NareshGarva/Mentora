@@ -8,7 +8,7 @@ function Hero() {
   <div className='w-full h-fit'>
  {/* section heading text */}
   <div className='mt-20 text-center'>
-  <h1 className='text-3xl md:text-6xl font-bold' >Browse <span className='bg-gradient-to-r from-yellow-300 via-pink-300 to-rose-300 bg-clip-text text-transparent'>Expert Mentors</span></h1>
+  <h1 className='text-3xl md:text-6xl font-bold' >Find <span className='bg-gradient-to-r from-yellow-300 via-pink-300 to-rose-300 bg-clip-text text-transparent'>Your Mentor</span></h1>
   <p className='text-gray-600 text-xl my-3' >Connect with industry leaders and experienced professionals who can guide your career journey and help you achieve your goals.</p>
   </div>
 
