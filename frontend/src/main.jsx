@@ -16,7 +16,6 @@ import SearchSection from './pages/browse-mentor/components/SearchSection'
 // Learner Imports
 import Sessions from './pages/LearnerModule/Sessions'
 import LearnerSidebar from './pages/LearnerModule/LearnerSidebar'
-import { Heading } from 'lucide-react'
 
 const sampleDataForSessions = {
   heading: 'Resume Building',

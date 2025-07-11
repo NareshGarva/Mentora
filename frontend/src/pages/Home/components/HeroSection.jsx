@@ -8,7 +8,7 @@ function HeroSection() {
   }
   return (
      <section data-aos="fade-in" data-aos-duration="1000" data-aos-delay="100" className='w-full bg-gradient-to-b from-transparent to-orange-100' >
- <div className='mx-2 md:mx-28 flex justify-center items-center h-screen'>
+ <div className='mx-5 md:mx-28 flex justify-center items-center h-screen'>
 <div className='w-full'>
     {/* section heading text */}
   <div className='text-center'>
