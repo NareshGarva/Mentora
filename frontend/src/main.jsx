@@ -10,7 +10,15 @@ import Footer from './components/Footer'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 
+// Learner Imports
+import Sessions from './pages/LearnerModule/Sessions'
+import LearnerSidebar from './pages/LearnerModule/LearnerSidebar'
+import { Heading } from 'lucide-react'
 
+const sampleDataForSessions = {
+  heading: 'Resume Building',
+  mentor_name: "Prof. John Doe"
+}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -22,6 +30,15 @@ createRoot(document.getElementById('root')).render(
   <Route path='/contact' element={<Contact/>}></Route>
   <Route path='/browse-mentor' element={<Browse_mentor/>}></Route>
   <Route path='/login' element={<Login/>}></Route>
+
+  {/* Learner module */}
+  <Route path='/learner/sessions' element={
+    <div className='sidebar-and-contents-container flex'>
+      <LearnerSidebar />
+      <Sessions {...sampleDataForSessions} />
+    </div>
+  }></Route>
+
   </Routes>
   <Footer/>
   </BrowserRouter>
