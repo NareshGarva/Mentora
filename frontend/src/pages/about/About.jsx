@@ -1,17 +1,26 @@
-import { useState, useEffect } from 'react';
+
+import Hero from './components/Hero'
+
+import Mission from './components/Mission';
+import Success from './components/Success'
+
 
 function About() {
-  const [count, setCount] = useState(0);
+  
 
-  useEffect(() => {
-    document.title = `Count: ${count}`;
-  }, [count]);
-console.log(count);
   return (
-    <div>
-      <h1>Count is {count}</h1>
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-    </div>
+   <>
+  <Hero/>
+
+  <Success/>
+
+  <Mission/>
+
+  
+   
+ 
+   
+  </>
   );
 }
 
