@@ -13,7 +13,15 @@ import Register from './pages/register/Register'
 import SearchResult from './pages/browse-mentor/components/SearchResult'
 import SearchSection from './pages/browse-mentor/components/SearchSection'
 
+// Learner Imports
+import Sessions from './pages/LearnerModule/Sessions'
+import LearnerSidebar from './pages/LearnerModule/LearnerSidebar'
+import { Heading } from 'lucide-react'
 
+const sampleDataForSessions = {
+  heading: 'Resume Building',
+  mentor_name: "Prof. John Doe"
+}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -30,6 +38,13 @@ createRoot(document.getElementById('root')).render(
   <Route path='/login' element={<Login/>}></Route>
   <Route path='/register' element={<Register/>}></Route>
   <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
+  {/* Learner module */}
+  <Route path='/learner/sessions' element={
+    <div className='sidebar-and-contents-container flex'>
+      <LearnerSidebar />
+      <Sessions {...sampleDataForSessions} />
+    </div>
+  }></Route>
   </Routes>
   <Footer/>
   </BrowserRouter>
