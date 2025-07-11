@@ -32,7 +32,6 @@ createRoot(document.getElementById('root')).render(
   <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
   </Routes>
   <Footer/>
-
   </BrowserRouter>
   </StrictMode>,
 )
