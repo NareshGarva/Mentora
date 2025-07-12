@@ -17,6 +17,10 @@ import SearchSection from './pages/browse-mentor/components/SearchSection'
 import Sessions from './pages/LearnerModule/Sessions'
 import LearnerSidebar from './pages/LearnerModule/LearnerSidebar'
 import { Heading } from 'lucide-react'
+import LearnerDashboard from './pages/LearnerModule/LearnerDashboard'
+
+// Mentor Imports
+import MentorDashboard from './pages/MentorModule/MentorDashboard'
 
 const sampleDataForSessions = {
   heading: 'Resume Building',
@@ -25,28 +29,35 @@ const sampleDataForSessions = {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-<BrowserRouter>
-<Header/>
- <Routes>
-  <Route path='/' element={<Home/>}></Route>
-  <Route path='/about-us' element={<About/>}></Route>
-  <Route path='/contact' element={<Contact/>}></Route>
-  <Route path='/browse-mentor' element={<Browse_mentor/>}>
-  <Route path='all-mentors' element={<SearchResult/>}></Route>
-  <Route path='search-mentors' element={<SearchSection/>}></Route>
-  </Route>
-  <Route path='/login' element={<Login/>}></Route>
-  <Route path='/register' element={<Register/>}></Route>
-  <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
-  {/* Learner module */}
-  <Route path='/learner/sessions' element={
-    <div className='sidebar-and-contents-container flex'>
-      <LearnerSidebar />
-      <Sessions {...sampleDataForSessions} />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/about-us' element={<About />}></Route>
+        <Route path='/contact' element={<Contact />}></Route>
+        <Route path='/browse-mentor' element={<Browse_mentor />}>
+          <Route path='all-mentors' element={<SearchResult />}></Route>
+          <Route path='search-mentors' element={<SearchSection />}></Route>
+        </Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/register' element={<Register />}></Route>
+        <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
+        {/* Learner module */}
+        <Route path='/learner/sessions' element={
+          <div className='sidebar-and-contents-container flex'>
+            <LearnerSidebar />
+            <Sessions {...sampleDataForSessions} />
+          </div>
+        }></Route>
+        <Route path='/learner/test' element={
+          <div className='sidebar-and-contents-container flex'>
+      <LearnerDashboard />
     </div>
   }></Route>
-  </Routes>
-  <Footer/>
-  </BrowserRouter>
+  {/* Mentor module */}
+  <Route path='/mentor/dashboard' element={<MentorDashboard />}></Route>
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   </StrictMode>,
 )
