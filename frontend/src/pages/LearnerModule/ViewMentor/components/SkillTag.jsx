@@ -6,14 +6,14 @@ const SkillTag = (props) => {
 
     if(btnType === 'default'){
         return (<>
-        <div className="tag-wrapper w-fit px-4 py-2 bg-secondary-200">
+        <div className="tag-wrapper w-fit px-3 py-1 rounded-full bg-secondary-200 ">
             {props.skill || "skill name"}
         </div>
         </>)
     }
     if(btnType === 'outlined'){
         return (<>
-        <div className="tag-wrapper w-fit px-4 py-2 stroke-1 stroke-m-gray-600">
+        <div className="tag-wrapper w-fit px-3 py-1 stroke-1 stroke-m-gray-600 rounded-full">
             {props.skill || "skill name"}
         </div>
         </>)

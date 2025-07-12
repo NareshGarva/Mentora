@@ -2,7 +2,7 @@ import React from 'react'
 import SkillTag from './SkillTag'
 
 const AboutMentor = (props) => {
-    props.mentor_languages=["eng"]
+    // props.mentor_languages=["eng", "hin"]  
   return (
     <div className='about-contents-wrapper flex gap-4 text-gray-600'>
       <h3 className="text-2xl text-black font-bold">About</h3>

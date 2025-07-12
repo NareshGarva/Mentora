@@ -10,7 +10,7 @@ const ViewMentor = (props) => {
     <>
       <div className="left-section w-2/3">
         {/* Mentor Overview Container */}
-        <div className="flex w-full p-9 gap-9 stroke-1 stroke-m-gray-400">
+        <div className="flex w-full p-9 gap-9 border-1 border-m-gray-400">
           {/* Mentor Image Container */}
           <div className="flex bg-m-gray-700 h-8 w-8"> </div>
           {/* Mentor overview text container */}
@@ -40,12 +40,12 @@ const ViewMentor = (props) => {
         </div>
 
         {/* Bottom left container */}
-        <div className="flex w-full p-9 gap-9 stroke-1 stroke-m-gray-400">
-          <AboutMentor />
+        <div className="flex w-full p-9 gap-9 border-1 border-m-gray-400">
+          <AboutMentor mentor_languages={["eng", "hin"]}/>
         </div>
       </div>
       <div className="right-section">
-        <div className="flex w-full p-9 gap-9 stroke-1 stroke-m-gray-400">
+        <div className="flex w-full p-9 gap-9 border-1 border-m-gray-400">
           <div className="book-session-contents flex flex-col gap-4">
             <Calendar className="w-[2rem] h-[2rem]" />
             <h4 className="text-base font-bold">Session Duration</h4>
