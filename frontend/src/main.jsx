@@ -36,7 +36,6 @@ createRoot(document.getElementById('root')).render(
   </Route>
   <Route path='/login' element={<Login/>}></Route>
   <Route path='/register' element={<Register/>}></Route>
-  <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
   {/* Learner module */}
   <Route path='/learner/sessions' element={
     <div className='sidebar-and-contents-container flex'>
@@ -44,6 +43,7 @@ createRoot(document.getElementById('root')).render(
       <Sessions {...sampleDataForSessions} />
     </div>
   }></Route>
+  <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
   </Routes>
   <Footer/>
   </BrowserRouter>

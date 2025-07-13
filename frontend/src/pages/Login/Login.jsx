@@ -11,9 +11,11 @@ function Login() {
   const [timer, setTimer] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const intervalRef = useRef(null);
 
   const handleLogin = () => {
+    setLoading(true);
     if (username === 'naresh@123' && password === '123456') {
       alert('Login successful');
       setUsername('');
@@ -44,6 +46,7 @@ function Login() {
         }, 1000);
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -107,7 +110,7 @@ function Login() {
             }`}
             disabled={disabled}
           >
-            Login
+            {isLoading?(<Loading/>):'Login'}
           </button>
 
           {disabled && (
