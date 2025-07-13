@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     number: {
       type: String,
-      unique: true,
+      default:"+91 74398-74728"
     },
     role: {
       type: String,
