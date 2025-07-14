@@ -1,7 +1,7 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import User from '../models/User.js'
+import User from '../models/user.model.js'
 
 const getUsername = (query = '') => {
   const name = query.trim().toLowerCase().replace(/\s+/g, '');
@@ -41,6 +41,8 @@ const loginUser = (req, res) =>{
     if(!user || (bcrypt.compare(password != user.password))){
         return res.status(400).json({message:"Invalid user"});
     }
+    
+    
 }
 
-export { createUser, loginUser,  };
+export { createUser, loginUser};
