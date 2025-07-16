@@ -1,21 +1,26 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
+
+// import pages
 import './index.css'
 import Header from './components/Header'
 import About from './pages/about/About'
 import Contact from './pages/contact/Contact'
 import Browse_mentor from './pages/browse-mentor/Browse_mentor'
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/register/Register'
 import SearchResult from './pages/browse-mentor/components/SearchResult'
 import SearchSection from './pages/browse-mentor/components/SearchSection'
-
-// Learner Imports
 import Sessions from './pages/LearnerModule/Sessions'
 import LearnerSidebar from './pages/LearnerModule/LearnerSidebar'
+
+
+//import contexts and providers
+import AuthProvider from './context/auth.context'
+
 
 const sampleDataForSessions = {
   heading: 'Resume Building',
@@ -24,6 +29,7 @@ const sampleDataForSessions = {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AuthProvider>
 <BrowserRouter>
 <Header/>
  <Routes>
@@ -47,5 +53,6 @@ createRoot(document.getElementById('root')).render(
   </Routes>
   <Footer/>
   </BrowserRouter>
+  </AuthProvider>
   </StrictMode>,
 )

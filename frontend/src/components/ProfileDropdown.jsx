@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Avatar from './Avatar'
 import { NavLink } from 'react-router-dom';
 import {User, Calendar, Settings, Heart, LogOut} from 'lucide-react'
+import { AuthContext } from '../context/auth.context';
 
 function ProfileDropdown() {
-    const userType = 'Mentee';
+  const { user } = useContext(AuthContext)
+  console.log(user)
   return (
     <div className='min-w-full border border-gray-300 rounded-lg bg-white'>
         <div className='header p-3 flex justify-left items-center gap-3'>
         <Avatar/>
         <div>
-            <p className='font-semibold text-xs' >Naresh Garva</p>
-            <p className='text-xs text-gray-400'>example@gmail.com</p>
-            <p className='w-fit text-green-500 text-[10px] font-semibold px-2 rounded-full bg-green-100'>{userType}</p>
+            <p className='font-semibold text-xs' >{user.name}</p>
+            <p className='text-xs text-gray-400'>@{user.username}</p>
+            <p className='w-fit text-green-500 text-[10px] font-semibold px-2 rounded-full bg-green-100 mt-0.5'>{user.role}</p>
         </div>
         </div>
         <hr className='text-gray-300' />

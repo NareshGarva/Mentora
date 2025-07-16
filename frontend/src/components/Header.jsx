@@ -1,5 +1,6 @@
-import React, {useEffect,useRef} from 'react';
+import React, {useContext, useEffect,useRef} from 'react';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../context/auth.context';
 import Avatar from './Avatar';
 import NotificationDropdown from './NotificationDropdown';
 import {handleToggleClick, handleMouseOver, handleMouseLeave} from '../utils/over_click'
@@ -7,6 +8,7 @@ import ProfileDropdown from './ProfileDropdown';
 import Logo from './Logo';
 
 function Header() {
+  const {isLoggedIn} = useContext(AuthContext);
           // check if new notification or not 
     const isNewNotification = false;
     //if yes then show this notification count
@@ -14,9 +16,7 @@ function Header() {
     0
   </span>)
   
-  
-  // check user is login or not 
-    const isLogin = true;
+
     // if login then display this profile icon or notification icon 
       const loginContent = (<div className=' relative flex justify-center items-center gap-3'>
 
@@ -202,7 +202,7 @@ function Header() {
         </div>
 
         {/* Login Button and account icons */}
-        {isLogin ? loginContent : loginBtn}
+        {isLoggedIn ? loginContent : loginBtn}
       </div>
     </header>
   );

@@ -62,8 +62,6 @@ function Register() {
       submitBtn.disabled = true;
       const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
       submitBtn.disabled = false;
-
-      console.log('Response:', response.data);
       if(!response.ok){
         alert(response.data.message);
       }else{
