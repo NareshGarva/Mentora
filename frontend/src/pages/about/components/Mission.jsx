@@ -1,4 +1,5 @@
 import React from 'react'
+import aboutImg from '../../../assets/aboutImg.png'
 
 function Mission() {
   return (
@@ -18,7 +19,8 @@ function Mission() {
   </div>
 
 <div className='mt-10 md:mt-0'>
- <div className='w-100 h-[500px] bg-gradient-to-br from-stone-200 to-green-50 rounded-lg'>
+ <div>
+  <img src={aboutImg} className='rounded-lg' />
  </div>
  </div>
 

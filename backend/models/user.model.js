@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
       enum: ["Mentee", "Mentor"],
       default: "Mentee",
     },
+    refreshToken:{
+      type: String,
+      default:''
+    },
   },
   { timestamps: true }
 );
