@@ -6,14 +6,14 @@ const SkillTag = (props) => {
 
     if(btnType === 'default'){
         return (<>
-        <div className="tag-wrapper flex justify-center items-center text-nowrap h-fit w-fit px-3 py-1 rounded-full bg-secondary-200 ">
+        <div className="tag-wrapper text-sm flex justify-center items-center text-nowrap h-fit w-fit px-3 py-1 rounded-full bg-secondary-200 ">
             {props.skill || "skill name"}
         </div>
         </>)
     }
     if(btnType === 'outlined'){
         return (<>
-        <div className="tag-wrapper flex justify-center items-center text-nowrap h-fit w-fit px-3 py-1 border-1 border-m-gray-600 rounded-full">
+        <div className="tag-wrapper text-sm flex justify-center items-center text-nowrap h-fit w-fit px-3 py-1 border-1 border-m-gray-500 rounded-full">
             {props.skill || "skill name"}
         </div>
         </>)

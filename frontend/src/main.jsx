@@ -22,6 +22,7 @@ import ViewMentor from "./pages/LearnerModule/ViewMentor/ViewMentor";
 
 // Mentor Imports
 import MentorDashboard from "./pages/MentorModule/MentorDashboard";
+import MentorAvailability from "./pages/LearnerModule/ViewMentor/components/MentorAvailability";
 
 const sampleDataForSessions = {
   heading: "Resume Building",
@@ -54,11 +55,17 @@ createRoot(document.getElementById("root")).render(
           }
         ></Route>
         <Route
-          path="/learner/test"
+          path="/learner/dashboard"
           element={
             <div className="sidebar-and-contents-container flex">
               <LearnerDashboard />
             </div>
+          }
+        ></Route>
+        <Route
+          path="/learner/test"
+          element = {
+            <MentorAvailability />
           }
         ></Route>
         <Route
