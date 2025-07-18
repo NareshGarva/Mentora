@@ -16,8 +16,9 @@ function isEmail(input) {
 }
 
 const generateAccessToken = (user) => {
+  console.log(`user is : ${user}`)
   return jwt.sign(
-    { id: user._id, role: user.role, username: user.username },
+    { _id: user._id, role: user.role, username: user.username },
     process.env.ACCESS_SECRET,
     { expiresIn: "15m" }
   );
@@ -25,7 +26,7 @@ const generateAccessToken = (user) => {
 
 const generateRefreshToken = (user) => {
   return jwt.sign(
-    { id: user._id, role: user.role, username: user.username },
+    { _id: user._id, role: user.role, username: user.username },
     process.env.REFRESH_SECRET,
     { expiresIn: "7d" }
   );
@@ -51,9 +52,11 @@ const createUser = async (req, res) => {
       password: hashedPassword,
       role: role,
     });
+    console.log("User created")
     return res.status(201).json({ message: "User created", user });
   } catch (error) {
     console.log("error in user creation :", error);
+    console.log("User not created")
     throw new ApiError(400, "Error in account creation");
   }
 };
@@ -94,11 +97,20 @@ const loginUser = async (req, res) => {
     httpOnly: true,
     secure: false,
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days only
   });
 
+    //set access token in cookie-only
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+    maxAge: 15 * 60 * 1000, // 15 minutes only
+  });
+
+    console.log("User LoggedIn")
+
   return res.status(200).json({
-    accessToken,
     user: {
       name: user.name,
       username: user.username,
@@ -114,18 +126,29 @@ const refreshAccessToken = async (req, res) => {
   const token =
     req.cookies?.refreshToken ||
     req.header("Authorization")?.replace("Bearer ", "");
+
   if (!token) {
     throw new ApiError(404, "Token not found");
   }
   try {
     const decode = jwt.verify(token, process.env.REFRESH_SECRET);
-    const user = await User.findById(decode._id).select('+ refreshToken');
+    const user = await User.findById(decode._id).select('+refreshToken');
 
     if (!user || user.refreshToken != token) {
       throw new ApiError(404, "user unAuthorized");
     }
 
     const newAccessToken = generateAccessToken(user);
+    console.log("Token generated")
+
+       //set access token in cookie-only
+  res.cookie("accessToken", newAccessToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+    maxAge: 15 * 60 * 1000, // 15 minutes only
+  });
+
     return res
       .status(201)
       .json({
@@ -134,11 +157,16 @@ const refreshAccessToken = async (req, res) => {
       });
   } catch (err) {
     console.log(err);
+    console.log("Token not generated")
     const status =
       err.name === "JsonWebTokenError" || err.name === "TokenExpiredError"
         ? 401
         : 500;
-    next(new ApiError(status, "Unauthorized: Invalid or expired token"));
+
+    return res
+  .status(status)
+  .json({ message: "Unauthorized: Invalid or expired token from refresh token" });
+
   }
 };
 
@@ -165,10 +193,11 @@ const logoutUser = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-
+    console.log("User logout")
     return res.status(200).json({ message: "User logged out successfully" });
   } catch (err) {
     console.error(err);
+    console.log("User not logout")
     throw new ApiError(500, "Error during logout");
   }
 };

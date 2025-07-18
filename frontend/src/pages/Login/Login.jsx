@@ -70,16 +70,15 @@ const {login} = useContext(AuthContext)
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', formData);
+      const response = await axios.post('http://localhost:3000/api/auth/login', formData,{
+        withCredentials:true
+      });
 
       if (response.status === 200) {
         alert(response.data.message);
-        Cookies.set("accessToken", response.data.accessToken, {
- expires: 0.0104, // 15 min = 15 / 1440 ≈ 0.0104
-  path: "/"
-});
 login(response.data.user)
 handleRedirect();
+
       } else {
         alert(response.data.message || 'Invalid credentials');
         throw new Error(response.data.message || 'Invalid credentials');

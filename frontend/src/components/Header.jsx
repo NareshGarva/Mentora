@@ -1,6 +1,5 @@
-import React, {useContext, useEffect,useRef} from 'react';
+import React, { useEffect,useRef} from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../context/auth.context';
 import Avatar from './Avatar';
 import NotificationDropdown from './NotificationDropdown';
 import {handleToggleClick, handleMouseOver, handleMouseLeave} from '../utils/over_click'
@@ -8,7 +7,6 @@ import ProfileDropdown from './ProfileDropdown';
 import Logo from './Logo';
 
 function Header() {
-  const {isLoggedIn} = useContext(AuthContext);
           // check if new notification or not 
     const isNewNotification = false;
     //if yes then show this notification count
@@ -202,7 +200,7 @@ function Header() {
         </div>
 
         {/* Login Button and account icons */}
-        {isLoggedIn ? loginContent : loginBtn}
+        {localStorage.getItem("isLoggedIn") ? loginContent : loginBtn}
       </div>
     </header>
   );
