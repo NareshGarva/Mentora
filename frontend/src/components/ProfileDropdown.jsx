@@ -5,8 +5,7 @@ import {User, Calendar, Settings, Heart, LogOut} from 'lucide-react'
 import { AuthContext } from '../context/auth.context';
 
 function ProfileDropdown() {
-  const { user } = useContext(AuthContext)
-  console.log(user)
+  const { user, logout } = useContext(AuthContext)
   return (
     <div className='min-w-full border border-gray-300 rounded-lg bg-white'>
         <div className='header p-3 flex justify-left items-center gap-3'>
@@ -38,7 +37,7 @@ function ProfileDropdown() {
         </div>
         <hr className='text-gray-300' />
        <div className='p-3'>
-         <div className='flex justify-left items-center gap-3 font-semibold text-red-400 py-1 px-3 rounded transition-all ease-in-out duration-300 hover:bg-red-200'>
+         <div onClick={logout} className='flex justify-left items-center gap-3 font-semibold text-red-400 py-1 px-3 rounded transition-all ease-in-out duration-300 hover:bg-red-200 cursor-pointer'>
             <LogOut size={16}/>
             <p>Log Out</p>
         </div>
