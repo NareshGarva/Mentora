@@ -14,11 +14,13 @@ import SearchResult from "./pages/browse-mentor/components/SearchResult";
 import SearchSection from "./pages/browse-mentor/components/SearchSection";
 
 // Learner Imports
+import LearnerLayout from "./pages/LearnerModule/LearnerLayout"
 import Sessions from "./pages/LearnerModule/Sessions";
 import LearnerSidebar from "./pages/LearnerModule/LearnerSidebar";
 import { Heading } from "lucide-react";
 import LearnerDashboard from "./pages/LearnerModule/LearnerDashboard";
 import ViewMentor from "./pages/LearnerModule/ViewMentor/ViewMentor";
+import LearnerProfile from "./pages/LearnerModule/Profile/LearnerProfile";
 
 // Mentor Imports
 import MentorDashboard from "./pages/MentorModule/MentorDashboard";
@@ -45,37 +47,13 @@ createRoot(document.getElementById("root")).render(
         <Route path="/register" element={<Register />}></Route>
         <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
         {/* Learner module */}
-        <Route
-          path="/learner/sessions"
-          element={
-            <div className="sidebar-and-contents-container flex">
-              <LearnerSidebar />
-              <Sessions {...sampleDataForSessions} />
-            </div>
-          }
-        ></Route>
-        <Route
-          path="/learner/dashboard"
-          element={
-            <div className="sidebar-and-contents-container flex">
-              <LearnerDashboard />
-            </div>
-          }
-        ></Route>
-        <Route
-          path="/learner/test"
-          element = {
-            <MentorAvailability />
-          }
-        ></Route>
-        <Route
-          path="/learner/view-mentor"
-          element={
-            <div className="sidebar-and-contents-container flex">
-              <ViewMentor />
-            </div>
-          }
-        ></Route>
+        <Route path="/learner" element={<LearnerLayout />} >
+          <Route index element={<LearnerDashboard />} />
+          <Route path="/learner/sessions" element={<Sessions {...sampleDataForSessions} />} />
+          <Route path="/learner/profile" element={<LearnerProfile />} />
+          <Route path="/learner/view-mentor" element={<ViewMentor />} />
+        </Route>
+
         {/* Mentor module */}
         <Route path="/mentor/dashboard" element={<MentorDashboard />}></Route>
       </Routes>

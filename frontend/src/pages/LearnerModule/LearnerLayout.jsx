@@ -1,0 +1,14 @@
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+
+const LearnerLayout = () => {
+  return (
+    <div>
+      <main className='p-16 bg-white'>
+        <Outlet />
+      </main>
+    </div>
+  )
+}
+
+export default LearnerLayout
