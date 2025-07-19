@@ -7,7 +7,7 @@ OverviewCards
 const LearnerDashboard = (props) => {
   const receivedData = {};
   const [activeTab, setActiveTab] = useState("Overview");
-  const tabs = ["Overview", "Sessions", "Requests", "Earnings"];
+  const tabs = ["Overview", "Sessions", "Requests"];
   const renderBottomCard = () => {
     switch (activeTab) {
       case "Overview":
@@ -45,7 +45,7 @@ const LearnerDashboard = (props) => {
                 onClick={() => setActiveTab(tab)}
                 className={`px-4 py-2 w-full font-medium transition rounded-full ${
                   activeTab === tab
-                    ? "bg-white text-black"
+                    ? "bg-white text-black shadow-xs"
                     : "text-gray-500 hover:text-black"
                 }`}
               >
