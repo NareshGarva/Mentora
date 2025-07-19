@@ -19,7 +19,7 @@ import LearnerLayout from "./pages/LearnerModule/LearnerLayout"
 import Sessions from "./pages/LearnerModule/Sessions";
 import LearnerSidebar from "./pages/LearnerModule/LearnerSidebar";
 import { Heading } from "lucide-react";
-import LearnerDashboard from "./pages/LearnerModule/LearnerDashboard";
+import LearnerDashboard from "./pages/LearnerModule/LearnerDashboard/LearnerDashboard";
 import ViewMentor from "./pages/LearnerModule/ViewMentor/ViewMentor";
 import LearnerProfile from "./pages/LearnerModule/Profile/LearnerProfile";
 

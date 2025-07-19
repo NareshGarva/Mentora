@@ -1,5 +1,5 @@
 import React from 'react'
-import SessionList from './components/SessionList'
+import SessionList from './LearnerDashboard/components/SessionList'
 import LearnerSidebar from './LearnerSidebar'
 
 const Sessions = (props) => {
