@@ -1,4 +1,4 @@
-import React, {useEffect,useRef} from 'react';
+import React, { useEffect,useRef} from 'react';
 import { NavLink } from 'react-router-dom';
 import Avatar from './Avatar';
 import NotificationDropdown from './NotificationDropdown';
@@ -14,9 +14,7 @@ function Header() {
     0
   </span>)
   
-  
-  // check user is login or not 
-    const isLogin = false;
+
     // if login then display this profile icon or notification icon 
       const loginContent = (<div className=' relative flex justify-center items-center gap-3'>
 
@@ -202,7 +200,7 @@ function Header() {
         </div>
 
         {/* Login Button and account icons */}
-        {isLogin ? loginContent : loginBtn}
+        {localStorage.getItem("isLoggedIn") ? loginContent : loginBtn}
       </div>
     </header>
   );

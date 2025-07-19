@@ -1,3 +1,4 @@
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -26,6 +27,14 @@ import LearnerProfile from "./pages/LearnerModule/Profile/LearnerProfile";
 import MentorLayout from "./pages/MentorModule/MentorLayout";
 import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboard";
 import MentorAvailability from "./pages/LearnerModule/ViewMentor/components/MentorAvailability";
+
+
+
+
+//import contexts and providers
+import AuthProvider from './context/auth.context'
+
+
 
 const sampleDataForSessions = {
   heading: "Resume Building",
