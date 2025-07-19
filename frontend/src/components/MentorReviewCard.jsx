@@ -1,5 +1,5 @@
 import React from 'react'
-import StarRating from '../../../../components/RatingStars'
+import StarRating from './RatingStars'
 
 const MentorReviewCard = (props) => {
     return (

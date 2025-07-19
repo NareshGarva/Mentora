@@ -1,7 +1,8 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-const LearnerLayout = () => {
+
+const MentorLayout = () => {
   return (
     <div>
       <main className='p-16 bg-white min-w-screen'>
@@ -11,4 +12,4 @@ const LearnerLayout = () => {
   )
 }
 
-export default LearnerLayout
+export default MentorLayout

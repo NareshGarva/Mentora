@@ -23,7 +23,8 @@ import ViewMentor from "./pages/LearnerModule/ViewMentor/ViewMentor";
 import LearnerProfile from "./pages/LearnerModule/Profile/LearnerProfile";
 
 // Mentor Imports
-import MentorDashboard from "./pages/MentorModule/MentorDashboard";
+import MentorLayout from "./pages/MentorModule/MentorLayout";
+import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboard";
 import MentorAvailability from "./pages/LearnerModule/ViewMentor/components/MentorAvailability";
 
 const sampleDataForSessions = {
@@ -55,7 +56,12 @@ createRoot(document.getElementById("root")).render(
         </Route>
 
         {/* Mentor module */}
-        <Route path="/mentor/dashboard" element={<MentorDashboard />}></Route>
+        <Route path="/mentor" element={<MentorLayout />} >
+          <Route index element={<MentorDashboard />} />
+          <Route path="/mentor/sessions" element={<Sessions {...sampleDataForSessions} />} />
+          <Route path="/mentor/profile" element={<LearnerProfile />} />
+          <Route path="/mentor/view-mentor" element={<ViewMentor />} />
+        </Route>
       </Routes>
       <Footer />
     </BrowserRouter>
