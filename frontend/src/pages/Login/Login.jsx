@@ -9,7 +9,7 @@ import {AuthContext} from '../../context/auth.context';
 function Login() {
 const {login} = useContext(AuthContext)
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     usernameORemail: '',
@@ -25,7 +25,8 @@ const {login} = useContext(AuthContext)
 
   
   const handleRedirect = ()=>{
-    navigate("/");
+    // navigate("/");
+    window.location.href = '/';
   }
 
   // Handle Input Change

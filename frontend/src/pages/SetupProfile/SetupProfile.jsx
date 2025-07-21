@@ -1,0 +1,144 @@
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import {
+  User, Briefcase, GraduationCap, Star,
+  Link, Clock, DollarSign,
+  ChevronLeft, ChevronRight, Save, Check
+} from 'lucide-react';
+
+function SetupProfile() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [saveStatus, setSaveStatus] = useState({});
+
+  const steps = [
+    { path: 'personal-info', title: 'Personal Info', icon: User },
+    { path: 'work-experience', title: 'Work Experience', icon: Briefcase },
+    { path: 'education-info', title: 'Education', icon: GraduationCap },
+    { path: 'expertise-info', title: 'Expertise', icon: Star },
+    { path: 'social-link', title: 'Social Links', icon: Link },
+    { path: 'availability-info', title: 'Availability', icon: Clock },
+    { path: 'rates-info', title: 'Set Rate', icon: DollarSign },
+  ];
+
+  const currentStepIndex = steps.findIndex((step) =>
+    location.pathname.endsWith(step.path)
+  );
+
+  const isBaseRoute = location.pathname === '/setup-profile';
+
+  const goToStep = (index) => {
+    navigate(`/setup-profile/${steps[index].path}`);
+  };
+
+  const nextStep = () => {
+    if (currentStepIndex < steps.length - 1) {
+      goToStep(currentStepIndex + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStepIndex > 0) {
+      goToStep(currentStepIndex - 1);
+    }
+  };
+
+  const saveCurrentStep = () => {
+    const currentPath = steps[currentStepIndex]?.path;
+    if (!currentPath) return;
+
+    setSaveStatus(prev => ({ ...prev, [currentPath]: 'saving' }));
+
+    setTimeout(() => {
+      setSaveStatus(prev => ({ ...prev, [currentPath]: 'saved' }));
+      setTimeout(() => {
+        setSaveStatus(prev => ({ ...prev, [currentPath]: null }));
+      }, 2000);
+    }, 1200);
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-10 space-y-10">
+      
+      {/* ✅ Only show on /setup-profile route */}
+      {isBaseRoute && (
+        <div className="text-center space-y-2">
+          <h1 className="text-4xl font-bold text-gray-900">Let’s build your mentor profile</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Fill out each section step-by-step. This helps mentees trust your background and increases your chances of getting booked.
+          </p>
+        </div>
+      )}
+
+      {/* Step Navigation */}
+      <div className="flex flex-wrap justify-between items-center gap-2">
+        {steps.map((step, index) => (
+          <button
+            key={step.path}
+            onClick={() => goToStep(index)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+              currentStepIndex === index
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <step.icon size={18} />
+            <span className="text-sm font-medium">{step.title}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Nested Route Content */}
+      <Outlet />
+
+      {/* Show controls only if a specific step is selected */}
+      {currentStepIndex !== -1 && (
+        <div className="flex justify-between items-center mt-10">
+          <button
+            disabled={currentStepIndex === 0}
+            onClick={prevStep}
+            className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-xl transition-all disabled:opacity-50"
+          >
+            <ChevronLeft size={18} /> Back
+          </button>
+
+          <div className="flex gap-4">
+            <button
+              onClick={saveCurrentStep}
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition-all"
+            >
+              {saveStatus[steps[currentStepIndex].path] === 'saving' ? (
+                <>
+                  <Save size={18} className="animate-spin" />
+                  Saving...
+                </>
+              ) : saveStatus[steps[currentStepIndex].path] === 'saved' ? (
+                <>
+                  <Check size={18} />
+                  Saved!
+                </>
+              ) : (
+                <>
+                  <Save size={18} />
+                  Save
+                </>
+              )}
+            </button>
+
+            {currentStepIndex < steps.length - 1 && (
+              <button
+                onClick={nextStep}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition-all"
+              >
+                Next <ChevronRight size={18} />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default SetupProfile;
