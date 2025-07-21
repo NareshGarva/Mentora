@@ -13,36 +13,30 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/register/Register";
 import SearchResult from "./pages/browse-mentor/components/SearchResult";
 import SearchSection from "./pages/browse-mentor/components/SearchSection";
+import ViewMentor from './pages/ViewMentor/ViewMentor'
 
 // Learner Imports
-import LearnerLayout from "./pages/LearnerModule/LearnerLayout"
-import Sessions from "./pages/LearnerModule/Sessions";
-import LearnerSidebar from "./pages/LearnerModule/LearnerSidebar";
-import { Heading } from "lucide-react";
-import LearnerDashboard from "./pages/LearnerModule/LearnerDashboard";
-import ViewMentor from "./pages/LearnerModule/ViewMentor/ViewMentor";
-import LearnerProfile from "./pages/LearnerModule/Profile/LearnerProfile";
+import Dashboard from './pages/LearnerModule/Dashboard'
 
 // Mentor Imports
 import MentorLayout from "./pages/MentorModule/MentorLayout";
 import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboard";
-import MentorAvailability from "./pages/LearnerModule/ViewMentor/components/MentorAvailability";
 
 
 
 
 //import contexts and providers
 import AuthProvider from './context/auth.context'
+import FavoriteMentors from "./pages/LearnerModule/components/FavoriteMentors";
+import Settings from "./pages/LearnerModule/components/Settings";
+import MySession from "./pages/LearnerModule/components/MySession";
+import Overview from "./pages/LearnerModule/components/Overview";
 
 
-
-const sampleDataForSessions = {
-  heading: "Resume Building",
-  mentor_name: "Prof. John Doe",
-};
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <AuthProvider>
     <BrowserRouter>
       <Header />
       <Routes>
@@ -55,24 +49,28 @@ createRoot(document.getElementById("root")).render(
         </Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
-        <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
-        {/* Learner module */}
-        <Route path="/learner" element={<LearnerLayout />} >
-          <Route index element={<LearnerDashboard />} />
-          <Route path="/learner/sessions" element={<Sessions {...sampleDataForSessions} />} />
-          <Route path="/learner/profile" element={<LearnerProfile />} />
-          <Route path="/learner/view-mentor" element={<ViewMentor />} />
-        </Route>
+
+        <Route path="/view-mentor/:username" element={<ViewMentor />}></Route>
+
+{/* mentee modeule */}
+       <Route path="/profile/username" element={<Dashboard />}>
+  <Route index element={<Overview />} />
+  <Route path="my-session" element={<MySession />} />
+  <Route path="my-favorite-mentor" element={<FavoriteMentors />} />
+  <Route path="settings" element={<Settings />} />
+</Route>
+
+
 
         {/* Mentor module */}
         <Route path="/mentor" element={<MentorLayout />} >
           <Route index element={<MentorDashboard />} />
-          <Route path="/mentor/sessions" element={<Sessions {...sampleDataForSessions} />} />
-          <Route path="/mentor/profile" element={<LearnerProfile />} />
           <Route path="/mentor/view-mentor" element={<ViewMentor />} />
         </Route>
+        <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
       </Routes>
       <Footer />
     </BrowserRouter>
+    </AuthProvider>
   </StrictMode>
 );

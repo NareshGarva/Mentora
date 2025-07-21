@@ -6,6 +6,7 @@ import { AuthContext } from '../context/auth.context';
 
 function ProfileDropdown() {
   const { user, logout } = useContext(AuthContext)
+
   return (
     <div className='min-w-full border border-gray-300 rounded-lg bg-white'>
         <div className='header p-3 flex justify-left items-center gap-3'>
@@ -18,19 +19,19 @@ function ProfileDropdown() {
         </div>
         <hr className='text-gray-300' />
         <div className='p-3'>
-            <NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'dashboard/view-profile'}>
+            <NavLink to={'/profile/username'} className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' >
             <User size={16}/>
             <p>View Profile</p>
             </NavLink> 
-            <NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'dashboard/my-sessions'}>
+            <NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'/profile/username/my-session'}>
             <Calendar size={16}/>
             <p>My Sessions</p>
             </NavLink> 
-            <NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'dashboard/favorites'}>
+            {user.role === 'Mentee'?(<NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'/profile/username/my-favorite-mentor'}>
              <Heart size={16}/>
             <p>Favorites</p>
-            </NavLink> 
-            <NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'dashboard/setting'}>
+            </NavLink> ):""}
+            <NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'/profile/username/settings'}>
             <Settings size={16}/>
             <p>Settings</p>
             </NavLink> 
