@@ -26,7 +26,7 @@ function SearchSection({setFilteredMentors}) {
 
   return (
         <section className='w-full bg-gradient-to-t from-transparent to-purple-100 border-b-2 border-b-gray-200 py-10'>
-      <div className='mx-2 md:mx-28 flex justify-center items-center'>
+      <div className='mx-5 md:mx-28 flex justify-center items-center'>
         <div className='w-full md:w-[60%] mx-auto'>
           <div className='p-3 md:p-8 bg-white rounded-2xl shadow-lg border border-indigo-300'>
             <div className='flex justify-left gap-3 items-center p-3 rounded-2xl border-2 border-transparent transition-all ease-in-out duration-300 focus-within:border-black'>

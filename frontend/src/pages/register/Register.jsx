@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
+import axios from 'axios'
+import Loading from '../../components/Loading';
 function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'mentee',
+    role: 'Mentee',
   });
 
   const [errors, setErrors] = useState({});
+  const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,9 +21,10 @@ function Register() {
     });
   };
 
+
+  //form validation
   const validate = () => {
     let formErrors = {};
-
     if (!formData.name.trim()) {
       formErrors.name = "Please enter your full name";
     }
@@ -33,7 +36,7 @@ function Register() {
       formErrors.email = "Enter a valid email";
     }
 
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{3,}$/;
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
     if (!formData.password) {
       formErrors.password = "Please enter a password";
     } else if (!passwordPattern.test(formData.password)) {
@@ -47,22 +50,40 @@ function Register() {
     return formErrors;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+  const validationErrors = validate();
+  setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-      alert("Form Submitted Successfully!");
+  if (Object.keys(validationErrors).length === 0) {
+    try {
+      setLoading(true);
+      submitBtn.disabled = true;
+      const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
+      submitBtn.disabled = false;
+      if(!response.ok){
+        alert(response.data.message);
+      }else{
+        alert(response.data.message);
+      }
       setFormData({
         name: '',
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'mentee',
+        role: 'Mentee',
       });
+
+    } catch (error) {
+      console.error(`Error in sending data: ${error}`);
+    } finally{
+      setLoading(false);
     }
-  };
+    
+  }
+};
+
 
   return (
     <section className="w-full min-h-screen flex items-center justify-center py-10">
@@ -150,16 +171,19 @@ function Register() {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-black"
             >
-              <option value="mentee">Mentee seeking mentorship</option>
-              <option value="mentor">Mentor offering guidance</option>
+              <option value="Mentee">Mentee seeking mentorship</option>
+              <option value="Mentor">Mentor offering guidance</option>
             </select>
           </div>
 
-          
-          <button type="submit" className="w-full py-2 mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition">
-            Create Account
+          {/* Submit */}
+          <button id="submitBtn" 
+            type="submit"
+            className="w-full py-2 mt-4 bg-black hover:bg-black/90 text-white font-semibold cursor-pointer rounded-md transition"
+          >
+            {isLoading?(<Loading/>):'Create Account'}
           </button>
           
         </form>

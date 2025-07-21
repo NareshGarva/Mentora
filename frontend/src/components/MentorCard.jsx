@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Avatar from './Avatar';
 import { Calendar, Star } from 'lucide-react';
+import SkillTag from './SkillTag';
+import { useNavigate } from 'react-router-dom';
 
 function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, nextAvailable }) {
-  const [showAllSkills, setShowAllSkills] = useState(false);
-  const displayedSkills = showAllSkills ? skills : skills.slice(0, 3);
-  const remainingSkillCount = skills.length - 3;
   const currency = "₹";
+
+  const navigateToProfile = useNavigate();
 
   return (
     <div className="m-2 bg-white/90 rounded-xl p-5 transition-transform duration-300 ease-in-out hover:scale-[1.01] hover:shadow-xl">
@@ -28,25 +29,7 @@ function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, ne
       </div>
 
       {/* Skills */}
-      <div className="flex flex-wrap gap-2 mt-4">
-        {displayedSkills.map((skill, key) => (
-          <span
-            key={key}
-            className="bg-indigo-50 text-indigo-500 font-medium text-xs px-2 py-0.5 rounded-full transition-all ease-in-out duration-200 hover:bg-indigo-200"
-          >
-            {skill}
-          </span>
-        ))}
-        {!showAllSkills && skills.length > 3 && (
-          <span
-            onClick={() => setShowAllSkills(true)}
-            className="border-[1.5px] border-gray-300 text-indigo-500 font-medium text-xs px-2 py-0.5 rounded-full cursor-pointer transition-all ease-in-out duration-200 hover:bg-indigo-200 hover:border-indigo-300"
-          >
-            <span className="font-bold">+</span>
-            {remainingSkillCount} more
-          </span>
-        )}
-      </div>
+      <SkillTag skills={skills} limit={3}/>
 
       {/* Rates & Availability */}
       <div className="my-6 space-y-2 text-sm">
@@ -66,7 +49,7 @@ function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, ne
 
       {/* Action Buttons */}
       <div className="flex justify-between items-center gap-3 mt-6">
-        <button className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
+        <button onClick={()=>navigateToProfile('view-mentor/:username')} className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
           View Profile
         </button>
         <button className="bg-indigo-600 text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">

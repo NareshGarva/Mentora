@@ -17,7 +17,7 @@ function FeaturedMentors() {
   }
   return (
       <section data-aos-delay="0" className='w-full py-10 bg-gradient-to-t from-indigo-transparent via-green-100/40 to-transparent'>
-<div className='mx-2 py-10 md:mx-28 flex justify-center items-center'>
+<div className='mx-5 py-10 md:mx-28 flex justify-center items-center'>
   <div className='w-full'>
 <div className='text-center'>
   <h1 className='font-bold text-3xl md:text-4xl' data-aos="fade-up" data-aos-delay="100">Featured Mentors</h1>

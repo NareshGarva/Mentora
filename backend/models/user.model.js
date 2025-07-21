@@ -25,13 +25,18 @@ const userSchema = new mongoose.Schema(
     },
     number: {
       type: String,
-      unique: true,
+      default:"+91 74398-74728"
     },
     role: {
       type: String,
       required:true,
       enum: ["Mentee", "Mentor"],
       default: "Mentee",
+    },
+    refreshToken:{
+      type: String,
+      default: '',
+      select: false
     },
   },
   { timestamps: true }
