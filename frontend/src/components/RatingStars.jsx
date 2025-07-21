@@ -12,7 +12,7 @@ const StarRating = ({ rating = 0, width = "1rem", height = "1rem" }) => {
   };
 
   return (
-    <div className="flex gap-1 items-center text-yellow-500">
+    <div className="flex gap-1 items-center text-yellow-400">
       {[...Array(5)].map((_, i) => {
         if (i < fullStars) {
           return <Star key={i} fill="currentColor" style={iconStyle} />;
