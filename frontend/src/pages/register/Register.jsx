@@ -184,6 +184,7 @@ function Register() {
             className="w-full py-2 mt-4 bg-black hover:bg-black/90 text-white font-semibold cursor-pointer rounded-md transition"
           >
             {isLoading?(<Loading/>):'Create Account'}
+
           </button>
           
         </form>

@@ -14,16 +14,11 @@ import Register from "./pages/register/Register";
 import SearchResult from "./pages/browse-mentor/components/SearchResult";
 import SearchSection from "./pages/browse-mentor/components/SearchSection";
 import ViewMentor from './pages/ViewMentor/ViewMentor'
-
-// Learner Imports
 import Dashboard from './pages/LearnerModule/Dashboard'
 
 // Mentor Imports
 import MentorLayout from "./pages/MentorModule/MentorLayout";
 import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboard";
-
-
-
 
 //import contexts and providers
 import AuthProvider from './context/auth.context'
@@ -31,7 +26,6 @@ import FavoriteMentors from "./pages/LearnerModule/components/FavoriteMentors";
 import Settings from "./pages/LearnerModule/components/Settings";
 import MySession from "./pages/LearnerModule/components/MySession";
 import Overview from "./pages/LearnerModule/components/Overview";
-
 
 
 createRoot(document.getElementById("root")).render(
@@ -74,3 +68,4 @@ createRoot(document.getElementById("root")).render(
     </AuthProvider>
   </StrictMode>
 );
+
