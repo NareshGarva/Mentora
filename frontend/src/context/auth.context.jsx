@@ -12,18 +12,28 @@ function AuthProvider({ children }) {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState();
-
+  
   const login = (userData) => {
     setUser(userData);
     setIsLoggedIn(true);
-    localStorage.setItem("isLoggedIn", `${isLoggedIn}`);
+    localStorage.setItem("isLoggedIn", `true`);
   };
 
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    try {
+        const response = await axiosInstance.post("/auth/logout", {
+          withCredentials: true,
+        });
+        alert(response.data.message);
+        setUser(null);
     setIsLoggedIn(false);
     localStorage.removeItem("isLoggedIn");
+      } catch (error) {
+        console.error("Failed to fetch user on refresh", error);
+      }
+      window.location.reload();
   };
+
 
 
   const fetchUser = async () => {
