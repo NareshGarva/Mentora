@@ -1,22 +1,27 @@
-import React from 'react'
+import React from "react";
 
 function Hero() {
   return (
-     <section data-aos-delay="0" className='w-full py-10 bg-gradient-to-b from-orange-100 to-transparent'>
-<div className='mx-2 md:mx-28 flex justify-center items-center py-10'>
-<div className='w-full'>
-    <div className='flex items-center justify-center'>
-     <p className='text-blue-600  text-center border rounded-4xl inline p-2 bg-gray-200'>Get In Touch</p>
-     </div>
-
-     <div >
-        <h1 className='text-red-400 font-bold text-3xl text-center mt-10'>We'd Love to <br />Here From You</h1>
-        <p className='p-5 text-black text-center'>Have questions, feedback, or need support? Our team is here to help <br /> You make the most of your mentorship journey.</p>
-     </div>
-</div>
-</div>
-</section>
-  )
+    <section
+      data-aos-delay="0"
+      className="w-full py-10 bg-gradient-to-b from-transparent to-pink-100"
+    >
+      <div className="mx-5 md:mx-28 flex justify-center items-center">
+        <div className="w-full text-center">
+          <span className="text-pink-600 border border-pink-400 rounded-full bg-pink-100 py-1 px-5 font-semibold text-sm">
+            Get In Touch
+          </span>
+          <h1 className="bg-gradient-to-r from-yellow-300 via-pink-400  to-red-400 bg-clip-text text-transparent  font-bold text-3xl md:text-6xl mt-5">
+            We'd Love to Hear From You
+          </h1>
+          <p className="mt-3 text-gray-500 text-lg">
+            Have questions, feedback, or need support? Our team is here to help
+You make the most of your mentorship journey.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-export default Hero
+export default Hero;

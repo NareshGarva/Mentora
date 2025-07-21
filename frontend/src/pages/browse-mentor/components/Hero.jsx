@@ -4,7 +4,7 @@ import {UsersRound, TrendingUp ,Sparkles} from 'lucide-react'
 function Hero() {
   return (
      <section className='w-full bg-gradient-to-br from-transparent to-purple-100'>
-<div className='mx-2 md:mx-28 flex justify-center items-center'>
+<div className='mx-5 md:mx-28 flex justify-center items-center'>
   <div className='w-full h-fit'>
  {/* section heading text */}
   <div className='mt-20 text-center'>
