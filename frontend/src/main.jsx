@@ -17,6 +17,7 @@ import SearchSection from './pages/browse-mentor/components/SearchSection'
 import Sessions from './pages/LearnerModule/Sessions'
 import LearnerSidebar from './pages/LearnerModule/LearnerSidebar'
 import { Heading } from 'lucide-react'
+import MultiStepForm from './pages/MultiStepRegister/Componets/MultiStepForm'
 
 const sampleDataForSessions = {
   heading: 'Resume Building',
@@ -24,9 +25,10 @@ const sampleDataForSessions = {
 }
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-<BrowserRouter>
+<StrictMode>
+ <BrowserRouter>
 <Header/>
+
  <Routes>
   <Route path='/' element={<Home/>}></Route>
   <Route path='/about-us' element={<About/>}></Route>
@@ -38,7 +40,7 @@ createRoot(document.getElementById('root')).render(
   <Route path='/login' element={<Login/>}></Route>
   <Route path='/register' element={<Register/>}></Route>
   <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
-  {/* Learner module */}
+  
   <Route path='/learner/sessions' element={
     <div className='sidebar-and-contents-container flex'>
       <LearnerSidebar />
@@ -46,7 +48,8 @@ createRoot(document.getElementById('root')).render(
     </div>
   }></Route>
   </Routes>
+  
   <Footer/>
-  </BrowserRouter>
-  </StrictMode>,
+  </BrowserRouter> 
+  </StrictMode>
 )
