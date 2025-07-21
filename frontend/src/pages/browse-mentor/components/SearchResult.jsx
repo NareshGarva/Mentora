@@ -13,7 +13,7 @@ return (<p className='text-center text-gray-600'>No mentors found.</p>)
   }
   return (
     <section className='w-full'>
-<div className='mx-2 md:mx-28 flex justify-center items-center mt-5'>
+<div className='mx-5 md:mx-28 flex justify-center items-center mt-5'>
 <div className='w-full'>
 <div className='header'>
 <div>

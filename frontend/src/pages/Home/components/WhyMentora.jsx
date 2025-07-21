@@ -3,7 +3,7 @@ import React from 'react'
 function WhyMentora() {
   return (
       <section data-aos-delay="0" className='w-full py-10 bg-gradient-to-b from-orange-100 to-transparent'>
-<div className='mx-2 md:mx-28 flex justify-center items-center'>
+<div className='mx-5 md:mx-28 flex justify-center items-center'>
 <div className='w-full'>
 <div className='text-center'>
 <h1 className='text-3xl font-bold md:text-4xl' data-aos="fade-up" data-aos-delay="100">Why Choose Mentora</h1>

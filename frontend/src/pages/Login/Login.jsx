@@ -1,48 +1,99 @@
-
-import React, { useState, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from "js-cookie";
 import Logo from '../../components/Logo';
-
+import Loading from '../../components/Loading';
+import {AuthContext} from '../../context/auth.context';
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const {login} = useContext(AuthContext)
+
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    usernameORemail: '',
+    password: '',
+  });
+
   const [errorCount, setErrorCount] = useState(0);
   const [timer, setTimer] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const intervalRef = useRef(null);
 
-  const handleLogin = () => {
-    if (username === 'naresh@123' && password === '123456') {
-      alert('Login successful');
-      setUsername('');
-      setPassword('');
-      setErrorCount(0);
-      setShowErrors(false);
-    } else {
-      setErrorCount((prev) => prev + 1);
-      setShowErrors(true);
-      setUsername('');
-      setPassword('');
+  
+  const handleRedirect = ()=>{
+    navigate("/");
+  }
 
+  // Handle Input Change
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Basic Validation
+  const validateFields = () => {
+    return formData.usernameORemail.trim() !== '' && formData.password.trim() !== '';
+  };
+
+  // Handle Lockout Countdown
+  useEffect(() => {
+    if (timer > 0) {
+      intervalRef.current = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(intervalRef.current);
+            setDisabled(false);
+            setErrorCount(0);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalRef.current);
+  }, [timer]);
+
+  // Handle Login Submission
+  const handleLogin = async () => {
+    setShowErrors(false);
+    if (!validateFields()) {
+      setShowErrors(true);
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/auth/login', formData,{
+        withCredentials:true
+      });
+
+      if (response.status === 200) {
+        alert(response.data.message);
+login(response.data.user)
+handleRedirect();
+
+      } else {
+        alert(response.data.message || 'Invalid credentials');
+        throw new Error(response.data.message || 'Invalid credentials');
+      }
+
+    } catch (error) {
+      console.error(`Login error: ${error}`);
+      setShowErrors(true);
+      setErrorCount((prev) => prev + 1);
       if (errorCount + 1 >= 3) {
         setDisabled(true);
-        setTimer(10);
-
-        intervalRef.current = setInterval(() => {
-          setTimer((prev) => {
-            if (prev <= 1) {
-              clearInterval(intervalRef.current);
-              setDisabled(false);
-              setErrorCount(0);
-              setShowErrors(false);
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
+        setTimer(Math.floor(Math.random()*100)); 
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,19 +118,21 @@ function Login() {
           }}
         >
           <div>
-            <label htmlFor="username" className="block text-xs text-gray-700 font-medium mb-1">
-              Username
+            <label htmlFor="usernameORemail" className="block text-xs text-gray-700 font-medium mb-1">
+              Username or Email
             </label>
             <input
-              id="username"
+              id="usernameORemail"
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              name="usernameORemail"
+              value={formData.usernameORemail}
+              onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="Enter Username"
-              required
+              placeholder="Enter Username or Email"
             />
-            {showErrors && <p className="text-xs text-red-500 mt-1">Invalid username</p>}
+            {showErrors && !formData.usernameORemail && (
+              <p className="text-xs text-red-500 mt-1">Invalid username or email</p>
+            )}
           </div>
 
           <div>
@@ -89,13 +142,15 @@ function Login() {
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               placeholder="Enter Password"
-              required
             />
-            {showErrors && <p className="text-xs text-red-500 mt-1">Invalid password</p>}
+            {showErrors && !formData.password && (
+              <p className="text-xs text-red-500 mt-1">Invalid password</p>
+            )}
           </div>
 
           <button
@@ -107,7 +162,7 @@ function Login() {
             }`}
             disabled={disabled}
           >
-            Login
+            {isLoading ? <Loading /> : 'Login'}
           </button>
 
           {disabled && (
@@ -118,15 +173,15 @@ function Login() {
         </form>
 
         <div className="text-center mt-1">
-          <NavLink to="/Reset" className="text-blue-600 text-sm hover:underline">
+          <NavLink to="/reset" className="text-blue-600 text-sm hover:underline">
             Forgot Password?
           </NavLink>
         </div>
 
         <div className="mt-3 flex items-center justify-center gap-1 text-sm bg-gray-50/30 border border-gray-300 py-2 rounded-md">
-          <p>Don't have an account? </p>
+          <p>Don't have an account?</p>
           <NavLink to="/register" className="text-blue-600 font-medium hover:underline">
-             Create Account
+            Create Account
           </NavLink>
         </div>
       </div>

@@ -1,31 +1,33 @@
 import React from 'react'
+import aboutImg from '../../../assets/aboutImg.png'
 
 function Mission() {
   return (
     <>
-    <section data-aos-delay="0" className='w-full py-10 bg-gradient-to-b from-orange-100 to-transparent'>
-<div className='mx-2 md:mx-28 flex justify-center items-center '>
+    <section data-aos-delay="0" className='w-full py-10 bg-gradient-to-b from-green-100/70 to-transparent'>
+<div className='mx-5 md:mx-28 flex justify-center items-center h-fit'>
 <div className='w-full'>
+  
+    <p className='text-black text-center text-4xl font-bold mb-10'>Our Mission</p>
+ <div className='md:flex md:justify-between md:items-center gap-10'>
+   <div>
+<h1 className='text-2xl font-semibold'>Democratizing Access to Quality Mentorship</h1>
 
+<p className='mt-4 text-lg text-gray-500'>Traditional mentorship has often been limited to those with existing networks. We're changing that by creating a platform where anyone can find the guidance they need to succeed.</p>
 
-<p className='text-black text-3xl text-center font-bold'>Our Mission</p>
-<h1 className='text-2xl  text-center'>Democratizing Access To Quality Mentorship</h1>
+ <p className='mt-4 text-lg text-gray-500'>Our carefully vetted mentors come from diverse backgrounds and industries, ensuring that every mentee can find someone who understands their unique journey and challenges.</p>
+  </div>
 
-<p className='text-center mt-10'>traditional mentorship has often been limited ro those existing networks. We're  changing <br />
- taht by creating a platform where anyone can find the guidance they nedd to  succeed.</p>
-
- <p className='text-center mt-10'>Our carefully vetted mentors come from diverse backgrounds and industies, ensuring <br />
-     that every mentees can find someone who understands their unique journey and challenges. </p>
-
-<div className='flex items-center justify-center mt-10'>
- <div className='w-100 h-100 bg-gray-400 '>
-
+<div className='mt-10 md:mt-0'>
+ <div>
+  <img src={aboutImg} className='rounded-lg' />
  </div>
  </div>
+
+ </div>
+
 </div>
 </div>
-
-
 </section>
 </>
     
