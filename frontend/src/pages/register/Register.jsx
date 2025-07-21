@@ -184,14 +184,17 @@ function Register() {
             className="w-full py-2 mt-4 bg-black hover:bg-black/90 text-white font-semibold cursor-pointer rounded-md transition"
           >
             {isLoading?(<Loading/>):'Create Account'}
+
           </button>
           
         </form>
         <div className="mt-3 flex items-center justify-center gap-1 text-sm bg-gray-50/30 border border-gray-300 py-2 rounded-md">
           <p>Already have an account? </p>
+
           <NavLink to="/login" className="text-blue-600 font-medium hover:underline">
              login
           </NavLink>
+
         </div>
       </div>
     </section>
