@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookies from "js-cookie";
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
-import { AuthContext } from '../../context/auth.context';
+import {AuthContext} from '../../context/auth.context';
 
 function Login() {
 const {login} = useContext(AuthContext)

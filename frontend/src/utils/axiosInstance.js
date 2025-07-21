@@ -12,19 +12,14 @@ axiosInstance.interceptors.response.use(
 
     if ((error.response?.status === 401 || error.response?.status === 500) && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log("Attempting token refresh for:", originalRequest.url);
-
       try {
-        const refreshResponse = await axios.post('http://localhost:3000/api/auth/refresh-token', {}, {
+        await axios.post('http://localhost:3000/api/auth/refresh-token', {}, {
           withCredentials: true
         });
-        console.log("Token refresh successful:", refreshResponse.status);
-        // Retry the original request with fresh token
-        console.log("Retrying original request:", originalRequest.url);
+
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.error("Refresh token failed", refreshError);
-        
+    localStorage.removeItem("isLoggedIn");
         return Promise.reject(refreshError);
       }
     }

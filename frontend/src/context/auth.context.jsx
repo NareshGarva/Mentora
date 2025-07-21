@@ -10,18 +10,19 @@ function AuthProvider({ children }) {
     role: "",
     username: "",
   });
-  let isLoggedIn;
 
-  const login = async (userData) => {
+  const [isLoggedIn, setIsLoggedIn] = useState();
+
+  const login = (userData) => {
     setUser(userData);
-    isLoggedIn = true;
+    setIsLoggedIn(true);
     localStorage.setItem("isLoggedIn", `${isLoggedIn}`);
   };
 
   const logout = () => {
     setUser(null);
-    isLoggedIn = false;
-    localStorage.removeItem("isLoggedIn", `${isLoggedIn}`);
+    setIsLoggedIn(false);
+    localStorage.removeItem("isLoggedIn");
   };
 
 
@@ -39,13 +40,11 @@ function AuthProvider({ children }) {
           });
         }
       } catch (error) {
-         localStorage.removeItem("isLoggedIn");
         console.error("Failed to fetch user on refresh", error);
       }
     };
 
   useEffect(() => {
-    
     if (localStorage.getItem("isLoggedIn") === "true") {
       fetchUser();
     }

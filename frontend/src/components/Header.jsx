@@ -7,24 +7,24 @@ import ProfileDropdown from './ProfileDropdown';
 import Logo from './Logo';
 
 function Header() {
-          // check if new notification or not 
-    const isNewNotification = false;
-    //if yes then show this notification count
-    const notificationCount = ( <span className="absolute top-0 right-0 mr-1.5 mt-1 flex items-center justify-center w-3.5 h-3.5 text-[10px] text-white bg-green-500 rounded-full shadow-md">
-    0
-  </span>)
+  //         // check if new notification or not 
+  //   const isNewNotification = false;
+  //   //if yes then show this notification count
+  //   const notificationCount = ( <span className="absolute top-0 right-0 mr-1.5 mt-1 flex items-center justify-center w-3.5 h-3.5 text-[10px] text-white bg-green-500 rounded-full shadow-md">
+  //   0
+  // </span>)
   
 
     // if login then display this profile icon or notification icon 
       const loginContent = (<div className=' relative flex justify-center items-center gap-3'>
 
 
-<div 
+{/* <div 
   className="relative"
   onMouseOver={()=>handleMouseOver('notificationDropdown')}
   onMouseLeave={()=>handleMouseLeave('notificationDropdown')}
 >
-  {/* Bell Icon */}
+
   <div 
     className="p-2 rounded-full transition-all ease-in-out hover:bg-gray-100 cursor-pointer"
     onClick={()=>handleToggleClick('notificationDropdown')}
@@ -48,14 +48,14 @@ function Header() {
     </svg>
   </div>
 
-  {/* Dropdown */}
+ 
   <div 
     className="absolute right-0 top-10 w-80 bg-white shadow-lg rounded-lg hidden z-50"
     id="notificationDropdown"
   >
     <NotificationDropdown />
   </div>
-</div>
+</div> */}
 
 
 <div className='relative'  onMouseOver={()=>handleMouseOver('profileDropdown')}
@@ -104,7 +104,7 @@ function Header() {
             const header = headerRef.current;
             if(!header) return;
   window.addEventListener("scroll", () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY >= 50) {
         header.classList.add("m-0","md:px-28","px-0");
         header.classList.remove("mx-2","md:mx-40", "my-2", "rounded-xl");
       } else {
