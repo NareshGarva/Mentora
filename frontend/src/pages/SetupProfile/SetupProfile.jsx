@@ -1,9 +1,10 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
   User, Briefcase, GraduationCap, Star,
-  Link, Clock, DollarSign,
-  ChevronLeft, ChevronRight, Save, Check
+  Link, Clock, IndianRupee,
+  ChevronLeft, ChevronRight, Save, Check,
+  MoveRight
 } from 'lucide-react';
 
 function SetupProfile() {
@@ -19,14 +20,14 @@ function SetupProfile() {
     { path: 'expertise-info', title: 'Expertise', icon: Star },
     { path: 'social-link', title: 'Social Links', icon: Link },
     { path: 'availability-info', title: 'Availability', icon: Clock },
-    { path: 'rates-info', title: 'Set Rate', icon: DollarSign },
+    { path: 'rates-info', title: 'Set Rate', icon: IndianRupee },
   ];
 
   const currentStepIndex = steps.findIndex((step) =>
     location.pathname.endsWith(step.path)
   );
 
-  const isBaseRoute = location.pathname === '/setup-profile';
+  const isBaseRoute = location.pathname === '/setup-profile/:username';
 
   const goToStep = (index) => {
     navigate(`/setup-profile/${steps[index].path}`);
@@ -61,13 +62,14 @@ function SetupProfile() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 space-y-10">
       
-      {/* ✅ Only show on /setup-profile route */}
       {isBaseRoute && (
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold text-gray-900">Let’s build your mentor profile</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Fill out each section step-by-step. This helps mentees trust your background and increases your chances of getting booked.
           </p>
+
+          <NavLink to={'personal-info'} className='flex justify-center items-center gap-2 text-blue-600 cursor-pointer underline underline-offset-7 mt-5 transition-all ease-in-out duration-200 hover:scale-103'>Let's start from your personal details <MoveRight className='-mb-2'/></NavLink>
         </div>
       )}
 

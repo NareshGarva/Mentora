@@ -4,7 +4,7 @@ import Avatar from "../../../components/Avatar";
 
 const SessionList = (props) => {
   return (
-    <div className="w-full bg-white px-4 py-3 rounded">
+    <div className="w-full bg-white p-4 rounded-2xl">
   <div className="flex items-center justify-between w-full gap-4">
     {/* Left Section: Text Info */}
     <div className="flex flex-col min-w-0">
@@ -18,7 +18,7 @@ const SessionList = (props) => {
 
     {/* Action Buttons */}
     <div className="flex items-center gap-3 ml-auto">
-      <button className="bg-secondary-100 text-sm font-medium px-3 py-1 rounded hover:bg-m-gray-200 transition">
+      <button className="bg-secondary-300 text-sm font-medium px-3 py-1 rounded hover:bg-m-gray-200">
         Join
       </button>
 

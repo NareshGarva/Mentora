@@ -20,4 +20,8 @@ const getUser = async (req, res)=>{
     }
 }
 
-export {getUser}
+const getMentors = async (req,res) =>{
+
+}
+
+export {getUser, getMentors}

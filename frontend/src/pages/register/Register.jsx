@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Loading from '../../components/Loading';
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -66,15 +67,15 @@ function Register() {
         alert(response.data.message);
       }else{
         alert(response.data.message);
+        navigate('/setup-profile')
       }
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        role: 'Mentee',
-      });
-
+      // setFormData({
+      //   name: '',
+      //   email: '',
+      //   password: '',
+      //   confirmPassword: '',
+      //   role: 'Mentee',
+      // });
     } catch (error) {
       console.error(`Error in sending data: ${error}`);
     } finally{
@@ -183,7 +184,7 @@ function Register() {
             type="submit"
             className="w-full py-2 mt-4 bg-black hover:bg-black/90 text-white font-semibold cursor-pointer rounded-md transition"
           >
-            {isLoading?(<Loading/>):'Create Account'}
+            {isLoading?(<>Registering... <Loading/></>):'Create Account'}
 
           </button>
           
