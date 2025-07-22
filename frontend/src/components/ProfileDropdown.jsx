@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import Avatar from './Avatar'
+import Loading from './Loading'
 import { NavLink } from 'react-router-dom';
 import {User, Calendar, Settings, Heart, LogOut} from 'lucide-react'
 import { AuthContext } from '../context/auth.context';
+import { useState } from 'react';
 
 function ProfileDropdown() {
-  const { user, logout } = useContext(AuthContext)
-
+  const { user, logout } = useContext(AuthContext);
+let [isOut, setIsOut] = useState(false);
   return (
     <div className='min-w-full border border-gray-300 rounded-lg bg-white'>
         <div className='header p-3 flex justify-left items-center gap-3'>
@@ -30,18 +32,25 @@ function ProfileDropdown() {
             {user.role === 'Mentee'?(<NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'/profile/username/my-favorite-mentor'}>
              <Heart size={16}/>
             <p>Favorites</p>
-            </NavLink> ):""}
+            </NavLink> ):``}
             <NavLink className='flex justify-left items-center gap-3 font-semibold p-1 px-3 mb-1 transition-all ease-in-out duration-300 hover:bg-gray-200 rounded' to={'/profile/username/settings'}>
             <Settings size={16}/>
             <p>Settings</p>
             </NavLink> 
         </div>
         <hr className='text-gray-300' />
-       <div className='p-3'>
-         <div onClick={logout} className='flex justify-left items-center gap-3 font-semibold text-red-400 py-1 px-3 rounded transition-all ease-in-out duration-300 hover:bg-red-200 cursor-pointer'>
+       <div onClick={async () => {
+  setIsOut(true);
+  const result = await logout();
+  if (result) window.location.reload();
+  setIsOut(false);
+}}
+ className='p-3 cursor-pointer'>
+
+       {isOut?<Loading/>:(  <div  className='flex justify-left items-center gap-3 font-semibold text-red-400 py-1 px-3 rounded transition-all ease-in-out duration-300 hover:bg-red-200 cursor-pointer'>
             <LogOut size={16}/>
             <p>Log Out</p>
-        </div>
+        </div>)}
        </div>
         </div>
   )

@@ -53,7 +53,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/register" element={<Register />}></Route>
 
 
-        <Route path="/view-mentor/:username" element={<ViewMentor />}></Route>
+        <Route path="/view-mentor/@:username" element={<ViewMentor />}></Route>
 
         {/* setup profile */}
 <Route path="/setup-profile/:username" element={<SetupProfile />}>

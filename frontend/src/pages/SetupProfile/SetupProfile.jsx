@@ -1,5 +1,4 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import {
   User, Briefcase, GraduationCap, Star,
   Link, Clock, IndianRupee,
@@ -10,8 +9,6 @@ import {
 function SetupProfile() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const [saveStatus, setSaveStatus] = useState({});
 
   const steps = [
     { path: 'personal-info', title: 'Personal Info', icon: User },
@@ -27,7 +24,7 @@ function SetupProfile() {
     location.pathname.endsWith(step.path)
   );
 
-  const isBaseRoute = location.pathname === '/setup-profile/:username';
+  const isBaseRoute = steps.every(step => !location.pathname.includes(step.path));
 
   const goToStep = (index) => {
     navigate(`/setup-profile/${steps[index].path}`);
@@ -45,19 +42,8 @@ function SetupProfile() {
     }
   };
 
-  const saveCurrentStep = () => {
-    const currentPath = steps[currentStepIndex]?.path;
-    if (!currentPath) return;
 
-    setSaveStatus(prev => ({ ...prev, [currentPath]: 'saving' }));
-
-    setTimeout(() => {
-      setSaveStatus(prev => ({ ...prev, [currentPath]: 'saved' }));
-      setTimeout(() => {
-        setSaveStatus(prev => ({ ...prev, [currentPath]: null }));
-      }, 2000);
-    }, 1200);
-  };
+  
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 space-y-10">
@@ -106,27 +92,6 @@ function SetupProfile() {
           </button>
 
           <div className="flex gap-4">
-            <button
-              onClick={saveCurrentStep}
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition-all"
-            >
-              {saveStatus[steps[currentStepIndex].path] === 'saving' ? (
-                <>
-                  <Save size={18} className="animate-spin" />
-                  Saving...
-                </>
-              ) : saveStatus[steps[currentStepIndex].path] === 'saved' ? (
-                <>
-                  <Check size={18} />
-                  Saved!
-                </>
-              ) : (
-                <>
-                  <Save size={18} />
-                  Save
-                </>
-              )}
-            </button>
 
             {currentStepIndex < steps.length - 1 && (
               <button

@@ -9,10 +9,8 @@ if (
   !loggedInRole || loggedInRole !== routeRole ||
   !loggedInUsername || loggedInUsername !== routeUsername
 ) {
-  return res.status(403).json({ message: "Access denied: username or role mismatch" });
+  return res.status(403).json({ message: "Access denied: username or role mismatch",isAccessed:false });
 }
-
-
   next(); 
 }
 

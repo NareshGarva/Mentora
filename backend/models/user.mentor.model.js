@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, minlength: 6, select: false },
   avatar: { type: String },
   number: { type: String, default: "+91 74398-74728" },
-  role: { type: String, enum: ["mentor"], default: "mentor" },
+  role: { type: String, required:true },
 
   education: [{ type: mongoose.Schema.Types.ObjectId, ref: "Education" }],
   socialLink: [{ type: mongoose.Schema.Types.ObjectId, ref: "SocialLinks" }],
