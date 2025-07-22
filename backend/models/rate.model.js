@@ -9,7 +9,6 @@ const rateSchema = new mongoose.Schema({
 }, { _id: false });
 
 const mentorRateSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "MentorUser", required: true, unique: true },
   rate: rateSchema,
 }, { timestamps: true });
 

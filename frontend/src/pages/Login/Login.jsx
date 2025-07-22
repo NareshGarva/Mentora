@@ -9,7 +9,7 @@ import {AuthContext} from '../../context/auth.context';
 function Login() {
 const {login} = useContext(AuthContext)
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     usernameORemail: '',
@@ -25,8 +25,8 @@ const {login} = useContext(AuthContext)
 
   
   const handleRedirect = ()=>{
-    // navigate("/");
-    window.location.href = '/';
+    navigate("/");
+    // window.location.href = '/';
   }
 
   // Handle Input Change
@@ -77,9 +77,9 @@ const {login} = useContext(AuthContext)
 
       if (response.status === 200) {
         alert(response.data.message);
+        console.log(response.data.user)
 login(response.data.user)
 handleRedirect();
-
       } else {
         alert(response.data.message || 'Invalid credentials');
         throw new Error(response.data.message || 'Invalid credentials');

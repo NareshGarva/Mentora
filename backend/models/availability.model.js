@@ -7,7 +7,6 @@ const daySchema = new mongoose.Schema({
 }, { _id: false });
 
 const availabilitySchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "MentorUser", required: true },
   monday: daySchema,
   tuesday: daySchema,
   wednesday: daySchema,

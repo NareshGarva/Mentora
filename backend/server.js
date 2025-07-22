@@ -25,7 +25,7 @@ app.use('/api/auth', authRouter)
 
 
 //custom routers
-app.use('/api', userRouter)
+app.use('/api/profile', userRouter)
 
 
 

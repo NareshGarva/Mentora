@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import axiosInstance from '../../../utils/axiosInstance'
+import Loading from '../../../components/Loading'
 
 function SocialLinks() {
+  const [isLoading, setLoading] = useState(false)
   const [socialLinks, setSocialLinks] = useState([]);
   const [currentLink, setCurrentLink] = useState(initialForm());
   const [isEditing, setIsEditing] = useState(false);
@@ -43,6 +46,32 @@ function SocialLinks() {
   const handleRemove = (index) => {
     setSocialLinks(prev => prev.filter((_, i) => i !== index));
   };
+
+const handleSave = async () => {
+  setLoading(true);
+  if (!socialLinks || socialLinks.length === 0) {
+    alert("Please add at least one social link.");
+    return;
+  }
+
+  try {
+   const response = await axiosInstance.post('/profile/social-links', { socialLinks }, {
+  withCredentials: true
+});
+
+
+    if (response.status === 200) {
+      alert("Social links updated successfully.");
+    } else {
+      alert("Failed to update social links.");
+    }
+setLoading(false)
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred while updating social links.");
+  }
+};
+
 
   return (
     <div className="space-y-8">
@@ -89,9 +118,15 @@ function SocialLinks() {
 
         <button
           onClick={handleAddOrUpdate}
-          className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors shadow-lg"
+          className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors shadow-lg mr-5"
         >
           {isEditing ? 'Update Link' : 'Add Link'}
+        </button>
+         <button
+          onClick={handleSave}
+          className="bg-black text-white px-6 py-3 rounded-xl hover:bg-black/90 transition-colors shadow-lg"
+        >
+          {isLoading?<Loading/>:'Save'}
         </button>
       </div>
 
@@ -129,6 +164,7 @@ function SocialLinks() {
           </div>
         ))}
       </div>
+
     </div>
   );
 }

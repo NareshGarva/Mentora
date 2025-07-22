@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { User, GraduationCap, Share2, Award, Lock, Bell, Globe, Trash2, Eye, Shield } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../context/auth.context';
 
 function Settings() {
+  const {user} = useContext(AuthContext)
+  const Navigate = useNavigate();
   const [settings, setSettings] = useState({
     currentPassword: '',
     newPassword: '',
@@ -36,28 +40,32 @@ function Settings() {
       title: 'Personal Information',
       description: 'Update your basic information, contact details, and bio',
       icon: User,
-      color: 'bg-blue-500 hover:bg-blue-600'
+      color: 'bg-blue-500 hover:bg-blue-600',
+      path:'personal-info'
     },
     {
       id: 'education',
       title: 'Education & Qualifications',
       description: 'Add your educational background and certifications',
       icon: GraduationCap,
-      color: 'bg-green-500 hover:bg-green-600'
+      color: 'bg-green-500 hover:bg-green-600',
+      path:'education-info'
     },
     {
       id: 'social',
       title: 'Social Links',
       description: 'Connect your social media profiles and websites',
       icon: Share2,
-      color: 'bg-purple-500 hover:bg-purple-600'
+      color: 'bg-purple-500 hover:bg-purple-600',
+      path:'social-link'
     },
     {
       id: 'expertise',
       title: 'Skills & Expertise',
       description: 'Showcase your skills, experience, and areas of expertise',
       icon: Award,
-      color: 'bg-orange-500 hover:bg-orange-600'
+      color: 'bg-orange-500 hover:bg-orange-600',
+      path:'expertise-info'
     }
   ];
 
@@ -76,7 +84,7 @@ function Settings() {
           {profileSections.map((section) => {
             const IconComponent = section.icon;
             return (
-              <div
+              <Link to={'/setup-profile/'+user.username+'/'+section.path}
                 key={section.id}
                 className="group border-2 border-gray-100 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg cursor-pointer"
                 onClick={() => handleSectionUpdate(section.id)}
@@ -97,7 +105,7 @@ function Settings() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

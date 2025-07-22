@@ -53,29 +53,19 @@ function Register() {
 
  const handleSubmit = async (e) => {
   e.preventDefault();
-      const submitBtn = document.getElementById('submitBtn');
+      // const submitBtn = document.getElementById('submitBtn');
   const validationErrors = validate();
   setErrors(validationErrors);
 
   if (Object.keys(validationErrors).length === 0) {
     try {
       setLoading(true);
-      submitBtn.disabled = true;
+      // submitBtn.disabled = true;
       const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
-      submitBtn.disabled = false;
-      if(!response.ok){
+      // submitBtn.disabled = false;
         alert(response.data.message);
-      }else{
-        alert(response.data.message);
-        navigate('/setup-profile')
-      }
-      // setFormData({
-      //   name: '',
-      //   email: '',
-      //   password: '',
-      //   confirmPassword: '',
-      //   role: 'Mentee',
-      // });
+        formData.role==="Mentor"?navigate("/setup-profile/@"+response.data.user.username):""
+
     } catch (error) {
       console.error(`Error in sending data: ${error}`);
     } finally{
@@ -184,7 +174,7 @@ function Register() {
             type="submit"
             className="w-full py-2 mt-4 bg-black hover:bg-black/90 text-white font-semibold cursor-pointer rounded-md transition"
           >
-            {isLoading?(<>Registering... <Loading/></>):'Create Account'}
+            {isLoading?<Loading/>:'Create Account'}
 
           </button>
           

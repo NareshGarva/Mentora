@@ -11,7 +11,7 @@ function AuthProvider({ children }) {
     username: "",
   });
 
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'));
   
   const login = (userData) => {
     setUser(userData);
@@ -28,17 +28,19 @@ function AuthProvider({ children }) {
         setUser(null);
     setIsLoggedIn(false);
     localStorage.removeItem("isLoggedIn");
+    return true;
       } catch (error) {
         console.error("Failed to fetch user on refresh", error);
+        return false;
       }
-      window.location.reload();
+      
   };
 
 
 
   const fetchUser = async () => {
       try {
-        const response = await axiosInstance.get("/get-user", {
+        const response = await axiosInstance.get(`/profile/get-user`, {
           withCredentials: true,
         });
         if (response.data && response.data.user) {

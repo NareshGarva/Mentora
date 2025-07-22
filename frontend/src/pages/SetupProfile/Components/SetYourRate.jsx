@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
+import Loading from '../../../components/Loading'
+import axiosInstance from '../../../utils/axiosInstance'
 
 function SetYourRate() {
+     const [isLoading, setLoading] = useState(false)
      // Form data state
       const [formData, setFormData] = useState({
         // Rate
         rate: {
-          perHour: '',
-          perMinute: 0,
-          per15Minutes: 0,
-          per30Minutes: 0
+          perHour: ''
         }
       });
 
@@ -35,6 +35,34 @@ function SetYourRate() {
     const rates = calculateRates(value);
     updateFormData('rate', rates);
   };
+
+
+  const handleSave = async () => {
+      setLoading(true);
+      if (!formData.rate || formData.rate.length === 0) {
+        alert("Please add at least one social link.");
+        return;
+      }
+    
+      try {
+       const response = await axiosInstance.post('/profile/rate', { rate:formData.rate }, {
+      withCredentials: true
+    });
+    
+    
+        if (response.status === 200) {
+          alert("Social links updated successfully.");
+        } else {
+          alert("Failed to update social links.");
+        }
+    setLoading(false)
+      } catch (error) {
+        console.error(error);
+        alert("An error occurred while updating social links.");
+      }
+    };
+
+
   return (
     <div>
         <div className="space-y-8">
@@ -67,6 +95,12 @@ function SetYourRate() {
                 <p className="text-lg font-semibold text-gray-900">₹ {formData.rate.per30Minutes}</p>
               </div>
             </div>
+                 <button
+                              onClick={handleSave}
+                              className="bg-black text-white px-6 py-3 rounded-xl hover:bg-black/90 transition-colors shadow-lg"
+                            >
+                              {isLoading?<Loading/>:'Save'}
+                            </button>
           </div>
     </div>
   )
