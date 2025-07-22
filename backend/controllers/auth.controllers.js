@@ -1,7 +1,8 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import User from "../models/user.model.js";
+import menteeUser from "../models/user.mentee.model.js";
+import mentorUser from "../models/user.mentor.model.js";
 import ApiError from "../utils/ApiError.js";
 
 const getUsername = (query = "") => {
@@ -45,15 +46,17 @@ const createUser = async (req, res) => {
     if (isAvailable) {
       throw new ApiError(409, "User already registered");
     }
-    const user = await User.create({
+    const user = await (role==='Mentee'?menteeUser:mentorUser).create({
       name: name,
       username: getUsername(name),
       email: email,
       password: hashedPassword,
       role: role,
     });
-    console.log("User created")
-    return res.status(201).json({ message: "User created", user });
+    console.log("User created");
+    req.body = { email, password };
+    // return res.status(201).json({ message: "User created", user });
+    return loginUser(req, res);
   } catch (error) {
     console.log("error in user creation :", error);
     console.log("User not created")
@@ -74,9 +77,21 @@ const loginUser = async (req, res) => {
     username = usernameORemail.trim();
   }
 
-  const user = await User.findOne({ $or: [{ email }, { username }] }).select(
+ const mentor = await mentorUser.findOne({ $or: [{ email }, { username }] }).select(
     "+password"
   );
+
+  const mentee = await menteeUser.findOne({ $or: [{ email }, { username }] }).select(
+    "+password"
+  );
+
+  let user;
+  if(!mentee){
+    user = mentor
+  }else{
+    user = mentee
+  }
+
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(400).json({ message: "Invalid user" });
   }
@@ -132,7 +147,7 @@ const refreshAccessToken = async (req, res) => {
   }
   try {
     const decode = jwt.verify(token, process.env.REFRESH_SECRET);
-    const user = await User.findById(decode._id).select('+refreshToken');
+    const user = await (decode.role==='Mentee'?menteeUser:mentorUser).findById(decode._id).select('+refreshToken');
 
     if (!user || user.refreshToken != token) {
       throw new ApiError(404, "user unAuthorized");

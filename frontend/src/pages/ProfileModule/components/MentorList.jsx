@@ -4,7 +4,7 @@ import Avatar from '../../../components/Avatar'
 function MentorList() {
   return (
     <div>
-        <div className="mentor-card flex items-center gap-4 bg-white p-4 rounded hover:shadow-md transition">
+        <div className="mentor-card flex items-center gap-4 bg-white p-4 rounded-2xl hover:shadow-md transition">
   {/* Avatar */}
  <Avatar/>
   {/* Name & Role */}

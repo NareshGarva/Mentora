@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 function WeeklyAvailability() {
      // Form data state
       const [formData, setFormData] = useState({
-        // Availability
         availability: {
           monday: { startTime: '', endTime: '', isAvailable: false },
           tuesday: { startTime: '', endTime: '', isAvailable: false },

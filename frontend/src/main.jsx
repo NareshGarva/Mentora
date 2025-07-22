@@ -13,8 +13,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/register/Register";
 import SearchResult from "./pages/browse-mentor/components/SearchResult";
 import SearchSection from "./pages/browse-mentor/components/SearchSection";
-import ViewMentor from './pages/ViewMentor/ViewMentor'
-import Dashboard from './pages/LearnerModule/Dashboard'
+import Dashboard from './pages/ProfileModule/MenteeProfile/Dashboard'
 
 // Mentor Imports
 import MentorLayout from "./pages/MentorModule/MentorLayout";
@@ -22,10 +21,10 @@ import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboar
 
 //import contexts and providers
 import AuthProvider from './context/auth.context'
-import FavoriteMentors from "./pages/LearnerModule/components/FavoriteMentors";
-import Settings from "./pages/LearnerModule/components/Settings";
-import MySession from "./pages/LearnerModule/components/MySession";
-import Overview from "./pages/LearnerModule/components/Overview";
+import FavoriteMentors from "./pages/ProfileModule/MenteeProfile/components/FavoriteMentors";
+import Settings from "./pages/ProfileModule/components/Settings";
+import MySession from "./pages/ProfileModule/MenteeProfile/components/MySession";
+import Overview from "./pages/ProfileModule/components/Overview";
 import SetupProfile from "./pages/SetupProfile/SetupProfile";
 import PersonalInfo from "./pages/SetupProfile/Components/PersonalInfo";
 import WorkExperience from "./pages/SetupProfile/Components/WorkExperience";
@@ -34,6 +33,7 @@ import SetYourRate from "./pages/SetupProfile/Components/SetYourRate";
 import WeeklyAvailability from "./pages/SetupProfile/Components/WeeklyAvailability";
 import SocialLinks from "./pages/SetupProfile/Components/SocialLinks";
 import Expertise from "./pages/SetupProfile/Components/Expertise";
+import ViewMentor from './pages/ProfileModule/VIewProfile/ViewMentor'
 
 
 createRoot(document.getElementById("root")).render(
@@ -56,7 +56,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/view-mentor/:username" element={<ViewMentor />}></Route>
 
         {/* setup profile */}
-<Route path="/setup-profile" element={<SetupProfile />}>
+<Route path="/setup-profile/:username" element={<SetupProfile />}>
   <Route path="personal-info" element={<PersonalInfo />} />
   <Route path="work-experience" element={<WorkExperience />} />
   <Route path="education-info" element={<EducationInfo />} />

@@ -93,7 +93,7 @@ function PersonalInfo() {
       </div>
 
 
-
+<div className='p-7 rounded-2xl bg-white'>
       {/* Basic Details */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
@@ -190,6 +190,7 @@ function PersonalInfo() {
           value={formData.user.bio}
           onChange={(e) => updateFormData('user', { ...formData.user, bio: e.target.value })}
         />
+      </div>
       </div>
     </div>
   );

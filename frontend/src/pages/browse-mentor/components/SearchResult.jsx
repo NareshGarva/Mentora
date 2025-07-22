@@ -48,7 +48,7 @@ return (<p className='text-center text-gray-600'>No mentors found.</p>)
 </div>
 </div>
 
- <div className='flex justify-center items-center mt-4 gap-4'>
+ <div className='flex justify-center items-center my-10 gap-4'>
         <button
           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}

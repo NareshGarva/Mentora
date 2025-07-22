@@ -49,7 +49,7 @@ function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, ne
 
       {/* Action Buttons */}
       <div className="flex justify-between items-center gap-3 mt-6">
-        <button onClick={()=>navigateToProfile('view-mentor/:username')} className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
+        <button onClick={()=>navigateToProfile('/view-mentor/:username')} className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
           View Profile
         </button>
         <button className="bg-indigo-600 text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">

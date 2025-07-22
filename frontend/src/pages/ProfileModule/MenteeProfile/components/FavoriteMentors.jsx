@@ -1,5 +1,5 @@
 import React from 'react'
-import MentorList from './MentorList'
+import MentorList from '../../components/MentorList'
 
 function FavoriteMentors() {
   return (

@@ -1,6 +1,6 @@
 import React from 'react'
-import UpcomingSession from './UpcomingSession'
-import PastSession from './PastSession'
+import UpcomingSession from '../../components/UpcomingSession'
+import PastSession from '../../components/PastSession'
 
 function MySession() {
   return (

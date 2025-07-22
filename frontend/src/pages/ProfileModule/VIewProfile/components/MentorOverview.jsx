@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
-import Avatar from '../../../components/Avatar';
-import StarRating from '../../../components/RatingStars'
+import Avatar from '../../../../components/Avatar';
+import StarRating from '../../../../components/RatingStars';
 import { CircleCheckBig,Ban } from 'lucide-react';
-import { AuthContext } from '../../../context/auth.context';
+import { AuthContext } from '../../../../context/auth.context';
 
 function MentorOverview() {
     const {user} = useContext(AuthContext);

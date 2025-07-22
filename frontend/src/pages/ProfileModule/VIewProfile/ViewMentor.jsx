@@ -1,12 +1,12 @@
 import { Calendar, Star } from "lucide-react";
 import React from "react";
 import { useState } from "react";
-import AboutMentor from "./components/AboutMentor";
-import MentorAvailability from "./components/MentorAvailability";
+import AboutMentor from "../components/AboutMentor";
+import MentorAvailability from "../components/MentorAvailability";
 import MentorOverview from "./components/MentorOverview";
-import MentorReviewCard from "./components/MentorReviewCard";
-import Experience from "./components/Experience";
-import Education from "./components/Education";
+import MentorReviewCard from "../components/MentorReviewCard";
+import Experience from "../components/Experience";
+import Education from "../components/Education";
 
 const ViewMentor = (props) => {
 const currency = '₹'
@@ -33,14 +33,14 @@ const currency = '₹'
     <section className="bg-gradient-to-b from-transparent via-indigo-50 to-transparent py-15">
       <div className="mx-5 md:mx-28 flex justify-center items-center">
 <div className="w-full md:flex md:justify-center md:items-start md:gap-5">
-        <div className="left-section md:w-2/3">
+        <div className="md:w-2/3">
           {/* Mentor Overview Container */}
-        <div className="bg-gradient-to-br from-indigo-100 to-green-100 p-7 rounded-xl">
+        <div className="bg-white p-7 rounded-xl mb-5">
           <MentorOverview/>
         </div>
 
           {/* Tabs */}
-          <div className="flex p-1 bg-white rounded-lg overflow-x-auto ">
+          <div className="flex p-1 bg-white rounded-lg overflow-x-auto my-5">
             {tabs.map((tab) => (
               <button
                 key={tab}
@@ -55,7 +55,7 @@ const currency = '₹'
             ))}
           </div>
 
-          <div className="bg-white p-7 border-2 border-gray-100 rounded-xl">
+          <div className="bg-white p-7 border-2 border-gray-100 rounded-xl my-5">
             {renderBottomCard() } 
           </div>
         </div>
