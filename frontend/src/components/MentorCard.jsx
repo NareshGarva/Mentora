@@ -8,6 +8,7 @@ function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, ne
   const currency = "₹";
 
   const navigateToProfile = useNavigate();
+  const navigateToBookSession = useNavigate();
 
   return (
     <div className="m-2 bg-white/90 rounded-xl p-5 transition-transform duration-300 ease-in-out hover:scale-[1.01] hover:shadow-xl">
@@ -52,7 +53,7 @@ function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, ne
         <button onClick={()=>navigateToProfile('/view-mentor/:username')} className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
           View Profile
         </button>
-        <button className="bg-indigo-600 text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">
+        <button onClick={()=>navigateToBookSession('/book-session/:id')} className="bg-indigo-600 text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">
           <Calendar size={20} />
           Book Now
         </button>
