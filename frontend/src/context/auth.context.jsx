@@ -11,6 +11,7 @@ function AuthProvider({ children }) {
     username: "",
   });
 
+  console.log(`user data is : ${user.name}`)
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'));
   
   const login = (userData) => {
@@ -40,7 +41,7 @@ function AuthProvider({ children }) {
 
   const fetchUser = async () => {
       try {
-        const response = await axiosInstance.get(`/profile/get-user`, {
+        const response = await axiosInstance.get(`/user/get-user`, {
           withCredentials: true,
         });
         if (response.data && response.data.user) {

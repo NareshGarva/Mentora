@@ -21,6 +21,7 @@ import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboar
 
 //import contexts and providers
 import AuthProvider from './context/auth.context'
+import MentorContext  from "./context/mentor.context";
 import FavoriteMentors from "./pages/ProfileModule/MenteeProfile/components/FavoriteMentors";
 import Settings from "./pages/ProfileModule/components/Settings";
 import MySession from "./pages/ProfileModule/MenteeProfile/components/MySession";
@@ -40,6 +41,7 @@ import BookSession from "./pages/BookSession/BookSession";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
+      <MentorContext>
     <BrowserRouter>
       <Header />
       <Routes>
@@ -89,6 +91,7 @@ createRoot(document.getElementById("root")).render(
       </Routes>
       <Footer />
     </BrowserRouter>
+    </MentorContext>
     </AuthProvider>
   </StrictMode>
 );

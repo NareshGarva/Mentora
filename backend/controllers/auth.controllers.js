@@ -163,7 +163,7 @@ const refreshAccessToken = async (req, res) => {
   }
   try {
     const decode = jwt.verify(token, process.env.REFRESH_SECRET);
-    console.log(`req come`);
+
     const user = await (decode.role==='Mentee'?MenteeUser:MentorUser).findById(decode._id).select('+refreshToken');
 
     if (!user || user.refreshToken != token) {
@@ -171,7 +171,7 @@ const refreshAccessToken = async (req, res) => {
     }
 
     const newAccessToken = generateAccessToken(user);
-    console.log("Token generated")
+    
 
        //set access token in cookie-only
   res.cookie("accessToken", newAccessToken, {
@@ -180,7 +180,7 @@ const refreshAccessToken = async (req, res) => {
     sameSite: "strict",
     maxAge: 15 * 60 * 1000, // 15 minutes only
   });
-
+console.log("Token generated")
     return res
       .status(201)
       .json({
