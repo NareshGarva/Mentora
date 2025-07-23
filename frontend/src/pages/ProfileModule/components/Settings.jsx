@@ -72,11 +72,10 @@ function Settings() {
   return (
     <div className="space-y-8">
 
-
       {/* Profile Update Sections */}
       <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
         <div className="flex items-center space-x-3 mb-6">
-          <User className="w-6 h-6 text-blue-600" />
+          <User className="w-6 h-6 text-secondary-500" />
           <h2 className="text-2xl font-bold text-gray-800">Profile Management</h2>
         </div>
         
@@ -94,13 +93,13 @@ function Settings() {
                     <IconComponent className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800 group-hover:text-gray-900">
+                    <h3 className="text-lg font-semibold text-m-gray-800 group-hover:text-gray-900">
                       {section.title}
                     </h3>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-m-gray-600 mt-1">
                       {section.description}
                     </p>
-                    <button className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                    <button className="mt-3 text-sm font-medium text-info-500 hover:text-info-900 transition-colors hover:cursor-pointer">
                       Update →
                     </button>
                   </div>
@@ -241,15 +240,15 @@ function Settings() {
       </div>
 
       {/* Danger Zone */}
-      <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-8">
+      <div className="bg-danger-100 border-2 border-danger-500 rounded-2xl p-8">
         <div className="flex items-center space-x-3 mb-4">
-          <Trash2 className="w-6 h-6 text-red-600" />
-          <h3 className="text-2xl font-bold text-red-600">Danger Zone</h3>
+          <Trash2 className="w-6 h-6 text-danger-500" />
+          <h3 className="text-2xl font-bold text-danger-500">Danger Zone</h3>
         </div>
-        <p className="text-red-700 mb-6">
+        <p className="text-danger-500 mb-6">
           Once you deactivate your account, there is no going back. Please be certain.
         </p>
-        <button className="bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+        <button className="bg-danger-500 text-white px-6 py-3 rounded-xl hover:bg-danger-7  00 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl hover:cursor-pointer">
           Deactivate Account
         </button>
       </div>
