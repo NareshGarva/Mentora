@@ -20,7 +20,14 @@ const sessionSchema = new mongoose.Schema({
     enum: ['pending', 'upcoming', 'cancelled', 'completed', 'rescheduled'],
     default: 'pending',
   },
-  review: { type: mongoose.Schema.Types.ObjectId, ref: "Review" }
+  review: { type: mongoose.Schema.Types.ObjectId, ref: "Review" },
+
+  // Newly added fields for payment integration
+  price: { type: Number, required: true },
+  payment: { type: mongoose.Schema.Types.ObjectId, ref: "Payment" },
+  razorpayOrderId: { type: String },
+  razorpayPaymentId: { type: String },
+  razorpaySignature: { type: String },
 }, { timestamps: true });
 
 export default mongoose.model("Session", sessionSchema);

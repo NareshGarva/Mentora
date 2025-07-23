@@ -8,6 +8,12 @@ const bookingSchema = new mongoose.Schema({
   paymentId: { type: mongoose.Schema.Types.ObjectId, ref: "Payments", required: true },
   meetingLink: { type: String, required: true },
   notes: { type: String },
+
+  // New optional reverse field for session tracking
+  sessionDate: { type: Date },
+  sessionTitle: { type: String },
+  sessionType: { type: String, enum: ['chat', 'audio', 'video'] },
+  sessionPrice: { type: Number },
 }, { timestamps: true });
 
 export default mongoose.model("Bookings", bookingSchema);

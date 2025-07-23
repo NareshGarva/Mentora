@@ -12,7 +12,7 @@ function BookSession() {
   const [endTime, setEndTime] = useState('');
   const [errors, setErrors] = useState({});
   const [bookedSessions, setBookedSessions] = useState([]);
-
+ console.log(bookedSessions);
   // Mock mentor data
   const mentor = {
     name: "Sarah Johnson",
