@@ -3,9 +3,9 @@ import SessionList from './SessionList'
 
 function UpcomingSession() {
   return (
-     <div className='mt-10'>
-                <p className='mb-3 font-bold text-2xl'>Upcoming Sessions</p>
-                <div className="grid grid-rows-3 grid-cols-3 gap-5">
+     <div className=' p-8 bg-white rounded-xl shadow-2xs'>
+                <p className='mb-4 font-bold text-2xl'>Upcoming Sessions</p>
+                <div className="grid grid-rows-2 grid-cols-1 gap-4 md:grid-cols-2 ">
                     <SessionList/>
                     <SessionList/>
                     <SessionList/>

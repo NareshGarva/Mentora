@@ -3,15 +3,15 @@ import SessionList from './SessionList'
 
 function PastSession() {
   return (
-    <div className='mt-10'>
-                <p className='mb-3 font-bold text-2xl'>Past Sessions</p>
-                <div className="grid grid-rows-3 grid-cols-3 gap-5">
-                      <SessionList/>
-                    <SessionList/>
-                    <SessionList/>
-                    <SessionList/>
-                    <SessionList/>
-                    <SessionList/>
+    <div className='p-8 bg-white rounded-xl shadow-2xs'>
+                <p className='mb-4 font-bold text-2xl'>Past Sessions</p>
+                <div className="grid grid-rows-2 grid-cols-1 gap-4 md:grid-cols-2">
+                    <SessionList type='completed-unreviewed'/>
+                    <SessionList type='completed-unreviewed'/>
+                    <SessionList type='completed-unreviewed'/>
+                    <SessionList type='completed-reviewed'/>
+                    <SessionList type='completed-reviewed'/>
+                    <SessionList type='completed-reviewed'/>
                 </div>
             </div>
   )
