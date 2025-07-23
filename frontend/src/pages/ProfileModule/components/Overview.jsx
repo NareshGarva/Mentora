@@ -1,16 +1,16 @@
-import { CalendarCheck, CalendarClock } from "lucide-react";
+import { CalendarCheck, CalendarClock, TrendingUp } from "lucide-react";
 import React from "react";
 import UpcomingSession from "./UpcomingSession";
 
 function Overview() {
   return (
     <div>
-      <div className="flex justify-left items-center gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
         {/* Dashboard Cards*/}
-        <div className="w-1/4 p-3 border-2 border-red-200 bg-red-100/70 rounded-2xl flex justify-left items-center gap-3 ">
+        <div className="dashboard-card shadow-sm p-6 bg-gradient-to-tl from-secondary-200 to bg-secondary-300 to-tertiary-100 w-full rounded-xl h-full flex items-center gap-6 ">
           {/* Dashboard Card icon wrapper */}
-          <div className="p-3 rounded-xl bg-red-200">
-            <CalendarClock className="text-red-600" />
+          <div className="p-3 rounded-xl bg-secondary-200">
+            <CalendarCheck className="text-secondary-600" />
           </div>
           {/* Dashboard Card text */}
           <div>
@@ -18,10 +18,10 @@ function Overview() {
             <p className="text-3xl text-black font-bold">{10}</p>
           </div>
         </div>
-        <div className="w-1/4 p-3 border-2 border-yellow-200 bg-yellow-100/70 rounded-2xl flex justify-left items-center gap-3 ">
+        <div className="dashboard-card shadow-sm p-6 bg-gradient-to-tl from-yellow-200 to bg-yellow-300 to-white w-full rounded-xl h-full flex items-center gap-6 ">
           {/* Dashboard Card icon wrapper */}
           <div className="p-3 rounded-xl bg-yellow-200">
-            <CalendarCheck className="text-yellow-600" />
+            <CalendarClock className="text-yellow-600" />
           </div>
 
           {/* Dashboard Card text */}
@@ -30,10 +30,10 @@ function Overview() {
             <p className="text-3xl text-black font-bold">{0}</p>
           </div>
         </div>
-        <div className="w-1/4 p-3 border-2 border-indigo-200 bg-indigo-100/70 rounded-2xl flex justify-left items-center gap-3 ">
+        <div className="dashboard-card shadow-sm p-6 bg-gradient-to-tl from-primary-200 to bg-primary-300 to-tertiary-100 w-full rounded-xl h-full flex items-center gap-6 ">
           {/* Dashboard Card icon wrapper */}
-          <div className="p-3 rounded-xl bg-indigo-200">
-            <CalendarCheck className="text-indigo-600" />
+          <div className="p-3 rounded-xl bg-primary-200">
+            <TrendingUp className="text-primary-700" />
           </div>
 
           {/* Dashboard Card text */}
