@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Video, Headphones, MessageSquare, Star, CheckCircle2, AlertCircle, Plus, Minus } from 'lucide-react';
+import SideProfile from './components/sideProfile';
 
 function BookSession() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -206,9 +207,7 @@ function BookSession() {
   };
 
   const sessionTypeOptions = [
-    { value: 'video', label: 'Video', icon: Video, color: 'bg-blue-500' },
-    { value: 'audio', label: 'Audio', icon: Headphones, color: 'bg-green-500' },
-    { value: 'chat', label: 'Chat', icon: MessageSquare, color: 'bg-purple-500' }
+    { value: 'video', label: 'Video', icon: Video, color: 'bg-blue-500' }
   ];
 
   return (
@@ -224,35 +223,7 @@ function BookSession() {
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Minimal Mentor Profile Card */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-lg p-4 sticky top-4">
-              <div className="text-center mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-3">
-                  {mentor.avatar}
-                </div>
-                <h3 className="text-lg font-bold text-gray-800">{mentor.name}</h3>
-                <p className="text-sm text-gray-600 mb-2">{mentor.title}</p>
-                
-                <div className="flex items-center justify-center gap-1 mb-3">
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm font-semibold">{mentor.rating}</span>
-                  <span className="text-xs text-gray-500">({mentor.totalSessions})</span>
-                </div>
-              </div>
-
-              {/* Live Price Display */}
-              <div className="text-center p-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg mb-4">
-                <div className="text-2xl font-bold">₹{calculatePrice(getCurrentDuration())}</div>
-                <div className="text-xs opacity-90">{getCurrentDuration()} minutes</div>
-                <div className="text-xs opacity-75">₹{mentor.pricePerMinute}/min</div>
-              </div>
-
-              {/* Available Hours */}
-              <div className="text-center text-xs text-gray-600 bg-gray-100 p-2 rounded-lg">
-                Available: {mentor.availableFrom}:00 AM - {mentor.availableTo === 19 ? '7:00' : mentor.availableTo + ':00'} PM
-              </div>
-            </div>
-          </div>
+         <SideProfile mentor={mentor} selectedDate={selectedDate} errors={errors} setSessionType={setSessionType} sessionTypeOptions={sessionTypeOptions} sessionType={sessionType} setCustomDuration={setCustomDuration} customDuration={customDuration} handleDurationChange={handleDurationChange} setSessionDuration={setSessionDuration} sessionDuration={sessionDuration} setSelectedDate={setSelectedDate} calculatePrice={calculatePrice} getCurrentDuration={getCurrentDuration}/>
 
           {/* Booking Form */}
           <div className="lg:col-span-3">
@@ -301,93 +272,7 @@ function BookSession() {
                   />
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Date Selection */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Select Date
-                    </label>
-                    <div className="flex items-center gap-3 p-4 border border-gray-300 rounded-xl">
-                      <Calendar className="w-5 h-5 text-indigo-600" />
-                      <input
-                        type="date"
-                        value={selectedDate.toISOString().split('T')[0]}
-                        min={new Date().toISOString().split('T')[0]}
-                        onChange={(e) => setSelectedDate(new Date(e.target.value))}
-                        className="flex-1 bg-transparent focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Duration Selection with Controls */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Duration *
-                    </label>
-                    <div className="space-y-2">
-                      <select
-                        value={sessionDuration}
-                        onChange={(e) => setSessionDuration(e.target.value === 'custom' ? 'custom' : parseInt(e.target.value))}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                      >
-                        <option value={15}>15 minutes</option>
-                        <option value={30}>30 minutes</option>
-                        <option value={45}>45 minutes</option>
-                        <option value={60}>60 minutes</option>
-                        <option value="custom">Custom duration</option>
-                      </select>
-                      
-                      {/* Duration Controls */}
-                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={() => handleDurationChange(-15)}
-                            className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 transition-colors"
-                          >
-                            <Minus className="w-4 h-4" />
-                          </button>
-                          
-                          {sessionDuration === 'custom' ? (
-                            <input
-                              type="number"
-                              value={customDuration}
-                              onChange={(e) => setCustomDuration(e.target.value)}
-                              min="15"
-                              max="180"
-                              className="w-20 px-2 py-1 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                            />
-                          ) : (
-                            <span className="text-lg font-semibold text-gray-800 min-w-[60px] text-center">
-                              {sessionDuration}
-                            </span>
-                          )}
-                          <span className="text-sm text-gray-600">min</span>
-                          
-                          <button
-                            type="button"
-                            onClick={() => handleDurationChange(15)}
-                            className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 transition-colors"
-                          >
-                            <Plus className="w-4 h-4" />
-                          </button>
-                        </div>
-                        
-                        <div className="text-right">
-                          <div className="text-lg font-bold text-indigo-600">₹{calculatePrice(getCurrentDuration())}</div>
-                          <div className="text-xs text-gray-500">Total Price</div>
-                        </div>
-                      </div>
-                      
-                      {(errors.duration || errors.customDuration) && (
-                        <div className="flex items-center gap-2 text-red-500 text-sm">
-                          <AlertCircle className="w-4 h-4" />
-                          {errors.duration || errors.customDuration}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
+             
 
                 {/* Time Selection */}
                 <div>
@@ -432,33 +317,7 @@ function BookSession() {
                   )}
                 </div>
 
-                {/* Session Type */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Session Type
-                  </label>
-                  <div className="grid grid-cols-3 gap-3">
-                    {sessionTypeOptions.map((option) => {
-                      const IconComponent = option.icon;
-                      return (
-                        <button
-                          key={option.value}
-                          onClick={() => setSessionType(option.value)}
-                          className={`p-4 rounded-xl border-2 transition-all ${
-                            sessionType === option.value
-                              ? 'border-indigo-500 bg-indigo-50'
-                              : 'border-gray-200 hover:border-indigo-300'
-                          }`}
-                        >
-                          <div className={`w-8 h-8 rounded-full ${option.color} flex items-center justify-center mx-auto mb-2`}>
-                            <IconComponent className="w-4 h-4 text-white" />
-                          </div>
-                          <div className="text-sm font-medium text-gray-700">{option.label}</div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+              
 
                 {/* Summary Card */}
                 {selectedStartTime && (
@@ -496,9 +355,9 @@ function BookSession() {
                 <button
                   onClick={handleBookSession}
                   disabled={!selectedStartTime}
-                  className={`w-full font-semibold py-4 rounded-xl transition-all shadow-lg ${
+                  className={`w-full font-semibold py-2 rounded-lg transition-all shadow-lg ${
                     selectedStartTime 
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105' 
+                      ? 'bg-black text-white hover:black/90 hover:to-purple-700 transform hover:scale-105' 
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
