@@ -34,6 +34,7 @@ import WeeklyAvailability from "./pages/SetupProfile/Components/WeeklyAvailabili
 import SocialLinks from "./pages/SetupProfile/Components/SocialLinks";
 import Expertise from "./pages/SetupProfile/Components/Expertise";
 import ViewMentor from './pages/ProfileModule/VIewProfile/ViewMentor'
+import BookSession from "./pages/BookSession/BookSession";
 
 
 createRoot(document.getElementById("root")).render(
@@ -55,8 +56,10 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/view-mentor/@:username" element={<ViewMentor />}></Route>
 
+        <Route path="/book-session/:id" element={<BookSession />}></Route>
+
         {/* setup profile */}
-<Route path="/setup-profile/:username" element={<SetupProfile />}>
+<Route path="/setup-profile" element={<SetupProfile />}>
   <Route path="personal-info" element={<PersonalInfo />} />
   <Route path="work-experience" element={<WorkExperience />} />
   <Route path="education-info" element={<EducationInfo />} />
