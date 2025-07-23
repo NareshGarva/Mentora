@@ -4,8 +4,8 @@ import SessionList from './SessionList'
 function UpcomingSession() {
   return (
      <div className=' p-8 bg-white rounded-xl shadow-xl'>
-                <p className='mb-4 font-bold text-2xl text-m-gray-800'>Upcoming Sessions</p>
-                <div className="grid grid-rows-2 grid-cols-1 gap-4 md:grid-cols-2 ">
+                <p className='mb-8 font-bold text-2xl text-m-gray-800'>Upcoming Sessions</p>
+                <div className="grid grid-rows-2 grid-cols-1 gap-4 md:grid-cols-2">
                     <SessionList/>
                     <SessionList/>
                     <SessionList/>

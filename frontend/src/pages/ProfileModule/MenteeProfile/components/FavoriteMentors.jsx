@@ -3,7 +3,7 @@ import MentorList from '../../components/MentorList'
 
 function FavoriteMentors() {
   return (
-    <div className='grid grid-rows-3 grid-cols-3 gap-5'>
+    <div className='grid grid-rows-2 grid-cols-1 gap-4 md:grid-cols-2'>
         <MentorList/>
         <MentorList/>
         <MentorList/>

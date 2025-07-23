@@ -4,7 +4,7 @@ import UpcomingSession from "./UpcomingSession";
 
 function Overview() {
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
         {/* Dashboard Cards*/}
         <div className="dashboard-card shadow-sm p-6 bg-gradient-to-tl from-secondary-200 to bg-secondary-300 to-tertiary-100 w-full rounded-xl h-full flex items-center gap-6 ">

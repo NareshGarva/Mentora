@@ -17,7 +17,7 @@ function DashboardLayout() {
       <section className="w-full bg-gradient-to-t from-transparent via-primary-100 to-transparent py-16">
         <main className=''>
           <div className="  flex justify-center items-center gap-8">
-            <div className="w-full mx-5 md:mx-28 space-y-8">
+            <div className="w-full mx-5 md:mx-28 space-y-4">
               <div className="text-container">
               <h1 className="text-3xl text-gray-800 font-bold">
                 Welcome back, <span className='bg-gradient-to-br from-rose-500 to-indigo-500 bg-clip-text text-transparent'>{user.name}!</span>

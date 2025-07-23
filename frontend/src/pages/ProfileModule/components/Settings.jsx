@@ -233,7 +233,7 @@ function Settings() {
       <div className="flex justify-center">
         <button
           onClick={handleSave}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+          className="bg-gradient-to-r from-secondary-500 to-tertiary-500 text-white px-8 py-4 rounded-xl hover:from-secondary-500 hover:to-primary-300 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:cursor-pointer"
         >
           Save All Changes
         </button>

@@ -21,7 +21,7 @@ import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboar
 
 //import contexts and providers
 import AuthProvider from './context/auth.context'
-import FavoriteMentors from "./pages/ProfileModule/MenteeProfile/components/FavoriteMentors";
+import FavouriteMentors from "./pages/ProfileModule/MenteeProfile/components/FavoriteMentors";
 import Settings from "./pages/ProfileModule/components/Settings";
 import MySession from "./pages/ProfileModule/MenteeProfile/components/MySession";
 import Overview from "./pages/ProfileModule/components/Overview";
@@ -74,7 +74,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/profile/username" element={<Dashboard />}>
             <Route index element={<Overview />} />
             <Route path="my-session" element={<MySession />} />
-            <Route path="my-favorite-mentor" element={<FavoriteMentors />} />
+            <Route path="my-favorite-mentor" element={<FavouriteMentors />} />
             <Route path="settings" element={<Settings />} />
           </Route>
 
