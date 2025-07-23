@@ -14,6 +14,10 @@ const availabilitySchema = new mongoose.Schema({
   friday: daySchema,
   saturday: daySchema,
   sunday: daySchema,
+  isAvailable:{
+    type:Boolean,
+    default:false
+  }
 }, { timestamps: true });
 
 export default mongoose.model("Availability", availabilitySchema);

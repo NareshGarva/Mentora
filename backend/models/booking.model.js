@@ -3,17 +3,15 @@ import mongoose from "mongoose";
 const bookingSchema = new mongoose.Schema({
   menteeId: { type: mongoose.Schema.Types.ObjectId, ref: "MenteeUser", required: true },
   mentorId: { type: mongoose.Schema.Types.ObjectId, ref: "MentorUser", required: true },
-  sessionId: { type: mongoose.Schema.Types.ObjectId, ref: "Session", required: true },
-  status: { type: String, enum: ["pending", "confirm", "cancel"], default: "cancel" },
-  paymentId: { type: mongoose.Schema.Types.ObjectId, ref: "Payments", required: true },
-  meetingLink: { type: String, required: true },
-  notes: { type: String },
 
-  // New optional reverse field for session tracking
-  sessionDate: { type: Date },
+  status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending" },
+  sessionId: { type: mongoose.Schema.Types.ObjectId, ref: "Session" }, // added after session is created
+
+  sessionDate: { type: Date, required: true },
+  sessionType: { type: String, enum: ['chat', 'audio', 'video'], required: true },
+  sessionPrice: { type: Number, required: true },
   sessionTitle: { type: String },
-  sessionType: { type: String, enum: ['chat', 'audio', 'video'] },
-  sessionPrice: { type: Number },
+  notes: { type: String }
 }, { timestamps: true });
 
-export default mongoose.model("Bookings", bookingSchema);
+export default mongoose.model("Booking", bookingSchema);
