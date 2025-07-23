@@ -8,6 +8,11 @@ const paymentsSchema = new mongoose.Schema({
   razorpayPaymentId: { type: String, required: true },
   razorpayOrderId: { type: String, required: true },
   paymentMethod: { type: String, enum: ["online"], default: "online" },
+
+  // Optional additional fields for flexibility and reporting
+  paymentDate: { type: Date, default: Date.now },
+  currency: { type: String, default: "INR" },
+  description: { type: String },
 }, { timestamps: true });
 
 export default mongoose.model("Payments", paymentsSchema);
