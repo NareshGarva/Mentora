@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {useNavigate } from 'react-router-dom'
 import MentorCard from '../../../components/MentorCard'
-import { Mentors } from '../../../sample/MentorCard';
+import {MentorContext} from '../../../context/mentor.context';
+
 
 function FeaturedMentors() {
+  const {mentors} = useContext(MentorContext)
+
   const navigate = useNavigate();
     const renderMentors = ()=>{
-      const newSlice = Mentors.slice(0,9);
+      const newSlice = mentors.slice(0,9);
   return newSlice.map((Mentor, index) => (
-  <MentorCard key={index} name={Mentor.name} title={Mentor.title} rating={Mentor.rating} sessions={Mentor.sessions} skills={Mentor.skills} hourlyRate={Mentor.hourlyRate} nextAvailable={Mentor.nextAvailable}/>
+  <MentorCard key={index} name={Mentor.name} username={Mentor.username} title={Mentor.username} rating={Mentor.reviews.length} sessions={Mentor.sessions.length} skills={Mentor.expertise.map((item) => {
+  return item.expertise
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+})}
+ hourlyRate={Mentor?.rate.perHour} nextAvailable={Mentor.nextAvailable}/>
   ));
     }
 
@@ -28,7 +37,7 @@ function FeaturedMentors() {
   {renderMentors()}
 </div>
 <div className='text-center'>
-  {Mentors.length>9?(<button onClick={AllMentors} className='underline underline-offset-6 mt-10 cursor-pointer transition-all ease-in-out duration-300 hover:scale-104 '><span>View All Mentors</span></button>
+  {mentors.length>9?(<button onClick={AllMentors} className='underline underline-offset-6 mt-10 cursor-pointer transition-all ease-in-out duration-300 hover:scale-104 '><span>View All Mentors</span></button>
 ):''}
 </div>
 </div>

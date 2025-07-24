@@ -8,7 +8,11 @@ import { useState } from 'react';
 
 function ProfileDropdown() {
   const { user, logout } = useAuth();
-let [isOut, setIsOut] = useState(false);
+  const [isOut, setIsOut] = useState(false);
+  if(!user){
+    return;
+  }
+
   return (
     <div className='min-w-full border border-gray-300 rounded-lg bg-white'>
         <div className='header p-3 flex justify-left items-center gap-3'>

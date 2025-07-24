@@ -60,8 +60,9 @@ createRoot(document.getElementById("root")).render(
           <Route path="/book-session/:id" element={<BookSession />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
 
+
           {/* Setup profile nested routes */}
-          <Route path="/setup-profile/:username" element={<SetupProfile />}>
+          <Route path="/setup-profile/" element={<SetupProfile />}>
             <Route path="personal-info" element={<PersonalInfo />} />
             <Route path="work-experience" element={<WorkExperience />} />
             <Route path="education-info" element={<EducationInfo />} />
@@ -70,6 +71,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="availability-info" element={<WeeklyAvailability />} />
             <Route path="rates-info" element={<SetYourRate />} />
           </Route>
+
 
           {/* Mentee Dashboard */}
           <Route path="/profile/username" element={<Dashboard />}>

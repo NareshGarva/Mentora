@@ -16,7 +16,7 @@ const availabilitySchema = new mongoose.Schema({
   sunday: daySchema,
   isAvailable:{
     type:Boolean,
-    default:false
+    default:true
   }
 }, { timestamps: true });
 

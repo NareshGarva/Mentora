@@ -2,11 +2,12 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   User, Briefcase, GraduationCap, Star,
   Link, Clock, IndianRupee,
-  ChevronLeft, ChevronRight, Save, Check,
+  ChevronLeft, ChevronRight,
   MoveRight
 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useAuth } from '../../context/auth.context';
+import Loading from '../../components/Loading'
 
 
 function SetupProfile() {
@@ -32,6 +33,7 @@ const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
 
   const isBaseRoute = steps.every(step => !location.pathname.includes(step.path));
 
+
   const goToStep = (index) => {
     navigate(`/setup-profile/${steps[index].path}`);
   };
@@ -49,52 +51,48 @@ const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
   };
 
 
-
 useEffect(() => {
-    const checkUser = async () => {
-      // Wait for loading to complete
-      if (isLoading) {
-        console.log("Still loading user data...");
-        return;
-      }
-
-      // Check if user is logged in
-      if (!isLoggedIn) {
-        console.log("User not logged in, redirecting...");
-        navigate('/login');
-        return;
-      }
-
-      // Check if user data is available
-      if (!user.username || !user.role) {
-        console.log("User data incomplete, redirecting...");
-        navigate('/login');
-        return;
-      }
-
-      console.log("user", user.username, user.role);
-      
-      // Now verify the user
-      const isValid = await verifyUser(user.username, user.role);
-      console.log("this is res:", isValid);
-      
-      if (!isValid) {
-        console.log("User verification failed, redirecting...");
-        navigate('/login');
-      }
-    };
-
-    checkUser();
-  }, [user, isLoggedIn, isLoading, navigate, verifyUser]);
-
-  // Show loading while auth is initializing
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (!steps || steps.length === 0) {
+    document.title = 'Setup Profile';
+    return;
   }
 
+  const currentTitle = steps[currentStepIndex]?.title;
+  document.title = currentTitle
+    ? `${currentTitle} - Setup Profile`
+    : 'Setup Profile';
+}, [currentStepIndex, steps]);
+
+
+
+useEffect(() => {
+  const checkUser = async () => {
+    if (isLoading) return;
+
+    if (!isLoggedIn || !user.username || !user.role) {
+      navigate('/login');
+      return;
+    }
+
+    const isValid = await verifyUser(user.username, user.role);
+    if (!isValid) {
+      navigate('/login');
+    }
+  };
+
+  checkUser();
+}, [user, isLoggedIn, isLoading, navigate, verifyUser]);
+
+  if (isLoading) {
+    return (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">
+    <Loading />
+  </div>
+);
+}
   // Show login redirect if not logged in
   if (!isLoggedIn || !user.username) {
-    return <div>Redirecting to login...</div>;
+    return <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">Redirecting to login...</div>;
   }
   
 

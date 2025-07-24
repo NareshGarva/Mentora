@@ -9,13 +9,17 @@ import {updateSocialLink,
   updateWorkExperience,
   updateAvailability,
   updateUserProfile } from '../controllers/mentor.controllers.js';
+  import {upload} from '../middlewares/multerMiddleware.js';
+  import uploadToCloudinaryMiddleware from '../middlewares/uploadToCloudinaryMiddleware.js'
 
 
   // All routes below require authentication
 router.use(verifyToken);
 
 // Update profile info (bio, avatar, dob, gender, etc.)
-router.put("/update-profile", updateUserProfile);
+router.put("/update-profile",upload.fields([
+    { name: 'avatar', maxCount: 1 }
+  ]),uploadToCloudinaryMiddleware,updateUserProfile);
 
 // Add social links (multiple)
 router.post("/social-links", updateSocialLink);

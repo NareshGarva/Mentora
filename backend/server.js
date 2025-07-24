@@ -36,7 +36,7 @@ app.use('/api/session',sessionRoutes)
 
 app.use('/api/user',userRoutes)
 
-app.use('/api/mentor',mentorRoutes)
+app.use('/api/profile',mentorRoutes)
 
 
 

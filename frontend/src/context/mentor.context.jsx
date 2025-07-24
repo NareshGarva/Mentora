@@ -1,32 +1,43 @@
 import { createContext, useEffect, useState } from "react";
-import axiosInstance from "../utils/axiosInstance";
 import axios from "axios";
 
 const MentorContext = createContext();
 
 function MentorProvider({ children }) {
-  const [mentors, setMentors] = useState();
-  console.log(`mentors data is : ${mentors}`)
+  const [mentors, setMentors] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);    
 
-useEffect(()=>{
-  const fetchMentors = async () => {
+  useEffect(() => {
+    const fetchMentors = async () => {
       try {
-        const response = await axios.get(`/user/get-mentors`, {
+        const response = await axios.get(`http://localhost:3000/api/user/get-mentors`, {
           withCredentials: true,
         });
-        console.log(response)
-        if (response.data && response.data.mentors) {
+
+        console.log("Mentors response:", response);
+        console.log("Mentors mentor:", response.data.mentors);
+
+        if (response.data?.mentors) {
           setMentors(response.data.mentors);
+        } else {
+          console.warn("No mentors found in response");
+          setMentors([]);
         }
-      } catch (error) {
-        console.error("Failed to fetch user on refresh", error);
+      } catch (err) {
+        console.error("Failed to fetch mentors:", err);
+        setError(err);
+        setMentors([]);
+      } finally {
+        setLoading(false);
       }
     };
-fetchMentors();
+
+    fetchMentors();
   }, []);
 
   return (
-    <MentorContext.Provider value={{ mentors }}>
+    <MentorContext.Provider value={{ mentors, loading, error }}>
       {children}
     </MentorContext.Provider>
   );

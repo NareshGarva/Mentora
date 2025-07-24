@@ -1,7 +1,6 @@
 import express from 'express'
 import ApiError from '../utils/ApiError.js';
 import MentorUser from '../models/user.mentor.model.js'
-import MenteeUser from '../models/user.mentee.model.js'
 import SocialLinks from "../models/socialLink.model.js";
 import Education from "../models/education.model.js";
 import Rate from '../models/rate.model.js'
@@ -14,6 +13,7 @@ import Availability from '../models/availability.model.js'
 
 
 const updateUserProfile = async (req, res) => {
+  console.log("aa gya");
   const username = req.user?.username;
   const data = req.body.data;
 
@@ -139,31 +139,49 @@ const updateEducation = async (req, res) => {
 
 const updateRate = async (req, res) => {
   const username = req.user?.username;
-  const data = req.body.rate;
-
-  console.log(data);
+  const rate = req.body?.rate;
 
   if (!username) {
     return res.status(400).json({ message: "Username is missing in token" });
   }
 
-  if (!data || typeof data !== "object" || !data.perHour) {
-    return res.status(400).json({ message: "Invalid rate data" });
+  if (!rate || typeof rate.perHour !== 'number') {
+    return res.status(400).json({ message: "perHour rate is required and must be a number" });
   }
 
   try {
-    const user = await MentorUser.findOne({ username });
+    const user = await MentorUser.findOne({ username }).populate('rate');
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const newRate = await new Rate({ rate: data }).save();
+    let newRate;
 
-    user.rates.push(newRate._id);
-    await user.save();
+    if (user.rate) {
+      // If a rate already exists, update it
+      user.rate.perHour = rate.perHour;
+      user.rate.perMinute = rate.perMinute;
+      user.rate.per15Minutes = rate.per15Minutes;
+      user.rate.per30Minutes = rate.per30Minutes;
+      user.rate.currency = rate.currency || 'INR';
+      await user.rate.save();
+      newRate = user.rate;
+    } else {
+      // Create a new rate and assign it
+      newRate = await new Rate({
+        perHour: rate.perHour,
+        perMinute: rate.perMinute,
+        per15Minutes: rate.per15Minutes,
+        per30Minutes: rate.per30Minutes,
+        currency: rate.currency || 'INR',
+      }).save();
+
+      user.rate = newRate._id;
+      await user.save();
+    }
 
     return res.status(200).json({
-      message: "Rate added successfully",
+      message: "Rate updated successfully",
       rate: newRate,
     });
 
@@ -172,6 +190,8 @@ const updateRate = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 
 

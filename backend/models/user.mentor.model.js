@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   expertise: [{ type: mongoose.Schema.Types.ObjectId, ref: "Expertise" }],
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   availability: [{ type: mongoose.Schema.Types.ObjectId, ref: "Availability" }],
-  rates: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rate" }],
+  rate: { type: mongoose.Schema.Types.ObjectId, ref: "Rate" },
   sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Session" }],
   refreshToken: { type: String, default: "", select: false },
 }, { timestamps: true });

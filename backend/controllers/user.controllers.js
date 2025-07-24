@@ -31,11 +31,11 @@ const getMentors = async (req, res) => {
       .populate("education")     
       .populate("socialLink")       
       .populate("expertise")      
-      .populate("rates")                  
+      .populate("rate")                  
       .populate("sessions")          
       .populate("availability");   
 
-    res.status(200).json(mentors);
+    res.status(200).json({mentors});
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: "Failed to fetch mentors", error: error.message });
