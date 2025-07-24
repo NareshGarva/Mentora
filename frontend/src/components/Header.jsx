@@ -5,11 +5,10 @@ import NotificationDropdown from './NotificationDropdown';
 import {handleToggleClick, handleMouseOver, handleMouseLeave} from '../utils/over_click'
 import ProfileDropdown from './ProfileDropdown';
 import Logo from './Logo';
-import { useContext } from 'react';
-import { AuthContext } from '../context/auth.context';
+import { useAuth } from '../context/auth.context';
 
 function Header() {
-  const {isLoggedIn} = useContext(AuthContext)
+  const {isLoggedIn} = useAuth()
   //         // check if new notification or not 
   //   const isNewNotification = false;
   //   //if yes then show this notification count

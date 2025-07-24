@@ -17,7 +17,7 @@ import Dashboard from './pages/ProfileModule/MenteeProfile/Dashboard'
 
 
 //import contexts and providers
-import AuthProvider from './context/auth.context'
+import {AuthProvider} from './context/auth.context'
 import MentorContext  from "./context/mentor.context";
 import FavoriteMentors from "./pages/ProfileModule/MenteeProfile/components/FavoriteMentors";
 import Settings from "./pages/ProfileModule/components/Settings";
@@ -40,56 +40,54 @@ import Earnings from "./pages/ProfileModule/MenteeProfile/components/Earnings";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
+  <BrowserRouter> 
+    <AuthProvider> 
       <MentorContext>
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/about-us" element={<About />}></Route>
-        <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/browse-mentor" element={<Browse_mentor />}>
-          <Route path="all-mentors" element={<SearchResult />}></Route>
-          <Route path="search-mentors" element={<SearchSection />}></Route>
-        </Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        <Header />
 
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about-us" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/browse-mentor" element={<Browse_mentor />}>
+            <Route path="all-mentors" element={<SearchResult />} />
+            <Route path="search-mentors" element={<SearchSection />} />
+          </Route>
 
-        <Route path="/view-mentor/:username" element={<ViewMentor />}></Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/view-mentor/:username" element={<ViewMentor />} />
+          <Route path="/book-session/:id" element={<BookSession />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
 
-        <Route path="/book-session/:id" element={<BookSession />}></Route>
+          {/* Setup profile nested routes */}
+          <Route path="/setup-profile/:username" element={<SetupProfile />}>
+            <Route path="personal-info" element={<PersonalInfo />} />
+            <Route path="work-experience" element={<WorkExperience />} />
+            <Route path="education-info" element={<EducationInfo />} />
+            <Route path="expertise-info" element={<Expertise />} />
+            <Route path="social-link" element={<SocialLinks />} />
+            <Route path="availability-info" element={<WeeklyAvailability />} />
+            <Route path="rates-info" element={<SetYourRate />} />
+          </Route>
 
-        <Route path="/payment-success" element={<PaymentSuccess />} />
+          {/* Mentee Dashboard */}
+          <Route path="/profile/username" element={<Dashboard />}>
+            <Route index element={<Overview />} />
+            <Route path="my-session" element={<MySession />} />
+            <Route path="my-favorite-mentor" element={<FavoriteMentors />} />
+            <Route path="earnings" element={<Earnings />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
 
-        {/* setup profile */}
-<Route path="/setup-profile" element={<SetupProfile />}>
-  <Route path="personal-info" element={<PersonalInfo />} />
-  <Route path="work-experience" element={<WorkExperience />} />
-  <Route path="education-info" element={<EducationInfo />} />
-  <Route path="expertise-info" element={<Expertise />} />
-  <Route path="social-link" element={<SocialLinks />} />
-  <Route path="availability-info" element={<WeeklyAvailability />} />
-  <Route path="rates-info" element={<SetYourRate />} />
-</Route>
+          <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
+        </Routes>
 
-
-{/* Mentee module */}
-       <Route path="/profile/username" element={<Dashboard />}>
-  <Route index element={<Overview />} />
-  <Route path="my-session" element={<MySession />} />
-  <Route path="my-favorite-mentor" element={<FavoriteMentors />} />
-  <Route path="earnings" element={<Earnings />} />
-  <Route path="settings" element={<Settings />} />
-</Route>
-
-
-        <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
-    </MentorContext>
+        <Footer />
+      </MentorContext>
     </AuthProvider>
-  </StrictMode>
+  </BrowserRouter>
+</StrictMode>
+
 );
 

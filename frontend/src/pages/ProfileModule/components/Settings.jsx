@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { User, GraduationCap, Share2, Award, Lock, Bell, Globe, Trash2, Eye, Shield } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context/auth.context';
+import { useAuth } from '../../../context/auth.context';
 
 function Settings() {
-  const {user} = useContext(AuthContext)
+  const {user} = useAuth();
   const Navigate = useNavigate();
   const [settings, setSettings] = useState({
     currentPassword: '',

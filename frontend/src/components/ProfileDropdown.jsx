@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
+import React, { } from 'react'
 import Avatar from './Avatar'
 import Loading from './Loading'
 import { NavLink } from 'react-router-dom';
 import {User, Calendar, Settings, Heart, LogOut} from 'lucide-react'
-import { AuthContext } from '../context/auth.context';
+import { useAuth } from '../context/auth.context';
 import { useState } from 'react';
 
 function ProfileDropdown() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
 let [isOut, setIsOut] = useState(false);
   return (
     <div className='min-w-full border border-gray-300 rounded-lg bg-white'>
