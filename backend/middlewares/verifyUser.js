@@ -11,6 +11,7 @@ if (
 ) {
   return res.status(403).json({ message: "Access denied: username or role mismatch",isAccessed:false });
 }
+req.isAuthorized = true;
   next(); 
 }
 

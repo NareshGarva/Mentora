@@ -57,6 +57,22 @@ function AuthProvider({ children }) {
       }
     };
 
+
+     const verifyUser = async (username, role) => {
+      try {
+        const response = await axiosInstance.get(`/user/verify-identity/${username}/${role}`, {
+          withCredentials: true,
+        });
+        if (response.data.success === true && response.data.isAuthorized === true) {
+          return true;
+        }
+            return false;  
+      } catch (error) {
+        console.error("Failed to verify user", error);
+        return false; 
+      }
+    };
+
   useEffect(() => {
     if (localStorage.getItem("isLoggedIn") === "true") {
       fetchUser();
@@ -64,7 +80,7 @@ function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoggedIn }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoggedIn,verifyUser }}>
       {children}
     </AuthContext.Provider>
   );
