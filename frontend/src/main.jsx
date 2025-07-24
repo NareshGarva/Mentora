@@ -57,7 +57,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/view-mentor/:username" element={<ViewMentor />} />
-          <Route path="/book-session/:id" element={<BookSession />} />
+          <Route path="/book-session/:username/:Id" element={<BookSession />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
 
 

@@ -11,13 +11,7 @@ function FeaturedMentors() {
     const renderMentors = ()=>{
       const newSlice = mentors.slice(0,9);
   return newSlice.map((Mentor, index) => (
-  <MentorCard key={index} name={Mentor.name} username={Mentor.username} title={Mentor.username} rating={Mentor.reviews.length} sessions={Mentor.sessions.length} skills={Mentor.expertise.map((item) => {
-  return item.expertise
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-})}
- hourlyRate={Mentor?.rate.perHour} nextAvailable={Mentor.nextAvailable}/>
+  <MentorCard key={index} id={Mentor._id} name={Mentor.name} username={Mentor.username} title={Mentor.username} rating={Mentor.reviews.length} sessions={Mentor.sessions.length} skills={Mentor.expertise.map((item) => item.expertise)} hourlyRate={Mentor.rate.perHour} nextAvailable={Mentor.availability}/>
   ));
     }
 

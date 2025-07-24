@@ -80,6 +80,7 @@ const {login} = useAuth()
         console.log(response.data.user)
 login(response.data.user)
 handleRedirect();
+window.location.reload();
       } else {
         alert(response.data.message || 'Invalid credentials');
         throw new Error(response.data.message || 'Invalid credentials');
