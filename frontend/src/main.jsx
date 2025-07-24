@@ -35,6 +35,7 @@ import SocialLinks from "./pages/SetupProfile/Components/SocialLinks";
 import Expertise from "./pages/SetupProfile/Components/Expertise";
 import ViewMentor from './pages/ProfileModule/VIewProfile/ViewMentor'
 import BookSession from "./pages/BookSession/BookSession";
+import PaymentSuccess from "./pages/BookSession/PaymentSuccess";
 
 
 createRoot(document.getElementById("root")).render(
@@ -57,6 +58,8 @@ createRoot(document.getElementById("root")).render(
         <Route path="/view-mentor/@:username" element={<ViewMentor />}></Route>
 
         <Route path="/book-session/:id" element={<BookSession />}></Route>
+
+        <Route path="/payment-success" element={<PaymentSuccess />} />
 
         {/* setup profile */}
 <Route path="/setup-profile" element={<SetupProfile />}>
