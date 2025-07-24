@@ -4,17 +4,11 @@ import axiosInstance from '../utils/axiosInstance'
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    role: "",
-    username: "",
-  });
+  const [user, setUser] = useState(null);
   
-  // Add loading state to track when user data is being fetched
+ 
   const [isLoading, setIsLoading] = useState(true);
   
-  console.log("user", user);
   
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return localStorage.getItem('isLoggedIn') === 'true';
@@ -93,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Fix: Accept parameters OR use current user state
+
   const verifyUser = async (username = user.username, role = user.role) => {
     try {
       if (!username || !role) {
@@ -101,7 +95,7 @@ export const AuthProvider = ({ children }) => {
         return false;
       }
       
-      const res = await axiosInstance.get(`/verify-identity/${username}/${role}`, {
+      const res = await axiosInstance.get(`/user/verify-identity/${username}/${role}`, {
         withCredentials: true,
       });
       return res.data.isAuthorized;

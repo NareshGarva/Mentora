@@ -5,7 +5,7 @@ const verifyUser = async (req, res, next)=>{
  const loggedInRole = req.user?.role; 
   const routeUsername = req.params.username;
   const routeRole = req.params.role;
-
+console.log('err')
 
   console.log(loggedInUsername,loggedInRole,routeUsername,routeRole)
 if (
