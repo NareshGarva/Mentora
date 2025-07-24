@@ -5,8 +5,11 @@ import {
   ChevronLeft, ChevronRight, Save, Check,
   MoveRight
 } from 'lucide-react';
+import { useContext, useEffect } from 'react';
+import AuthProvider from '../../context/auth.context';
 
 function SetupProfile() {
+  const {user,isLoggedIn, verifyUser} = useContext(AuthProvider)
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -42,7 +45,16 @@ function SetupProfile() {
     }
   };
 
+useEffect(()=>{
+        if(!isLoggedIn){
+          navigate('/login');
+        }
+        const isValid = verifyUser(user.username, user.role);
+        if(!isValid){
+          navigate('/login');
+        }
 
+},[])
   
 
   return (
