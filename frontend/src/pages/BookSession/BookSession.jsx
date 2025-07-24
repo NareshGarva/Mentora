@@ -1,8 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, Video, Headphones, MessageSquare, Star, CheckCircle2, AlertCircle, Plus, Minus } from 'lucide-react';
+import { Clock, Video, CheckCircle2, AlertCircle } from 'lucide-react';
 import SideProfile from './components/sideProfile';
+import axiosInstance from '../../utils/axiosInstance';
+import Logo from '../../components/Logo';
+import Loading from '../../components/Loading';
 
-function BookSession() {
+const MENTOR_USERNAME = 'nareshgarva0781';
+const MENTEE_USERNAME = 'rahulkumar5931';
+
+const MENTOR_INFO = {
+  name: 'Sarah Johnson',
+  title: 'Senior Software Engineer',
+  avatar: 'SJ',
+  rating: 4.9,
+  totalSessions: 247,
+  pricePerMinute: 5,
+  availableFrom: 9,
+  availableTo: 19,
+};
+
+const BookSession = () => {
+  const [isLoading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedStartTime, setSelectedStartTime] = useState('');
   const [sessionDuration, setSessionDuration] = useState(15);
@@ -13,207 +31,203 @@ function BookSession() {
   const [endTime, setEndTime] = useState('');
   const [errors, setErrors] = useState({});
   const [bookedSessions, setBookedSessions] = useState([]);
- console.log(bookedSessions);
-  // Mock mentor data
-  const mentor = {
-    name: "Sarah Johnson",
-    title: "Senior Software Engineer",
-    avatar: "SJ",
-    rating: 4.9,
-    totalSessions: 247,
-    pricePerMinute: 5, 
-    availableFrom: 9, // 9 AM
-    availableTo: 19, // 7 PM
-  };
+  const [availableSlots, setAvailableSlots] = useState([]);
 
-  // Calculate price based on duration
-  const calculatePrice = (duration) => {
-    return duration * mentor.pricePerMinute;
-  };
+  const sessionTypeOptions = [
+    { value: 'video', label: 'Video', icon: Video, color: 'bg-blue-500' },
+  ];
 
-  // Check if a time slot conflicts with existing bookings
-  const isTimeSlotBooked = (date, startTime, duration) => {
-    const dateStr = date.toDateString();
-    const sessionStart = parseTimeToMinutes(startTime);
-    const sessionEnd = sessionStart + duration;
+  const getCurrentDuration = () =>
+    sessionDuration === 'custom' ? parseInt(customDuration) || 0 : sessionDuration;
 
-    return bookedSessions.some(session => {
-      if (session.date !== dateStr) return false;
-      const bookedStart = parseTimeToMinutes(session.startTime);
-      const bookedEnd = bookedStart + session.duration;
-      
-      return (sessionStart < bookedEnd && sessionEnd > bookedStart);
-    });
-  };
+  const calculatePrice = (duration) => duration * MENTOR_INFO.pricePerMinute;
 
-  // Convert time string to minutes from midnight
-  const parseTimeToMinutes = (timeString) => {
-    const [time, period] = timeString.split(' ');
+  const parseTimeToMinutes = (timeStr) => {
+    const [time, period] = timeStr.split(' ');
     const [hours, minutes] = time.split(':').map(Number);
-    
-    let hour24 = hours;
-    if (period === 'PM' && hours !== 12) hour24 += 12;
+    let hour24 = period === 'PM' && hours !== 12 ? hours + 12 : hours;
     if (period === 'AM' && hours === 12) hour24 = 0;
-    
     return hour24 * 60 + minutes;
   };
 
-  // Convert minutes to time string
   const minutesToTimeString = (minutes) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     const period = hours >= 12 ? 'PM' : 'AM';
-    const displayHour = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
-    
+    const displayHour = hours % 12 || 12;
     return `${displayHour}:${mins.toString().padStart(2, '0')} ${period}`;
   };
 
-  // Generate available time slots
+  const isTimeSlotBooked = (date, startTime, duration) => {
+    const sessionStart = parseTimeToMinutes(startTime);
+    const sessionEnd = sessionStart + duration;
+    return bookedSessions.some(({ date: d, startTime: s, duration: dur }) => {
+      if (d !== date.toDateString()) return false;
+      const start = parseTimeToMinutes(s);
+      const end = start + dur;
+      return sessionStart < end && sessionEnd > start;
+    });
+  };
+
   const generateTimeSlots = () => {
     const slots = [];
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
-    
-    for (let hour = mentor.availableFrom; hour < mentor.availableTo; hour++) {
+    const isToday = selectedDate.toDateString() === now.toDateString();
+
+    for (let hour = MENTOR_INFO.availableFrom; hour < MENTOR_INFO.availableTo; hour++) {
       for (let minute = 0; minute < 60; minute += 15) {
-        const slotTime = new Date();
-        slotTime.setHours(hour, minute, 0, 0);
-        
-        // Skip past time slots for today
-        const isToday = selectedDate.toDateString() === now.toDateString();
-        if (isToday && (hour < currentHour || (hour === currentHour && minute <= currentMinute + 30))) {
-          continue;
-        }
-        
-        const timeString = slotTime.toLocaleTimeString('en-US', { 
-          hour: 'numeric', 
-          minute: '2-digit', 
-          hour12: true 
+        if (isToday && (hour < currentHour || (hour === currentHour && minute <= currentMinute + 30))) continue;
+        const timeString = new Date().setHours(hour, minute, 0);
+        const readable = new Date(timeString).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
         });
-        
-        // Check if this slot is available (not booked)
-        if (!isTimeSlotBooked(selectedDate, timeString, getCurrentDuration())) {
-          slots.push(timeString);
+        if (!isTimeSlotBooked(selectedDate, readable, getCurrentDuration())) {
+          slots.push(readable);
         }
       }
     }
     return slots;
   };
 
-  const [availableSlots, setAvailableSlots] = useState([]);
+  const validateEndTime = (startTime, duration) =>
+    parseTimeToMinutes(startTime) + duration <= MENTOR_INFO.availableTo * 60;
 
-  // Update available slots when date, duration, or bookings change
   useEffect(() => {
-    setAvailableSlots(generateTimeSlots());
-    // Reset selected time if it's no longer available
-    if (selectedStartTime && !generateTimeSlots().includes(selectedStartTime)) {
+    const slots = generateTimeSlots();
+    setAvailableSlots(slots);
+    if (selectedStartTime && !slots.includes(selectedStartTime)) {
       setSelectedStartTime('');
     }
   }, [selectedDate, sessionDuration, customDuration, bookedSessions]);
 
-  // Get current duration value
-  const getCurrentDuration = () => {
-    return sessionDuration === 'custom' ? parseInt(customDuration) || 0 : sessionDuration;
-  };
-
-  // Validate if end time exceeds mentor availability
-  const validateEndTime = (startTime, duration) => {
-    const startMinutes = parseTimeToMinutes(startTime);
-    const endMinutes = startMinutes + duration;
-    const maxAvailableMinutes = mentor.availableTo * 60; // 7 PM = 19 * 60 = 1140 minutes
-    
-    return endMinutes <= maxAvailableMinutes;
-  };
-
-  // Calculate end time
   useEffect(() => {
-    const duration = getCurrentDuration();
-    if (selectedStartTime && duration) {
-      const startMinutes = parseTimeToMinutes(selectedStartTime);
-      const endMinutes = startMinutes + duration;
+    if (selectedStartTime && getCurrentDuration()) {
+      const endMinutes = parseTimeToMinutes(selectedStartTime) + getCurrentDuration();
       setEndTime(minutesToTimeString(endMinutes));
     }
   }, [selectedStartTime, sessionDuration, customDuration]);
 
   const validateForm = () => {
-    const newErrors = {};
     const duration = getCurrentDuration();
-    
+    const newErrors = {};
+
     if (!sessionTitle.trim()) newErrors.title = 'Session title is required';
     if (!selectedStartTime) newErrors.startTime = 'Start time must be selected';
-    
-    if (duration < 15) newErrors.duration = 'Minimum session duration is 15 minutes';
-    if (duration > 180) newErrors.duration = 'Maximum session duration is 180 minutes';
-    
-    if (sessionDuration === 'custom' && (!customDuration || isNaN(customDuration))) {
-      newErrors.customDuration = 'Please enter a valid custom duration';
-    }
-
-    // Validate end time doesn't exceed mentor availability
+    if (duration < 15 || duration > 180) newErrors.duration = 'Session must be 15–180 mins';
+    if (sessionDuration === 'custom' && isNaN(duration)) newErrors.customDuration = 'Invalid duration';
     if (selectedStartTime && duration) {
       if (!validateEndTime(selectedStartTime, duration)) {
-        newErrors.endTime = `Session would end at ${endTime}, but mentor is only available until 7:00 PM`;
+        newErrors.endTime = `Session ends at ${endTime}, but mentor is only available until 7:00 PM`;
       }
-
-      // Check for conflicts with existing bookings
       if (isTimeSlotBooked(selectedDate, selectedStartTime, duration)) {
-        newErrors.timeConflict = 'This time slot conflicts with an existing booking';
+        newErrors.timeConflict = 'This slot conflicts with an existing booking';
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleBookSession = () => {
-    if (validateForm()) {
-      const sessionData = {
-        id: Date.now(),
-        date: selectedDate.toDateString(),
-        startTime: selectedStartTime,
-        endTime: endTime,
-        duration: getCurrentDuration(),
-        title: sessionTitle,
-        description: sessionDescription,
-        type: sessionType,
-        price: calculatePrice(getCurrentDuration()),
-        mentor: mentor.name
-      };
+  const loadRazorpayScript = () =>
+    new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
 
-      setBookedSessions(prev => [...prev, sessionData]);
-      
-      // Reset form
+  const handleBookSession = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
+
+    const sessionData = {
+      id: Date.now(),
+      mentor: MENTOR_USERNAME,
+      mentee: MENTEE_USERNAME,
+      date: selectedDate.toDateString(),
+      startTime: selectedStartTime,
+      endTime,
+      duration: getCurrentDuration(),
+      title: sessionTitle,
+      description: sessionDescription,
+      type: sessionType,
+      price: calculatePrice(getCurrentDuration()),
+    };
+
+    try {
+      const { data } = await axiosInstance.post(
+        '/session/initiate-session',
+        { sessionData },
+        { withCredentials: true }
+      );
+
+      if (data.success) {
+        const { order, booking } = data;
+        const isLoaded = await loadRazorpayScript();
+        if (!isLoaded) return alert('Failed to load Razorpay');
+
+        const options = {
+          key: 'rzp_test_4eUvKQWERKoSWn',
+          amount: order.amount,
+          currency: order.currency,
+          name: 'Mentora',
+          description: 'Mentorship Session Booking',
+          image: Logo,
+          order_id: order.id,
+          handler: async (response) => {
+            try {
+              const verifyRes = await axiosInstance.post(
+                '/session/verify-payment',
+                { ...response, bookingId: booking._id, sessionData },
+                { withCredentials: true }
+              );
+              if (verifyRes.data.success) alert('Session booked!');
+              else alert('Payment failed verification.');
+            } catch {
+              alert('Error verifying payment.');
+            }
+          },
+          prefill: {
+            name: 'Rahul Kumar',
+            email: 'rahul@example.com',
+            contact: '9876543210',
+          },
+          theme: { color: '#6366f1' },
+        };
+
+        new window.Razorpay(options).open();
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to initiate session.');
+    } finally {
+      setLoading(false);
       setSessionTitle('');
       setSessionDescription('');
       setSelectedStartTime('');
       setSessionDuration(15);
       setCustomDuration('');
       setErrors({});
-
-      alert(`Session booked successfully!\nDate: ${sessionData.date}\nTime: ${sessionData.startTime} - ${sessionData.endTime}\nDuration: ${sessionData.duration} minutes\nPrice: ₹${sessionData.price}`);
     }
   };
 
   const handleDurationChange = (change) => {
     if (sessionDuration !== 'custom') {
-      const newDuration = Math.max(15, Math.min(180, sessionDuration + change));
-      setSessionDuration(newDuration);
+      setSessionDuration((prev) => Math.max(15, Math.min(180, prev + change)));
     } else {
-      const currentCustom = parseInt(customDuration) || 15;
-      const newDuration = Math.max(15, Math.min(180, currentCustom + change));
-      setCustomDuration(newDuration.toString());
+      const updated = Math.max(15, Math.min(180, (parseInt(customDuration) || 15) + change));
+      setCustomDuration(updated.toString());
     }
   };
-
-  const sessionTypeOptions = [
-    { value: 'video', label: 'Video', icon: Video, color: 'bg-blue-500' }
-  ];
 
   return (
     <div className="min-h-screen bg-transparent p-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
             Book a Session
@@ -222,8 +236,23 @@ function BookSession() {
         </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
-          {/* Minimal Mentor Profile Card */}
-         <SideProfile mentor={mentor} selectedDate={selectedDate} errors={errors} setSessionType={setSessionType} sessionTypeOptions={sessionTypeOptions} sessionType={sessionType} setCustomDuration={setCustomDuration} customDuration={customDuration} handleDurationChange={handleDurationChange} setSessionDuration={setSessionDuration} sessionDuration={sessionDuration} setSelectedDate={setSelectedDate} calculatePrice={calculatePrice} getCurrentDuration={getCurrentDuration}/>
+          <SideProfile
+            mentor={MENTOR_INFO}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            sessionTypeOptions={sessionTypeOptions}
+            sessionType={sessionType}
+            setSessionType={setSessionType}
+            sessionDuration={sessionDuration}
+            setSessionDuration={setSessionDuration}
+            customDuration={customDuration}
+            setCustomDuration={setCustomDuration}
+            handleDurationChange={handleDurationChange}
+            calculatePrice={calculatePrice}
+            getCurrentDuration={getCurrentDuration}
+            errors={errors}
+          />
+
 
           {/* Booking Form */}
           <div className="lg:col-span-3">
@@ -361,7 +390,7 @@ function BookSession() {
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
-                  Book Session - ₹{calculatePrice(getCurrentDuration())}
+                  {isLoading?<Loading/>:`Book Session - ₹${calculatePrice(getCurrentDuration())}`}
                 </button>
               </div>
             </div>
