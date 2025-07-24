@@ -15,7 +15,6 @@ function PersonalInfo() {
     dob: '',
     location: '',
   });
-
   const [checking, setChecking] = useState(false);
   const [available, setAvailable] = useState(null);
 
@@ -27,36 +26,41 @@ function PersonalInfo() {
   };
 
   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        updateFormData('avatar', e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const file = event.target.files[0];
+  if (file) {
+    const imageURL = URL.createObjectURL(file);
+    updateFormData('avatar', imageURL); 
+  }
+};
 
-  const checkUsernameAvailability = async () => {
-    const username = formData.username.trim();
-    if (!username) return;
 
-    setChecking(true);
-    setAvailable(null);
+  
+const checkUsernameAvailability = async () => {
+  const username = formData.username.trim();
+  if (!username) return;
 
-    try {
-      const res = await fetch(`/api/check-username?username=${username}`);
-      const data = await res.json();
-      setAvailable(data.available);
-    } catch (err) {
-      console.log(err);
-      setAvailable(false);
-    } finally {
-      setChecking(false);
-    }
-  };
+  setChecking(true);
+  setAvailable(null);
+
+  try {
+    const res = await axiosInstance.get(`/user/check-username`, {
+      params: { username },
+      withCredentials: true
+    });
+
+    setAvailable(res.data.available);  // We'll return this from backend
+  } catch (err) {
+    console.log(err);
+    setAvailable(false);
+  } finally {
+    setChecking(false);
+  }
+};
+
 
   const handleSave = async () => {
+console.log("this is form data :",formData)
+
     setLoading(true);
     try {
       const response = await axiosInstance.put(
