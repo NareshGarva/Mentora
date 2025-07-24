@@ -5,12 +5,15 @@ import { AuthContext } from '../../../context/auth.context';
 function DashboardLayout() {
   const { user } = useContext(AuthContext);
 
-  const tabs = [
-    { name: "Overview", path: '' },
-    { name: "My Sessions", path: 'my-session' },
-    { name: "Favorites Mentor", path: 'my-favorite-mentor' },
-    { name: "Settings", path: 'settings' }
-  ];
+const tabs = [
+  { name: "Overview", path: '' },
+  { name: "My Sessions", path: 'my-session' },
+  // { name: "Favorites Mentor", path: 'my-favorite-mentor' },
+  ...(user.role === "Mentor" ? [{ name: "Earnings", path: 'earnings' }] : []),
+  ...(user.role === "Mentee" ? [{ name: "Favorites Mentor", path: 'my-favorite-mentor' }] : []),
+  { name: "Settings", path: 'settings' }
+];
+
 
   return (
     <section className="w-full bg-gradient-to-t from-transparent via-green-50 to-transparent py-10">
