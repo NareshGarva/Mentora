@@ -7,7 +7,7 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    role: "",
+    role: "Mentor",
     username: "",
   });
 

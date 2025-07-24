@@ -15,9 +15,6 @@ import SearchResult from "./pages/browse-mentor/components/SearchResult";
 import SearchSection from "./pages/browse-mentor/components/SearchSection";
 import Dashboard from './pages/ProfileModule/MenteeProfile/Dashboard'
 
-// Mentor Imports
-import MentorLayout from "./pages/MentorModule/MentorLayout";
-import MentorDashboard from "./pages/MentorModule/MentorDashboard/MentorDashboard";
 
 //import contexts and providers
 import AuthProvider from './context/auth.context'
@@ -36,6 +33,9 @@ import SocialLinks from "./pages/SetupProfile/Components/SocialLinks";
 import Expertise from "./pages/SetupProfile/Components/Expertise";
 import ViewMentor from './pages/ProfileModule/VIewProfile/ViewMentor'
 import BookSession from "./pages/BookSession/BookSession";
+import PaymentSuccess from "./pages/BookSession/PaymentSuccess";
+import Earnings from "./pages/ProfileModule/MenteeProfile/components/Earnings";
+
 
 
 createRoot(document.getElementById("root")).render(
@@ -56,9 +56,11 @@ createRoot(document.getElementById("root")).render(
         <Route path="/register" element={<Register />}></Route>
 
 
-        <Route path="/view-mentor/@:username" element={<ViewMentor />}></Route>
+        <Route path="/view-mentor/:username" element={<ViewMentor />}></Route>
 
         <Route path="/book-session/:id" element={<BookSession />}></Route>
+
+        <Route path="/payment-success" element={<PaymentSuccess />} />
 
         {/* setup profile */}
 <Route path="/setup-profile" element={<SetupProfile />}>
@@ -77,16 +79,11 @@ createRoot(document.getElementById("root")).render(
   <Route index element={<Overview />} />
   <Route path="my-session" element={<MySession />} />
   <Route path="my-favorite-mentor" element={<FavoriteMentors />} />
+  <Route path="earnings" element={<Earnings />} />
   <Route path="settings" element={<Settings />} />
 </Route>
 
 
-
-        {/* Mentor module */}
-        <Route path="/mentor" element={<MentorLayout />} >
-          <Route index element={<MentorDashboard />} />
-          <Route path="/mentor/view-mentor" element={<ViewMentor />} />
-        </Route>
         <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
       </Routes>
       <Footer />
