@@ -64,7 +64,7 @@ function Register() {
       const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
       // submitBtn.disabled = false;
         alert(response.data.message);
-        formData.role==="Mentor"?navigate("/setup-profile/@"+response.data.user.username):""
+        formData.role==="Mentor"?navigate("/setup-profile"):""
 
     } catch (error) {
       console.error(`Error in sending data: ${error}`);

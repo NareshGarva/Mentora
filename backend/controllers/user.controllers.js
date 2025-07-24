@@ -31,7 +31,7 @@ const getMentors = async (req, res) => {
       .populate("education")     
       .populate("socialLink")       
       .populate("expertise")      
-      .populate("rates")                  
+      .populate("rate")                  
       .populate("sessions")          
       .populate("availability");   
 

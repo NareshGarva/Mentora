@@ -75,8 +75,10 @@ const createUser = async (req, res) => {
       password: hashedPassword,
       role: role,
     });
+    
     console.log("User created");
-    return res.status(201).json({ message: "User created", user });
+     req.body = { usernameORemail:email, password }; 
+    return await loginUser(req, res);
   } catch (error) {
     console.log("error in user creation :", error);
     console.log("User not created")
