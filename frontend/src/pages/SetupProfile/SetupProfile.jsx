@@ -5,11 +5,14 @@ import {
   ChevronLeft, ChevronRight, Save, Check,
   MoveRight
 } from 'lucide-react';
-import { useContext, useEffect } from 'react';
-import AuthProvider from '../../context/auth.context';
+import { useEffect } from 'react';
+import { useAuth } from '../../context/auth.context';
+
 
 function SetupProfile() {
-  const {user,isLoggedIn, verifyUser} = useContext(AuthProvider)
+
+const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -45,16 +48,54 @@ function SetupProfile() {
     }
   };
 
-useEffect(()=>{
-        if(!isLoggedIn){
-          navigate('/login');
-        }
-        const isValid = verifyUser(user.username, user.role);
-        if(!isValid){
-          navigate('/login');
-        }
 
-},[])
+
+useEffect(() => {
+    const checkUser = async () => {
+      // Wait for loading to complete
+      if (isLoading) {
+        console.log("Still loading user data...");
+        return;
+      }
+
+      // Check if user is logged in
+      if (!isLoggedIn) {
+        console.log("User not logged in, redirecting...");
+        navigate('/login');
+        return;
+      }
+
+      // Check if user data is available
+      if (!user.username || !user.role) {
+        console.log("User data incomplete, redirecting...");
+        navigate('/login');
+        return;
+      }
+
+      console.log("user", user.username, user.role);
+      
+      // Now verify the user
+      const isValid = await verifyUser(user.username, user.role);
+      console.log("this is res:", isValid);
+      
+      if (!isValid) {
+        console.log("User verification failed, redirecting...");
+        navigate('/login');
+      }
+    };
+
+    checkUser();
+  }, [user, isLoggedIn, isLoading, navigate, verifyUser]);
+
+  // Show loading while auth is initializing
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // Show login redirect if not logged in
+  if (!isLoggedIn || !user.username) {
+    return <div>Redirecting to login...</div>;
+  }
   
 
   return (

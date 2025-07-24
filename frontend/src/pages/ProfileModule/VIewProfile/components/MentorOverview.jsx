@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, {  useState } from 'react'
 import Avatar from '../../../../components/Avatar';
 import StarRating from '../../../../components/RatingStars';
 import { CircleCheckBig,Ban } from 'lucide-react';
-import { AuthContext } from '../../../../context/auth.context';
+import { useAuth } from '../../../../context/auth.context';
 
 function MentorOverview() {
-    const {user} = useContext(AuthContext);
+    const {user} = useAuth();
     const [isAvailable, setIsAvailable] = useState(false);
   return (
     <div className='flex justify-left items-start gap-5'>

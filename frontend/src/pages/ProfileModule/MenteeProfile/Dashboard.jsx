@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { AuthContext } from '../../../context/auth.context';
+import { useAuth } from '../../../context/auth.context';
 
 function DashboardLayout() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
 const tabs = [
   { name: "Overview", path: '' },
