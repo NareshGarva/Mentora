@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   availability: [{ type: mongoose.Schema.Types.ObjectId, ref: "Availability" }],
   rate: { type: mongoose.Schema.Types.ObjectId, ref: "Rate" },
-  sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Session" }],
+  sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Session" }], // need to add work 
   refreshToken: { type: String, default: "", select: false },
 }, { timestamps: true });
 
