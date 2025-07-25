@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useParams } from 'react-router-dom'
+import {useNavigate, useParams } from 'react-router-dom'
 import { Clock, Video, CheckCircle2, AlertCircle } from 'lucide-react';
 import SideProfile from './components/sideProfile';
 import axiosInstance from '../../utils/axiosInstance';
@@ -24,6 +24,7 @@ const MENTOR_INFO = {
 const BookSession = () => {
     const {user} = useAuth()
     const { username } = useParams();
+    const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedStartTime, setSelectedStartTime] = useState('');
@@ -190,7 +191,10 @@ const BookSession = () => {
                 { ...response, bookingId: booking._id, sessionData },
                 { withCredentials: true }
               );
-              if (verifyRes.data.success) alert('Session booked!');
+              if (verifyRes.data.success) {
+                alert('Session booked!');
+                navigate('/payment-success',{ state: { booking: verifyRes.data.booking } });
+              }
               else alert('Payment failed verification.');
             } catch {
               alert('Error verifying payment.');
