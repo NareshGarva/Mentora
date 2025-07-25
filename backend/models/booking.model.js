@@ -1,43 +1,17 @@
-import mongoose from "mongoose" ;
+import mongoose from "mongoose";
 
-const bookingSchema = new mongoose.Schema(
-    {
-        menteeId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        mentorId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        scheduleId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        status: {
-             type: String,
-            enum: ["pendding","confirm","cancel"],
-            default: "cancel"
-        },
-        paymentId: {
-            type: Number,
-            ref: "payments",
-            required: true
-        },
-        meetingLink:{
-            type: String,
-            required: true
-        },
-        notes:{
-            type: String,
+const bookingSchema = new mongoose.Schema({
+  menteeId: { type: mongoose.Schema.Types.ObjectId, ref: "MenteeUser", required: true },
+  mentorId: { type: mongoose.Schema.Types.ObjectId, ref: "MentorUser", required: true },
 
-        },
-    },
-      { timestamps: true },
-    
-);
+  status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending" },
+  sessionId: { type: mongoose.Schema.Types.ObjectId, ref: "Session" }, // added after session is created
 
-export default mongoose.model("Bookings", bookingSchema);
+  sessionDate: { type: Date, required: true },
+  sessionType: { type: String, enum: ['chat', 'audio', 'video'], required: true },
+  sessionPrice: { type: Number, required: true },
+  sessionTitle: { type: String },
+  notes: { type: String }
+}, { timestamps: true });
+
+export default mongoose.model("Booking", bookingSchema);

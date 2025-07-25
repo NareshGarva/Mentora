@@ -5,6 +5,11 @@ import connectDB from './config/db.js'
 import authRouter from './router/auth.router.js'
 import userRouter from './router/user.router.js'
 import cookieParser from 'cookie-parser'
+import bookingRoutes from './router/bookingRoutes.js';
+import paymentRoutes from './router/paymentRoutes.js';
+import sessionRoutes from './router/sessionRoutes.js';
+import mentorRoutes from './router/mentor.router.js';
+import userRoutes from './router/user.router.js';
 
 
 
@@ -23,9 +28,15 @@ connectDB();
 //custom routers
 app.use('/api/auth', authRouter)
 
+app.use('/api/booking',bookingRoutes)
 
-//custom routers
-app.use('/api', userRouter)
+app.use('/api/payment',paymentRoutes)
+
+app.use('/api/session',sessionRoutes)
+
+app.use('/api/user',userRoutes)
+
+app.use('/api/profile',mentorRoutes)
 
 
 

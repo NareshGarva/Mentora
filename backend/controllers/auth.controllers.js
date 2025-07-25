@@ -1,8 +1,10 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import User from "../models/user.model.js";
+import MenteeUser from "../models/user.mentee.model.js";
+import MentorUser from "../models/user.mentor.model.js";
 import ApiError from "../utils/ApiError.js";
+
 
 const getUsername = (query = "") => {
   const name = query.trim().toLowerCase().replace(/\s+/g, "");
@@ -10,10 +12,18 @@ const getUsername = (query = "") => {
   return `${name}${uniqueSuffix}`;
 };
 
+
+
+
 function isEmail(input) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(input);
 }
+
+
+
+
+
 
 const generateAccessToken = (user) => {
   console.log(`user is : ${user}`)
@@ -24,6 +34,11 @@ const generateAccessToken = (user) => {
   );
 };
 
+
+
+
+
+
 const generateRefreshToken = (user) => {
   return jwt.sign(
     { _id: user._id, role: user.role, username: user.username },
@@ -32,28 +47,38 @@ const generateRefreshToken = (user) => {
   );
 };
 
+
+
+
+
+
+
+
+
 const createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   if (!name || !email || !password || !role) {
-    throw new ApiError(404, "All fields required");
+    return res.status(404).json({ message: "All fields required"});
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
   try {
-    const isAvailable = await User.findOne({ email });
+    const isAvailable = await MentorUser.findOne({ email }) || await MenteeUser.findOne({ email });
     if (isAvailable) {
-      throw new ApiError(409, "User already registered");
+    return res.status(409).json({ message: "User already registered"});
     }
-    const user = await User.create({
+    const user = await (role==='Mentee'?MenteeUser:MentorUser).create({
       name: name,
       username: getUsername(name),
       email: email,
       password: hashedPassword,
       role: role,
     });
-    console.log("User created")
-    return res.status(201).json({ message: "User created", user });
+    
+    console.log("User created");
+     req.body = { usernameORemail:email, password }; 
+    return await loginUser(req, res);
   } catch (error) {
     console.log("error in user creation :", error);
     console.log("User not created")
@@ -61,66 +86,78 @@ const createUser = async (req, res) => {
   }
 };
 
+
+
 const loginUser = async (req, res) => {
   const { usernameORemail, password } = req.body;
+
   if (!usernameORemail || !password) {
-    return res.status(404).json({ message: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
-  let email, username;
-  if (isEmail(usernameORemail)) {
-    email = usernameORemail.trim();
-  } else {
-    username = usernameORemail.trim();
-  }
+  // Clean the input: remove all whitespace and lowercase
+  const cleanedInput = String(usernameORemail).replace(/\s+/g, "").toLowerCase();
 
-  const user = await User.findOne({ $or: [{ email }, { username }] }).select(
-    "+password"
-  );
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(400).json({ message: "Invalid user" });
-  }
-
-  const accessToken = generateAccessToken(user);
-  const refreshToken = generateRefreshToken(user);
+  // Decide which field to query
+  const searchQuery = isEmail(cleanedInput)
+    ? { email: cleanedInput }
+    : { username: cleanedInput };
 
   try {
+    const user = await MentorUser.findOne(searchQuery).select("+password") || await MenteeUser.findOne(searchQuery).select("+password");
+    
+    console.log(user);
+    
+    if (!user) {
+      console.log('err');
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      console.log("aa gya")
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
     user.refreshToken = refreshToken;
     await user.save();
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
+
+    console.log("User logged in:", user.username);
+
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        username: user.username,
+        role: user.role,
+        email: user.email,
+        name: user.name
+      }
+    });
+
   } catch (error) {
-    console.log(`Error in saving refresh token : ${error}`);
-    return res.status(400).json({ message: "Please try again" });
+    console.error("Login Error:", error);
+    return res.status(500).json({ message: "Something went wrong. Please try again." });
   }
-
-  //set refresh token in cookie-only
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: false,
-    sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days only
-  });
-
-    //set access token in cookie-only
-  res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    secure: false,
-    sameSite: "strict",
-    maxAge: 15 * 60 * 1000, // 15 minutes only
-  });
-
-    console.log("User LoggedIn")
-
-  return res.status(200).json({
-    user: {
-      name: user.name,
-      username: user.username,
-      avatar: user.avatar,
-      email: user.email,
-      role: user.role,
-    },
-    message: `Login successful`,
-  });
 };
+
+
 
 const refreshAccessToken = async (req, res) => {
   const token =
@@ -132,14 +169,15 @@ const refreshAccessToken = async (req, res) => {
   }
   try {
     const decode = jwt.verify(token, process.env.REFRESH_SECRET);
-    const user = await User.findById(decode._id).select('+refreshToken');
+
+    const user = await (decode.role==='Mentee'?MenteeUser:MentorUser).findById(decode._id).select('+refreshToken');
 
     if (!user || user.refreshToken != token) {
       throw new ApiError(404, "user unAuthorized");
     }
 
     const newAccessToken = generateAccessToken(user);
-    console.log("Token generated")
+    
 
        //set access token in cookie-only
   res.cookie("accessToken", newAccessToken, {
@@ -148,7 +186,7 @@ const refreshAccessToken = async (req, res) => {
     sameSite: "strict",
     maxAge: 15 * 60 * 1000, // 15 minutes only
   });
-
+console.log("Token generated")
     return res
       .status(201)
       .json({
@@ -170,6 +208,8 @@ const refreshAccessToken = async (req, res) => {
   }
 };
 
+
+
 const logoutUser = async (req, res) => {
   const token =
     req.cookies?.refreshToken ||
@@ -180,7 +220,15 @@ const logoutUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ refreshToken: token });
+    const mentor = await MentorUser
+      .findOne({ refreshToken: token });
+
+    const mentee = await MenteeUser
+      .findOne({ refreshToken: token });
+
+    const user = mentee || mentor;
+
+    console.log(`user`, mentor, mentee);
     if (!user) {
       throw new ApiError(403, "Unauthorized request");
     }
@@ -189,6 +237,11 @@ const logoutUser = async (req, res) => {
     await user.save();
 
     res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+     res.clearCookie("accessToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
