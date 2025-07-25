@@ -21,7 +21,6 @@ const { username } = useParams();
     }
 
     const mentor = mentors.find((mentor) => mentor.username === username);
-    console.log("this is mentor :", mentor)
 const currency = '₹'
   const tabs = ["About", "Experience", "Reviews", "Availability"];
 

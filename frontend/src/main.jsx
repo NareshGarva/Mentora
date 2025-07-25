@@ -13,15 +13,15 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/register/Register";
 import SearchResult from "./pages/browse-mentor/components/SearchResult";
 import SearchSection from "./pages/browse-mentor/components/SearchSection";
-import Dashboard from './pages/ProfileModule/MenteeProfile/Dashboard'
+import Dashboard from './pages/ProfileModule/Profile/Dashboard'
 
 
 //import contexts and providers
 import {AuthProvider} from './context/auth.context'
 import MentorContext  from "./context/mentor.context";
-import FavoriteMentors from "./pages/ProfileModule/MenteeProfile/components/FavoriteMentors";
+import FavoriteMentors from "./pages/ProfileModule/Profile/components/FavoriteMentors";
 import Settings from "./pages/ProfileModule/components/Settings";
-import MySession from "./pages/ProfileModule/MenteeProfile/components/MySession";
+import MySession from "./pages/ProfileModule/Profile/components/MySession";
 import Overview from "./pages/ProfileModule/components/Overview";
 import SetupProfile from "./pages/SetupProfile/SetupProfile";
 import PersonalInfo from "./pages/SetupProfile/Components/PersonalInfo";
@@ -34,7 +34,7 @@ import Expertise from "./pages/SetupProfile/Components/Expertise";
 import ViewMentor from './pages/ProfileModule/VIewProfile/ViewMentor'
 import BookSession from "./pages/BookSession/BookSession";
 import PaymentSuccess from "./pages/BookSession/PaymentSuccess";
-import Earnings from "./pages/ProfileModule/MenteeProfile/components/Earnings";
+import Earnings from "./pages/ProfileModule/Profile/components/Earnings";
 
 
 
