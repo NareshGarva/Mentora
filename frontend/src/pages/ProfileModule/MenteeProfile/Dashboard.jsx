@@ -57,9 +57,14 @@ const tabs = [
           <h1 className="text-3xl text-m-gray-800 font-bold">
             Welcome back, <span className='bg-gradient-to-br from-primary-500 via-secondary-400 to-tertiary-500 bg-clip-text text-transparent'>{user.name}!</span>
           </h1>
+          {user.role === 'Mentor'?
+          <p className="text-gray-500">
+            Manage your mentoring sessions and track your impact
+          </p>:
           <p className="text-gray-500">
             Continue your learning journey with personalized mentorship.
           </p>
+          }
 
           {/* Tabs */}
           <div className="flex justify-center items-center px-2 py-1 w-full font-medium text-center transition rounded-full bg-m-gray-100">

@@ -109,6 +109,7 @@ function Overview() {
               </div>
             </div>
           </div>
+<UpcomingSession />
     </>
     )
   }
