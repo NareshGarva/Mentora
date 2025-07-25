@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import {useParams } from 'react-router-dom'
 import { Clock, Video, CheckCircle2, AlertCircle } from 'lucide-react';
 import SideProfile from './components/sideProfile';
 import axiosInstance from '../../utils/axiosInstance';
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
+import { useAuth } from '../../context/auth.context';
 
-const MENTOR_USERNAME = 'nareshgarva0781';
-const MENTEE_USERNAME = 'rahulkumar5931';
 
 const MENTOR_INFO = {
   name: 'Sarah Johnson',
@@ -19,7 +19,11 @@ const MENTOR_INFO = {
   availableTo: 19,
 };
 
+
+
 const BookSession = () => {
+    const {user} = useAuth()
+    const { username } = useParams();
   const [isLoading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedStartTime, setSelectedStartTime] = useState('');
@@ -147,8 +151,8 @@ const BookSession = () => {
 
     const sessionData = {
       id: Date.now(),
-      mentor: MENTOR_USERNAME,
-      mentee: MENTEE_USERNAME,
+      mentor: username,
+      mentee: user?.username,
       date: selectedDate.toDateString(),
       startTime: selectedStartTime,
       endTime,

@@ -45,18 +45,17 @@ const getMentors = async (req, res) => {
 
 
 const checkUsername = async (req, res)=>{
-const username = req.username;
+const username = req.query.username;
 const role = req.user.role;
-
 if(!username){
     return res.status(400).json({message:"username not found"});
 }
 try{
     const user = await (role==="Mentor"?MentorUser:MenteeUser).findOne({username});
     if(!user){
-        return res.status(200).json({message:"Valid username"});
+        return res.status(200).json({message:"Valid username",available:true});
     }
-    return res.status(409).json({message:"username already taken"});
+    return res.status(409).json({message:"username already taken",available:false});
 }catch(error){
     console.log(error);
     throw new ApiError(500, "Error in username check");

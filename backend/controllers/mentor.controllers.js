@@ -236,7 +236,7 @@ const updateExpertise = async (req, res) => {
 const updateWorkExperience = async (req, res) => {
   const username = req.user?.username;
   const data = req.body.workExperiences; 
-
+console.log(data);
   if (!username) {
     return res.status(400).json({ message: "Username is missing in token" });
   }

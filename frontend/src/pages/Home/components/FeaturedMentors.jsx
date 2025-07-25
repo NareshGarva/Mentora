@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {useNavigate } from 'react-router-dom'
 import MentorCard from '../../../components/MentorCard'
 import {MentorContext} from '../../../context/mentor.context';
@@ -6,28 +6,22 @@ import {MentorContext} from '../../../context/mentor.context';
 
 function FeaturedMentors() {
   const {mentors} = useContext(MentorContext)
-
   const navigate = useNavigate();
+  
     const renderMentors = ()=>{
       const newSlice = mentors.slice(0,9);
   return newSlice.map((Mentor, index) => (
-  <MentorCard 
-  key={index} 
-  name={Mentor.name || 'Unknown'}
-   username={Mentor.username || 'unknown'}
-    title={Mentor.username || 'Mentor'} 
-    rating={Mentor.reviews.length || 0} 
-    sessions={Mentor.sessions.length || 0}
-     skills={Mentor.expertise.map((item) => {
-  return item.expertise
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-})}
- hourlyRate={Mentor?.rate?.perHour || 'N/A'} 
-  nextAvailable={Mentor.nextAvailable}/>
+  <MentorCard key={index} id={Mentor._id} name={Mentor.name} username={Mentor.username} title={Mentor.username} rating={Mentor.reviews.length} sessions={Mentor.sessions.length} skills={Mentor.expertise.map((item) => item.expertise)} hourlyRate={Mentor.rate?.perHour} nextAvailable={Mentor.availability}/>
   ));
     }
+
+    useEffect(()=>{
+      renderMentors()
+    },[mentors])
+
+    useEffect(()=>{
+      renderMentors()
+    },[mentors])
 
   const AllMentors = ()=>{
     navigate('/browse-mentor/all-mentors')

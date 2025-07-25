@@ -27,8 +27,8 @@ if(currentMentors.length === 0){
 return (<p className='text-center text-gray-600'>No mentors found.</p>)
 }else{
   return currentMentors.map((Mentor, index) => (
-<MentorCard key={index} name={Mentor.name} title={Mentor.title} rating={Mentor.rating} sessions={Mentor.sessions} skills={Mentor.skills} hourlyRate={Mentor.hourlyRate} nextAvailable={Mentor.nextAvailable}/>
-));
+ <MentorCard key={index} id={Mentor._id} name={Mentor.name} username={Mentor.username} title={Mentor.username} rating={Mentor.reviews.length} sessions={Mentor.sessions.length} skills={Mentor.expertise.map((item) => item.expertise)} hourlyRate={Mentor.rate?.perHour} nextAvailable={Mentor.availability}/>
+ ));
 }
   }
   return (

@@ -57,7 +57,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/view-mentor/:username" element={<ViewMentor />} />
-          <Route path="/book-session/:id" element={<BookSession />} />
+          <Route path="/book-session/:username/:Id" element={<BookSession />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
 
 
@@ -74,7 +74,7 @@ createRoot(document.getElementById("root")).render(
 
 
           {/* Mentee Dashboard */}
-          <Route path="/profile/username" element={<Dashboard />}>
+          <Route path="/:username" element={<Dashboard />}>
             <Route index element={<Overview />} />
             <Route path="my-session" element={<MySession />} />
             <Route path="my-favorite-mentor" element={<FavoriteMentors />} />

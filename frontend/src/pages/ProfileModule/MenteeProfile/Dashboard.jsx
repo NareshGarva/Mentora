@@ -8,15 +8,7 @@ function DashboardLayout() {
   const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
   const navigate = useNavigate();
 
-const tabs = [
-  { name: "Overview", path: '' },
-  { name: "My Sessions", path: 'my-session' },
-  // { name: "Favorites Mentor", path: 'my-favorite-mentor' },
-  ...(user.role === "Mentor" ? [{ name: "Earnings", path: 'earnings' }] : []),
-  ...(user.role === "Mentee" ? [{ name: "Favorites Mentor", path: 'my-favorite-mentor' }] : []),
-  { name: "Settings", path: 'settings' }
-];
-
+  
 useEffect(() => {
   const checkUser = async () => {
     if (isLoading) return;
@@ -46,6 +38,18 @@ useEffect(() => {
   if (!isLoggedIn || !user.username) {
     return <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">Redirecting to login...</div>;
   }
+
+
+const tabs = [
+  { name: "Overview", path: '' },
+  { name: "My Sessions", path: 'my-session' },
+  // { name: "Favorites Mentor", path: 'my-favorite-mentor' },
+  ...(user?.role === "Mentor" ? [{ name: "Earnings", path: 'earnings' }] : []),
+  ...(user?.role === "Mentee" ? [{ name: "Favorites Mentor", path: 'my-favorite-mentor' }] : []),
+  { name: "Settings", path: 'settings' }
+];
+
+
 
 
   return (

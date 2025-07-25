@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/auth.context';
 
 function Settings() {
-  const {user} = useAuth();
+    const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
+    
   const Navigate = useNavigate();
   const [settings, setSettings] = useState({
     currentPassword: '',
@@ -74,42 +75,42 @@ function Settings() {
 
 
       {/* Profile Update Sections */}
-      <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
-        <div className="flex items-center space-x-3 mb-6">
-          <User className="w-6 h-6 text-blue-600" />
-          <h2 className="text-2xl font-bold text-gray-800">Profile Management</h2>
-        </div>
-        
-        <div className="grid md:grid-cols-2 gap-6">
-          {profileSections.map((section) => {
-            const IconComponent = section.icon;
-            return (
-              <Link to={'/setup-profile/'+section.path}
-                key={section.id}
-                className="group border-2 border-gray-100 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg cursor-pointer"
-                onClick={() => handleSectionUpdate(section.id)}
-              >
-                <div className="flex items-start space-x-4">
-                  <div className={`${section.color} p-3 rounded-xl transition-colors`}>
-                    <IconComponent className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800 group-hover:text-gray-900">
-                      {section.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {section.description}
-                    </p>
-                    <button className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
-                      Update →
-                    </button>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+    {user?.role == "Mentor"?<div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+      <div className="flex items-center space-x-3 mb-6">
+        <User className="w-6 h-6 text-blue-600" />
+        <h2 className="text-2xl font-bold text-gray-800">Profile Management</h2>
       </div>
+      
+      <div className="grid md:grid-cols-2 gap-6">
+        {profileSections.map((section) => {
+          const IconComponent = section.icon;
+          return (
+            <Link to={'/setup-profile/'+section.path}
+              key={section.id}
+              className="group border-2 border-gray-100 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg cursor-pointer"
+              onClick={() => handleSectionUpdate(section.id)}
+            >
+              <div className="flex items-start space-x-4">
+                <div className={`${section.color} p-3 rounded-xl transition-colors`}>
+                  <IconComponent className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-800 group-hover:text-gray-900">
+                    {section.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {section.description}
+                  </p>
+                  <button className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                    Update →
+                  </button>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </div>:""}
 
       {/* Security Settings */}
       <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
@@ -171,7 +172,9 @@ function Settings() {
             </label>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          {user?.role == "Mentor"?(
+            <>
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
             <div className="flex items-center space-x-3">
               <Globe className="w-5 h-5 text-gray-600" />
               <div>
@@ -208,6 +211,7 @@ function Settings() {
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
           </div>
+            </>):""}
 
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
             <div className="flex items-center space-x-3">
