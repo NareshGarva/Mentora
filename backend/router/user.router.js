@@ -6,16 +6,15 @@ import verifyUser from '../middlewares/verifyUser.js'
 import { getUser, getMentors, checkUsername } from '../controllers/user.controllers.js';
 
 
-  // All routes below require authentication
-router.use(verifyToken);
 
-router.get('/get-user', getUser);
 
-router.get('/check-username', checkUsername);
+router.get('/get-user', verifyToken,getUser);
+
+router.get('/check-username', verifyToken,checkUsername);
 
 router.get('/get-mentors', getMentors);
 
-router.get('/verify-identity/:username/:role', verifyUser, (req, res) => {
+router.get('/verify-identity/:username/:role', verifyToken,verifyUser, (req, res) => {
   console.log("hmm hai", req)
   if (req.isAuthorized) {
     console.log("hmm hai", req.isAuthorized)
