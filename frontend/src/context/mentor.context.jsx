@@ -15,9 +15,6 @@ function MentorProvider({ children }) {
           withCredentials: true,
         });
 
-        console.log("Mentors response:", response);
-        console.log("Mentors mentor:", response.data.mentors);
-
         if (response.data?.mentors) {
           setMentors(response.data.mentors);
         } else {

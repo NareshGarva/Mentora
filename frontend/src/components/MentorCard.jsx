@@ -49,10 +49,10 @@ function MentorCard({ name, title, rating, sessions=[], skills = [], hourlyRate,
 
       {/* Action Buttons */}
       <div className="flex justify-between items-center gap-3 mt-6">
-        <button onClick={()=>navigateToProfile('/view-mentor/'+username)} className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
+        <button onClick={()=>navigateToProfile('/view-mentor/'+username)} className="border border-gray-400 cursor-pointer text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
           View Profile
         </button>
-        <button onClick={()=>navigateToBookSession('/book-session/'+username+'/'+id)} className="bg-indigo-600 text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">
+        <button onClick={()=>navigateToBookSession('/book-session/'+username+'/'+id)} className="bg-indigo-600 cursor-pointer text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">
           <Calendar size={20} />
           Book Now
         </button>
