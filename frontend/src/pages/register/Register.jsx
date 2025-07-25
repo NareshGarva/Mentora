@@ -77,8 +77,8 @@ function Register() {
 
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center py-10">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-md px-6 py-8 mx-4  bg-gradient-to-br from-indigo-100 via-yellow-50 to-pink-100">
+    <section className="w-full min-h-screen flex items-center justify-center py-10 bg-gradient-to-tr from-secondary-300 via-yellow-100 to-tertiary-200">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-md px-6 py-8 mx-4  ">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Create Your Account</h1>
           <p className="text-sm text-gray-500 mt-1">
