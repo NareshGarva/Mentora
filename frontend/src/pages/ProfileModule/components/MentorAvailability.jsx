@@ -11,14 +11,7 @@ const MentorAvailability = ({availability}) => {
   "sunday"
 ];
 
-daysOfWeek.forEach(day => {
-  const dayInfo = availability[day];
-  if (dayInfo && dayInfo.isAvailable) {
-    console.log(`${day.charAt(0).toUpperCase() + day.slice(1)}: ${dayInfo.startTime} - ${dayInfo.endTime}`);
-  } else {
-    console.log(`${day.charAt(0).toUpperCase() + day.slice(1)}: Not Available`);
-  }
-});
+
 
   return (
     <div className="">

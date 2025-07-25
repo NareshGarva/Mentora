@@ -46,7 +46,7 @@ const currency = '₹'
         <div className="md:w-2/3">
           {/* Mentor Overview Container */}
         <div className="bg-white p-7 rounded-xl mb-5">
-          <MentorOverview  name={mentor.name} isAvailable={mentor.availability} rating={mentor.reviews.length}/>
+          <MentorOverview position={mentor.username} name={mentor.name} isAvailable={mentor.availability} rating={mentor.reviews.length}/>
         </div>
 
           {/* Tabs */}
@@ -83,15 +83,15 @@ const currency = '₹'
              <p>{currency} 238</p>
               </div>
                <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">15 minute</p>
+             <p className="font-semibold text-black">30 minute</p>
              <p>{currency} 238</p>
               </div>
                <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">15 minute</p>
+             <p className="font-semibold text-black">45 minute</p>
              <p>{currency} 238</p>
               </div>
                <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">15 minute</p>
+             <p className="font-semibold text-black">1 hour</p>
              <p>{currency} 238</p>
               </div>
 
@@ -105,7 +105,7 @@ const currency = '₹'
                   {props.total || "0"}
                 </span>
               </div>
-                <button className="bg-indigo-500 rounded-full w-full py-2.5 text-white mt-3 font-semibold cursor-pointer transition-all ease-in-out duration-300 hover:bg-indigo-600">Bool Now</button>
+                <button className="bg-indigo-500 rounded-full w-full py-2.5 text-white mt-3 font-semibold cursor-pointer transition-all ease-in-out duration-300 hover:bg-indigo-600">Book Now</button>
               
               
             </div>

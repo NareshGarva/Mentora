@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {useNavigate } from 'react-router-dom'
 import MentorCard from '../../../components/MentorCard'
 import {MentorContext} from '../../../context/mentor.context';
@@ -7,12 +7,17 @@ import {MentorContext} from '../../../context/mentor.context';
 function FeaturedMentors() {
   const {mentors} = useContext(MentorContext)
   const navigate = useNavigate();
+  
     const renderMentors = ()=>{
       const newSlice = mentors.slice(0,9);
   return newSlice.map((Mentor, index) => (
   <MentorCard key={index} id={Mentor._id} name={Mentor.name} username={Mentor.username} title={Mentor.username} rating={Mentor.reviews.length} sessions={Mentor.sessions.length} skills={Mentor.expertise.map((item) => item.expertise)} hourlyRate={Mentor.rate?.perHour} nextAvailable={Mentor.availability}/>
   ));
     }
+
+    useEffect(()=>{
+      renderMentors()
+    },[mentors])
 
   const AllMentors = ()=>{
     navigate('/browse-mentor/all-mentors')
