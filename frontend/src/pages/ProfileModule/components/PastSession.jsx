@@ -8,12 +8,12 @@ function PastSession() {
         Past Sessions
       </p>
       <div className="grid grid-rows-2 grid-cols-1 gap-4 md:grid-cols-2">
-        <SessionList />
-        <SessionList />
-        <SessionList />
-        <SessionList />
-        <SessionList />
-        <SessionList />
+        <SessionList type='completed-unreviewed'/>
+                    <SessionList type='completed-unreviewed'/>
+                    <SessionList type='completed-reviewed'/>
+                    <SessionList type='completed-unreviewed'/>
+                    <SessionList type='completed-reviewed'/>
+                    <SessionList type='completed-reviewed'/>
       </div>
     </div>
   );
