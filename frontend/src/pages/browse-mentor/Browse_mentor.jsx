@@ -1,20 +1,34 @@
-
-
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Hero from './components/Hero'
 import SearchSection from './components/SearchSection'
 import SearchResult from './components/SearchResult'
-import { Mentors } from '../../sample/MentorCard'
-import MentorCard from '../../components/MentorCard'
-
+import { MentorContext } from '../../context/mentor.context'
+import Loading from '../../components/Loading';
 
 function Browse_mentor() {
-  const [filteredMentors, setFilteredMentors] = useState(Mentors);
+  const { mentors, loading } = useContext(MentorContext);
+  const [filteredMentors, setFilteredMentors] = useState([]);
+
+
+  useEffect(() => {
+    if (mentors && mentors.length > 0) {
+      setFilteredMentors(mentors);
+    }
+  }, [mentors]);
+
+   if (loading) {
+    return (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">
+    <Loading />
+  </div>
+);
+}
+
   return (
     <>
-      <Hero/>
+      <Hero />
       <SearchSection setFilteredMentors={setFilteredMentors} />
-     <SearchResult filteredMentors={filteredMentors}/>
+      <SearchResult filteredMentors={filteredMentors} />
     </>
   );
 }

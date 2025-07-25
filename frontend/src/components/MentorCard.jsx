@@ -36,7 +36,7 @@ function MentorCard({ name, title, rating, sessions=[], skills = [], hourlyRate,
         <div className="flex justify-between">
           <span className="text-gray-500">Hourly Rate</span>
           <span className="text-black font-semibold">
-            {currency} {hourlyRate}
+          {hourlyRate ? `${currency}${hourlyRate}` : "not set yet"}
           </span>
         </div>
         <div className="flex justify-between">

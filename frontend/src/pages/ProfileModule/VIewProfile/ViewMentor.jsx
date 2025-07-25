@@ -1,5 +1,5 @@
 import { Calendar, Star } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import AboutMentor from "../components/AboutMentor";
 import MentorAvailability from "../components/MentorAvailability";
@@ -7,28 +7,38 @@ import MentorOverview from "./components/MentorOverview";
 import MentorReviewCard from "../components/MentorReviewCard";
 import Experience from "../components/Experience";
 import Education from "../components/Education";
+import {MentorContext} from '../../../context/mentor.context';
+import { useParams } from "react-router-dom";
+
 
 const ViewMentor = (props) => {
-const currency = '₹'
+    const {mentors, loading} = useContext(MentorContext);
+const { username } = useParams();
   const [activeTab, setActiveTab] = useState("About");
 
+   if(loading){
+      return;
+    }
+
+    const mentor = mentors.find((mentor) => mentor.username === username);
+    console.log("this is mentor :", mentor)
+const currency = '₹'
   const tabs = ["About", "Experience", "Reviews", "Availability"];
 
   const renderBottomCard = () => {
     switch (activeTab) {
       case 'About':
-        return <AboutMentor mentor_languages={["English", "Hindi"]}/>
+        return <AboutMentor mentor_languages={["English", "Hindi"]} about={mentor?.bio || "Bio not available"} skills={mentor.expertise.map((skill)=>skill.expertise)}/>
       case 'Reviews':
-        return <><MentorReviewCard/><MentorReviewCard/><MentorReviewCard/><MentorReviewCard/></>
+        return <><MentorReviewCard reviews={mentor.reviews}/></>
         case 'Experience':
-          return <><Experience/> <Education/></>
+          return <><Experience experience={mentor.experience}/> <Education education={mentor.education}/></>
       case 'Availability':
-        return <MentorAvailability />
+        return <MentorAvailability availability={mentor.availability} />
       default:
         return <p>Tab content not found</p>
     }
   }
-
   return (
     <section className="bg-gradient-to-b from-transparent via-indigo-50 to-transparent py-15">
       <div className="mx-5 md:mx-28 flex justify-center items-center">
@@ -36,7 +46,7 @@ const currency = '₹'
         <div className="md:w-2/3">
           {/* Mentor Overview Container */}
         <div className="bg-white p-7 rounded-xl mb-5">
-          <MentorOverview/>
+          <MentorOverview position={mentor.username} name={mentor.name} isAvailable={mentor.availability} rating={mentor.reviews.length}/>
         </div>
 
           {/* Tabs */}
@@ -73,15 +83,15 @@ const currency = '₹'
              <p>{currency} 238</p>
               </div>
                <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">15 minute</p>
+             <p className="font-semibold text-black">30 minute</p>
              <p>{currency} 238</p>
               </div>
                <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">15 minute</p>
+             <p className="font-semibold text-black">45 minute</p>
              <p>{currency} 238</p>
               </div>
                <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">15 minute</p>
+             <p className="font-semibold text-black">1 hour</p>
              <p>{currency} 238</p>
               </div>
 
@@ -95,7 +105,7 @@ const currency = '₹'
                   {props.total || "0"}
                 </span>
               </div>
-                <button className="bg-indigo-500 rounded-full w-full py-2.5 text-white mt-3 font-semibold cursor-pointer transition-all ease-in-out duration-300 hover:bg-indigo-600">Bool Now</button>
+                <button className="bg-indigo-500 rounded-full w-full py-2.5 text-white mt-3 font-semibold cursor-pointer transition-all ease-in-out duration-300 hover:bg-indigo-600">Book Now</button>
               
               
             </div>

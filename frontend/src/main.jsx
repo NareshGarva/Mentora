@@ -74,7 +74,7 @@ createRoot(document.getElementById("root")).render(
 
 
           {/* Mentee Dashboard */}
-          <Route path="/profile/username" element={<Dashboard />}>
+          <Route path="/:username" element={<Dashboard />}>
             <Route index element={<Overview />} />
             <Route path="my-session" element={<MySession />} />
             <Route path="my-favorite-mentor" element={<FavoriteMentors />} />
