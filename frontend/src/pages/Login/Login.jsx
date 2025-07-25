@@ -77,7 +77,6 @@ const {login} = useAuth()
 
       if (response.status === 200) {
         alert(response.data.message);
-        console.log(response.data.user)
 login(response.data.user)
 handleRedirect();
 window.location.reload();
