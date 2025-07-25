@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {useNavigate, useParams } from 'react-router-dom'
 import { Clock, Video, CheckCircle2, AlertCircle } from 'lucide-react';
 import SideProfile from './components/sideProfile';
@@ -6,6 +6,7 @@ import axiosInstance from '../../utils/axiosInstance';
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
 import { useAuth } from '../../context/auth.context';
+import {MentorContext} from '../../context/mentor.context';
 
 
 const MENTOR_INFO = {
@@ -24,6 +25,7 @@ const MENTOR_INFO = {
 const BookSession = () => {
     const {user} = useAuth()
     const { username } = useParams();
+      const {mentors,loading} = useContext(MentorContext);
     const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -41,6 +43,8 @@ const BookSession = () => {
   const sessionTypeOptions = [
     { value: 'video', label: 'Video', icon: Video, color: 'bg-blue-500' },
   ];
+  const mentor = mentors.find((mentor)=>username === mentor.username);
+
 
   const getCurrentDuration = () =>
     sessionDuration === 'custom' ? parseInt(customDuration) || 0 : sessionDuration;
@@ -193,7 +197,7 @@ const BookSession = () => {
               );
               if (verifyRes.data.success) {
                 alert('Session booked!');
-                navigate('/payment-success',{ state: { booking: verifyRes.data.booking } });
+                navigate('/payment-success',{ state: { booking: verifyRes.data.booking, mentorName:mentor.name } });
               }
               else alert('Payment failed verification.');
             } catch {
@@ -233,6 +237,11 @@ const BookSession = () => {
     }
   };
 
+  
+  if(loading){
+    return ;
+  }
+
   return (
     <div className="min-h-screen bg-transparent p-4">
       <div className="max-w-6xl mx-auto">
@@ -245,7 +254,7 @@ const BookSession = () => {
 
         <div className="grid lg:grid-cols-4 gap-8">
           <SideProfile
-            mentor={MENTOR_INFO}
+            mentor={mentor}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             sessionTypeOptions={sessionTypeOptions}
@@ -390,7 +399,7 @@ const BookSession = () => {
 
                 {/* Book Session Button */}
                 <button
-                  onClick={handleBookSession}
+                  onClick={()=>{if(!user){alert("Please login first.")}else{handleBookSession()}}}
                   disabled={!selectedStartTime}
                   className={`w-full font-semibold py-2 rounded-lg transition-all shadow-lg ${
                     selectedStartTime 

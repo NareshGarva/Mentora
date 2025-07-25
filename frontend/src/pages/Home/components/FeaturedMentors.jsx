@@ -19,9 +19,6 @@ function FeaturedMentors() {
       renderMentors()
     },[mentors])
 
-    useEffect(()=>{
-      renderMentors()
-    },[mentors])
 
   const AllMentors = ()=>{
     navigate('/browse-mentor/all-mentors')
