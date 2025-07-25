@@ -49,9 +49,6 @@ const tabs = [
   { name: "Settings", path: 'settings' }
 ];
 
-
-
-
   return (
     <div className="section-bg bg-white">
     <section className="w-full bg-gradient-to-t from-transparent via-primary-100 to-transparent py-16">
