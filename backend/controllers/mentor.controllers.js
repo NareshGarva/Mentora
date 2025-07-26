@@ -14,33 +14,32 @@ import Availability from '../models/availability.model.js'
 
 const updateUserProfile = async (req, res) => {
   const username = req.user?.username;
-  const data = req.body.data;
-
+  // const data = req.body.data;
+  const avatar = req.body.avatar;
   if (!username) {
     return res.status(400).json({ message: "Username missing in token" });
   }
 
-  const {
-    avatar,
-    name,
-    number,
-    bio,
-    gender,
-    dob,
-    location
-  } = data;
+  // const {
+  //   name,
+  //   number,
+  //   bio,
+  //   gender,
+  //   dob,
+  //   location
+  // } = data;
 
   try {
     const updatedUser = await MentorUser.findOneAndUpdate(
       { username },
       {
         ...(avatar !== undefined && { avatar }),
-        ...(name && { name }),
-        ...(number && { number }),
-        ...(bio && { bio }),
-        ...(gender && { gender }),
-        ...(dob && { dob }),
-        ...(location && { location }),
+        // ...(name && { name }),
+        // ...(number && { number }),
+        // ...(bio && { bio }),
+        // ...(gender && { gender }),
+        // ...(dob && { dob }),
+        // ...(location && { location }),
       },
       { new: true }
     );

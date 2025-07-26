@@ -101,7 +101,7 @@ const checkUsernameAvailability = async () => {
         <div className="relative">
           <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow-lg">
             {avatar ? (
-              <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
+              <img src={URL.createObjectURL(avatar)} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200">
                 <Camera size={32} className="text-blue-600" />
