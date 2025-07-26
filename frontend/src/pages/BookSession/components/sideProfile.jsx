@@ -4,7 +4,6 @@ import { Star, Calendar,Minus, Plus,AlertCircle } from "lucide-react";
 
 
 function SideProfile({ mentor, selectedDate, sessionTypeOptions, sessionType,setSessionType, handleDurationChange,errors,setCustomDuration,customDuration, sessionDuration,setSessionDuration, getCurrentDuration, calculatePrice, setSelectedDate }) {
- console.log(mentor)
 
 const getAvailabilityForSelectedDate = () => {
   if (!mentor || !mentor.availability || mentor.availability.length === 0) return null;

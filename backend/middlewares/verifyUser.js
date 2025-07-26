@@ -7,7 +7,6 @@ const verifyUser = async (req, res, next)=>{
   const routeRole = req.params.role;
 
 
-  console.log(loggedInUsername,loggedInRole,routeUsername,routeRole)
 if (
   !loggedInRole || loggedInRole !== routeRole ||
   !loggedInUsername || loggedInUsername !== routeUsername

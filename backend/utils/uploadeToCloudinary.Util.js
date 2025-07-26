@@ -15,16 +15,16 @@ export const uploadImageToCloudinary = async (filePath) => {
     console.log('Uploading to Cloudinary:', absolutePath);
 
     const result = await cloudinary.uploader.upload(absolutePath, {
-      folder: 'Mobile Shopping/Products',
+      folder: 'Mentora/Avatars',
       resource_type: 'auto',
       overwrite: false,
     });
 
     fs.unlinkSync(filePath); // Delete after upload
+    console.log("file uploaded on cloudinary:",result.url)
     return result;
   } catch (error) {
     console.error('Error during upload to Cloudinary:', error);
-
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }

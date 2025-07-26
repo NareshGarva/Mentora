@@ -5,8 +5,9 @@ import axiosInstance from '../../../utils/axiosInstance';
 
 function PersonalInfo() {
   const [isLoading, setLoading] = useState(false);
+  
+const [avatar, setAvatar] = useState(null);
   const [formData, setFormData] = useState({
-    avatar: null,
     username: '',
     name: '',
     number: '+91 74398-74728',
@@ -25,11 +26,11 @@ function PersonalInfo() {
     }));
   };
 
-  const handleImageUpload = (event) => {
+
+const handleImageUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
-    const imageURL = URL.createObjectURL(file);
-    updateFormData('avatar', imageURL); 
+    setAvatar(file); // Save image separately
   }
 };
 
@@ -59,28 +60,34 @@ const checkUsernameAvailability = async () => {
 
 
   const handleSave = async () => {
-console.log("this is form data :",formData)
+  setLoading(true);
+  try {
+    const data = new FormData();
+    data.append('avatar', avatar); // must be File object from <input type="file" />
 
-    setLoading(true);
-    try {
-      const response = await axiosInstance.put(
-        '/profile/update-profile',
-        formData,
-        { withCredentials: true }
-      );
+    // Append all other fields
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
 
-      if (response.status === 200) {
-        alert('Profile updated successfully.');
-      } else {
-        alert('Failed to update profile.');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('An error occurred while updating profile.');
-    } finally {
-      setLoading(false);
+    const response = await axiosInstance.put('/profile/update-profile', data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      alert('Profile updated successfully.');
+    } else {
+      alert('Failed to update profile.');
     }
-  };
+  } catch (error) {
+    console.error(error);
+    alert('An error occurred while updating profile.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="space-y-8">
@@ -93,8 +100,8 @@ console.log("this is form data :",formData)
       <div className="flex flex-col items-center space-y-4">
         <div className="relative">
           <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow-lg">
-            {formData.avatar ? (
-              <img src={formData.avatar} alt="Avatar" className="w-full h-full object-cover" />
+            {avatar ? (
+              <img src={URL.createObjectURL(avatar)} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200">
                 <Camera size={32} className="text-blue-600" />

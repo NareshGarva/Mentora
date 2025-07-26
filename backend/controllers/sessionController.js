@@ -25,7 +25,6 @@ export const initiateSession = async (req, res) => {
     const mentorU = await MentorUser.findOne({ username: mentor });
 
     if (!menteeU || !mentorU) {
-      console.log("aa gya")
       return res.status(404).json({
         success: false,
         message: 'Mentee or Mentor not found'

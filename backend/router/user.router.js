@@ -15,9 +15,7 @@ router.get('/get-mentors', getMentors);
 
 router.get('/verify-identity/:username/:role', verifyToken,verifyUser, (req, res) => {
 
-  console.log("hmm hai", req)
   if (req.isAuthorized) {
-    console.log("hmm hai", req.isAuthorized)
     return res.status(200).json({
       message: "User verified successfully",
       isAuthorized: true

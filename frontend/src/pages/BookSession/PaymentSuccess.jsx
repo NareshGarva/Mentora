@@ -5,7 +5,6 @@ function PaymentSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
   const booking = location.state?.booking;
-console.log("Booking", booking);
 
   if (!booking) {
     return (
