@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from "js-cookie";
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
 import {useAuth} from '../../context/auth.context';
+import { showToast } from '../../components/Toast';
 
 function Login() {
 const {login} = useAuth()
@@ -76,12 +76,11 @@ const {login} = useAuth()
       });
 
       if (response.status === 200) {
-        alert(response.data.message);
+        showToast(`${response.data.message}`, "success")
 login(response.data.user)
 handleRedirect();
-window.location.reload();
       } else {
-        alert(response.data.message || 'Invalid credentials');
+        showToast(`${response.data.message}`, "error")
         throw new Error(response.data.message || 'Invalid credentials');
       }
 
@@ -100,6 +99,7 @@ window.location.reload();
 
   return (
     <section className="w-full py-10 min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary-300 via-yellow-100 to-tertiary-200">
+
       <div className="w-full max-w-md bg-white rounded-2xl shadow-md px-6 py-8 mx-4 ">
         <div className="text-center mb-6">
           <div className="flex justify-center mb-3">

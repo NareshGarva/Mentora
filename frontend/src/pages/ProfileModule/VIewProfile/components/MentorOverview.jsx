@@ -3,14 +3,14 @@ import Avatar from '../../../../components/Avatar';
 import StarRating from '../../../../components/RatingStars';
 import { CircleCheckBig,Ban, Star } from 'lucide-react';
 
-function MentorOverview({name,isAvailable,rating,position}) {
+function MentorOverview({avatar,name,isAvailable,rating,position}) {
   return (
     <div className='flex justify-left items-start gap-5'>
-            <Avatar/>
+            <Avatar AvatarImg={avatar}/>
        <div>
         <div>
             <p className='font-bold text-2xl -mb-2'>{name}</p>
-        <span className='text-sm text-gray-500'>@{position}</span>
+        <span className='text-sm text-gray-500'>{position}</span>
         <p className='text-xs text-gray-400'>Mentor one line address</p>
         </div>
         <div className='flex justify-left items-center gap-5 mt-3'>

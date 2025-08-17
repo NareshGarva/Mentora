@@ -1,15 +1,14 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import axiosInstance from '../utils/axiosInstance'
+import { showToast } from '../components/Toast';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   
- 
+ console.log(user)
   const [isLoading, setIsLoading] = useState(true);
-  
-  
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return localStorage.getItem('isLoggedIn') === 'true';
   });
@@ -26,8 +25,7 @@ export const AuthProvider = ({ children }) => {
       const response = await axiosInstance.post("/auth/logout", {}, {
         withCredentials: true,
       });
-      alert(response.data.message);
-      
+      showToast(`${response.data.message} /login`,"success")
       setUser({
         name: "",
         email: "",
@@ -52,34 +50,17 @@ export const AuthProvider = ({ children }) => {
         withCredentials: true,
       });
       if (response.data && response.data.user) {
-        const userData = {
-          name: response.data.user.name,
-          email: response.data.user.email,
-          role: response.data.user.role,
-          username: response.data.user.username,
-        };
-        setUser(userData);
+        setUser(response.data.user);
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
       } else {
-        // No user data received, clear everything
-        setUser({
-          name: "",
-          email: "",
-          role: "",
-          username: "",
-        });
+        setUser(null);
         setIsLoggedIn(false);
         localStorage.removeItem("isLoggedIn");
       }
     } catch (error) {
       console.error("Failed to fetch user on refresh", error);
-      setUser({
-        name: "",
-        email: "",
-        role: "",
-        username: "",
-      });
+      setUser(null);
       setIsLoggedIn(false);
       localStorage.removeItem("isLoggedIn");
     } finally {

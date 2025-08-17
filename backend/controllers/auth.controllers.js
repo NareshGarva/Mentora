@@ -76,8 +76,7 @@ const createUser = async (req, res) => {
     });
     
     console.log("User created");
-     req.body = { usernameORemail:email, password }; 
-    return await loginUser(req, res);
+    return res.status(200).json({ message: "user created"});
   } catch (error) {
     console.log("error in user creation :", error);
     console.log("User not created")
@@ -142,7 +141,8 @@ const loginUser = async (req, res) => {
         username: user.username,
         role: user.role,
         email: user.email,
-        name: user.name
+        name: user.name,
+        avatar:user.avatar
       }
     });
 

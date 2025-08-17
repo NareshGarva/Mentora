@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Loading from '../../components/Loading';
+import { showToast } from '../../components/Toast';
+import {useAuth} from '../../context/auth.context';
+
+
 function Register() {
+  const {login} = useAuth()
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -22,7 +27,6 @@ function Register() {
     });
   };
 
-
   //form validation
   const validate = () => {
     let formErrors = {};
@@ -41,7 +45,7 @@ function Register() {
     if (!formData.password) {
       formErrors.password = "Please enter a password";
     } else if (!passwordPattern.test(formData.password)) {
-      formErrors.password = "Password must be 3+ characters with letters & numbers";
+      formErrors.password = "Password must be 8+ characters with letters & numbers";
     }
 
     if (formData.confirmPassword !== formData.password) {
@@ -51,34 +55,83 @@ function Register() {
     return formErrors;
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-      // const submitBtn = document.getElementById('submitBtn');
-  const validationErrors = validate();
-  setErrors(validationErrors);
-
-  if (Object.keys(validationErrors).length === 0) {
-    try {
-      setLoading(true);
-      // submitBtn.disabled = true;
-      const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
-      // submitBtn.disabled = false;
-        alert(response.data.message);
-        formData.role==="Mentor"?navigate("/setup-profile"):""
-
-    } catch (error) {
-      console.error(`Error in sending data: ${error}`);
-    } finally{
-      setLoading(false);
+  // Login function to automatically log in after registration
+  const autoLogin = async (email, password) => {
+    const formData = {
+      usernameORemail:email,password
     }
-    
-  }
-};
+    try {
+      const loginResponse = await axios.post('http://localhost:3000/api/auth/login', formData,{
+        withCredentials:true
+      });
+      
+      if (loginResponse.status === 200) {
+        showToast("Login successful! Welcome!", "success");
+login(loginResponse.data.user)
+        // Navigate based on role
+        if (formData.role === "Mentor") {
+          navigate("/setup-profile");
+        } else {
+          navigate("/dashboard"); // or wherever mentees should go
+        }
+      }
+    } catch (loginError) {
+      console.error('Auto-login failed:', loginError);
+      showToast("Account created but auto-login failed. Please login manually.", "warning");
+      navigate("/login");
+    }
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const validationErrors = validate();
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        setLoading(true);
+        
+        const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
+        
+        // Fixed: Check if status is NOT 200/201
+        if (response.status !== 200 && response.status !== 201) {
+          showToast(response.data?.message || "Registration failed", "error");
+          return;
+        }
+        
+        // Show success message
+        showToast(response.data?.message || "Account created successfully!", "success");
+        
+        // Auto-login after successful registration
+        await autoLogin(formData.email, formData.password);
+        
+      } catch (error) {
+        console.error(`Error in registration: ${error}`);
+        
+        // Handle different types of errors
+        if (error.response) {
+          // Server responded with error status
+          const errorMessage = error.response.data?.message || 
+                              error.response.data?.error || 
+                              `Registration failed with status ${error.response.status}`;
+          showToast(errorMessage, "error");
+        } else if (error.request) {
+          // Request was made but no response received
+          showToast("Network error. Please check your connection and try again.", "error");
+        } else {
+          // Something else went wrong
+          showToast("An unexpected error occurred. Please try again.", "error");
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <section className="w-full min-h-screen flex items-center justify-center py-10 bg-gradient-to-tr from-secondary-300 via-yellow-100 to-tertiary-200">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-md px-6 py-8 mx-4  ">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-md px-6 py-8 mx-4">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Create Your Account</h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -155,7 +208,7 @@ function Register() {
 
           {/* Role */}
           <div>
-            <label htmlFor="role" className="bloblack text-gray-700 mb-1 font-medium">
+            <label htmlFor="role" className="block text-xs text-gray-700 mb-1 font-medium">
               I am
             </label>
             <select
@@ -170,22 +223,21 @@ function Register() {
           </div>
 
           {/* Submit */}
-          <button id="submitBtn" 
+          <button 
+            id="submitBtn" 
             type="submit"
-            className="w-full py-2 mt-4 bg-black hover:bg-black/90 text-white font-semibold cursor-pointer rounded-md transition"
+            disabled={isLoading}
+            className="w-full py-2 mt-4 bg-black hover:bg-black/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold cursor-pointer rounded-md transition"
           >
-            {isLoading?<Loading/>:'Create Account'}
-
+            {isLoading ? <Loading/> : 'Create Account'}
           </button>
-          
         </form>
+
         <div className="mt-3 flex items-center justify-center gap-1 text-sm bg-gray-50/30 border border-gray-300 py-2 rounded-md">
           <p>Already have an account? </p>
-
           <NavLink to="/login" className="text-blue-600 font-medium hover:underline">
-             login
+            Login
           </NavLink>
-
         </div>
       </div>
     </section>

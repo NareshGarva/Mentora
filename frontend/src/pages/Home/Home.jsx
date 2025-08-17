@@ -1,19 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HeroSection from "./components/HeroSection";
 import WhyMentora from "./components/WhyMentora";
 import FeaturedMentors from "./components/FeaturedMentors";
-import AOS from "aos";
-import "aos/dist/aos.css";
+
 
 function Home() {
-  useEffect(() => {
-    AOS.init({
-      easing: "ease-in-out",
-    });
-  }, []);
-
-  return (
+ return (
     <main>
+      
       <HeroSection />
       <WhyMentora />
       <FeaturedMentors />

@@ -45,7 +45,7 @@ const currency = '₹'
         <div className="md:w-2/3">
           {/* Mentor Overview Container */}
         <div className="bg-white p-7 rounded-xl mb-5">
-          <MentorOverview position={mentor.username} name={mentor.name} isAvailable={mentor.availability} rating={mentor.reviews.length}/>
+          <MentorOverview position={mentor.profession} avatar={mentor.avatar} name={mentor.name} isAvailable={mentor.availability} rating={mentor.reviews.length}/>
         </div>
 
           {/* Tabs */}
