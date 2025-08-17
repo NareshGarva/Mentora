@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
 import Cookies from "js-cookie";
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
@@ -62,8 +62,10 @@ const {login} = useAuth()
   }, [timer]);
 
   // Handle Login Submission
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Add this to prevent default form submission
     setShowErrors(false);
+    
     if (!validateFields()) {
       setShowErrors(true);
       return;
@@ -71,27 +73,24 @@ const {login} = useAuth()
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', formData,{
-        withCredentials:true
+      const response = await axiosInstance.post('/auth/login', formData, {
+        withCredentials: true
       });
 
-      if (response.status === 200) {
-        alert(response.data.message);
-login(response.data.user)
-handleRedirect();
-window.location.reload();
+      if (response.status === 200 && response.data.user) {
+        login(response.data.user);
+        handleRedirect();
       } else {
-        alert(response.data.message || 'Invalid credentials');
-        throw new Error(response.data.message || 'Invalid credentials');
+        throw new Error(response.data.message || 'Login failed');
       }
-
     } catch (error) {
-      console.error(`Login error: ${error}`);
+      console.error('Login error:', error);
+      alert(error.response?.data?.message || 'Login failed. Please try again.');
       setShowErrors(true);
       setErrorCount((prev) => prev + 1);
       if (errorCount + 1 >= 3) {
         setDisabled(true);
-        setTimer(Math.floor(Math.random()*100)); 
+        setTimer(30); // Set a fixed timer value
       }
     } finally {
       setLoading(false);
@@ -111,12 +110,9 @@ window.location.reload();
           <p className="text-sm text-gray-500">Sign in to continue your mentorship journey</p>
         </div>
 
-        <form
+        <form 
           className="space-y-4"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleLogin();
-          }}
+          onSubmit={handleLogin} // Update this line
         >
           <div>
             <label htmlFor="usernameORemail" className="block text-xs text-gray-700 font-medium mb-1">
