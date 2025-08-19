@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Camera, ChevronDown } from 'lucide-react';
 import Loading from '../../../components/Loading';
 import axiosInstance from '../../../utils/axiosInstance';
+import { showToast } from '../../../components/Toast';
 
 function PersonalInfo() {
   const [isLoading, setLoading] = useState(false);
@@ -128,13 +129,13 @@ function PersonalInfo() {
       });
 
       if (response.status === 200) {
-        alert('Profile updated successfully.');
+        showToast('Profile updated successfully.', 'success');
       } else {
-        alert('Failed to update profile.');
+        showToast('Failed to update profile.', 'error');
       }
     } catch (error) {
       console.error(error);
-      alert('An error occurred while updating profile.');
+    showToast('An error occurred while updating profile.', 'error');
     } finally {
       setLoading(false);
     }

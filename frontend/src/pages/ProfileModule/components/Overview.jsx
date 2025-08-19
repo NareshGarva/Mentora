@@ -1,11 +1,31 @@
 import { CalendarCheck, CalendarClock, TrendingUp } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 import UpcomingSession from "./UpcomingSession";
 import { useAuth } from '../../../context/auth.context';
 import { IndianRupee, Star, Users } from "lucide-react";
 
 function Overview() {
-  const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
+  const { user } = useAuth();
+
+  // safe fallback if sessions are empty
+  const sessions = user?.sessions || [];
+
+    // Only include confirmed & completed sessions
+    const completedSessions = useMemo(
+      () => sessions.filter(s => s.status === "completed"),
+      [sessions]
+    );
+
+
+  // This month earnings
+  const thisMonth = new Date().getMonth();
+  const thisYear = new Date().getFullYear();
+  const thisMonthSessions = completedSessions.filter(s => {
+    const d = new Date(s.date);
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+  });
+  // const thisMonthEarned = thisMonthSessions.reduce((sum, s) => sum + (s.price || 0), 0);
+
 
   const receivedData = {};
   if (user?.role === 'Mentee')
@@ -21,7 +41,7 @@ function Overview() {
             {/* Dashboard Card text */}
             <div>
               <p className="text-gray-600">Sessions Attended</p>
-              <p className="text-3xl text-black font-bold">{10}</p>
+              <p className="text-3xl text-black font-bold">{sessions.length}</p>
             </div>
           </div>
           <div className="dashboard-card shadow-sm p-6 bg-gradient-to-tl from-yellow-200 to bg-yellow-300 to-white w-full rounded-xl h-full flex items-center gap-6 ">

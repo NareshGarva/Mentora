@@ -7,7 +7,6 @@ const verifyToken = async (req, res, next) => {
   const token =
     req.cookies?.accessToken ||
     req.header("Authorization")?.replace("Bearer ", "");
-
   if (!token) {
     return next(new ApiError(401, "Access token not found"));
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import { User } from 'lucide-react';
 
 function Avatar({AvatarImg}) {
-  const isAvatar = AvatarImg?true:false;
+  const isAvatar = AvatarImg == null ?true:false;
  const bgColors = [
   'bg-green-100',
   'bg-orange-100',

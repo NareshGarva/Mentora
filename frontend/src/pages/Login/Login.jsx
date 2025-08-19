@@ -165,6 +165,22 @@ handleRedirect();
           >
             {isLoading ? <Loading /> : 'Login'}
           </button>
+          <div className='border border-gray-400 py-2 px-5 rounded-xl bg-gradient-to-br from-red-50 to-green-50 text-sm'>
+            <div>
+              <p className='font-bold text-black'>Mentee</p>
+              <ul>
+                <li>username : narayansingh5774</li>
+                <li>password : Narayan@123</li>
+              </ul>
+            </div>
+            <div>
+              <p className='font-bold text-black'>Mentor</p>
+              <ul>
+                <li>username : rohit1248</li>
+                <li>password : Rohit@123</li>
+              </ul>
+            </div>
+          </div>
 
           {disabled && (
             <p className="text-xs text-gray-500 text-center mt-2">

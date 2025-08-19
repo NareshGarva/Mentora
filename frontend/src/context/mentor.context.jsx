@@ -8,6 +8,7 @@ function MentorProvider({ children }) {
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);    
 
+  console.log('this is all mentors: ', mentors)
   useEffect(() => {
     const fetchMentors = async () => {
       try {

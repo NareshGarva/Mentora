@@ -244,12 +244,12 @@ const updateWorkExperience = async (req, res) => {
 
     // Add their IDs to user's profile
     user.workExperience = user.workExperience || [];
-    user.workExperience.push(...insertedWork.map((exp) => exp._id));
+    user.workHistory.push(...insertedWork.map((exp) => exp._id));
     await user.save();
 
     return res.status(200).json({
       message: "Work experience added successfully",
-      workExperience: insertedWork,
+      workHistory: insertedWork,
     });
   } catch (error) {
     console.error("Error updating work experience:", error);

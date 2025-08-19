@@ -20,7 +20,7 @@ const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
 
   const steps = [
     { path: 'personal-info', title: 'Personal Info', icon: User },
-    { path: 'address-info', title: 'Address Info', icon: MapPin },
+    // { path: 'address-info', title: 'Address Info', icon: MapPin },
     { path: 'work-experience', title: 'Work Experience', icon: Briefcase },
     { path: 'education-info', title: 'Education', icon: GraduationCap },
     { path: 'expertise-info', title: 'Expertise', icon: Star },

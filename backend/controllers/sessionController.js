@@ -80,7 +80,7 @@ export const verifyPayment = async (req, res) => {
       sessionData
     } = req.body;
 
-    // 1. Verify Razorpay signature BEFORE saving anything
+    // 1. Verify Razorpay signature
     const generatedSignature = crypto
       .createHmac('sha256', process.env.MY_RAZORPAY_SECRET_KEY)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
@@ -106,7 +106,6 @@ export const verifyPayment = async (req, res) => {
       amount: booking.sessionPrice
     });
 
-
     // 4. Create Session
     const session = await Session.create({
       mentee: booking.menteeId,
@@ -124,28 +123,40 @@ export const verifyPayment = async (req, res) => {
       paymentId: payment._id
     });
 
-
-    // 5. Generate Zoom link (optional)
-    // const menteeUser = await MenteeUser.findById(booking.menteeId);
-    // const topic = sessionData.title;
-    // const startTime = booking.sessionDate;
-
-    // const meetingLink = await createZoomMeeting(menteeUser, topic, startTime);
-const meetingLink = 'this is meeting link'
-    session.meetingLink = meetingLink;
+    // Optional: Zoom link
+    session.meetingLink = "this is meeting link";
     session.isConfirmed = true;
     await session.save();
 
-
-    // 6. Update Booking
+    // 5. Update Booking
     booking.sessionId = session._id;
     booking.status = 'confirmed';
     await booking.save();
- 
 
-    return res.status(200).json({ success: true, message: 'Payment verified and session booked', booking });
+    // 6. Update Mentee & Mentor
+    const menteeU = await MenteeUser.findById(booking.menteeId);
+    const mentorU = await MentorUser.findById(booking.mentorId);
+
+    if (menteeU) {
+      menteeU.sessions.push(session._id);
+      await menteeU.save();
+    }
+    if (mentorU) {
+      mentorU.sessions.push(session._id);
+      await mentorU.save();
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Payment verified and session booked',
+      booking,
+      session,
+      payment
+    });
+
   } catch (error) {
     console.log('Payment verification failed:', error.message);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+

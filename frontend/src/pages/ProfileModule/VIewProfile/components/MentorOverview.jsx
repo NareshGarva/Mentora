@@ -3,7 +3,7 @@ import Avatar from '../../../../components/Avatar';
 import StarRating from '../../../../components/RatingStars';
 import { CircleCheckBig,Ban, Star } from 'lucide-react';
 
-function MentorOverview({avatar,name,isAvailable,rating,position}) {
+function MentorOverview({avatar,name,isAvailable,rating,position, sessions}) {
   return (
     <div className='flex justify-left items-start gap-5'>
             <Avatar AvatarImg={avatar}/>
@@ -15,7 +15,7 @@ function MentorOverview({avatar,name,isAvailable,rating,position}) {
         </div>
         <div className='flex justify-left items-center gap-5 mt-3'>
             <div className='flex justify-left items-center gap-1'>
-                <Star size={15} stroke='#fdcc0d' fill='#fdcc0d'/><span className='font-semibold'>{rating || '0'}</span> <span className='text-sm text-gray-500'> (232 Session)</span>
+                <Star size={15} stroke='#fdcc0d' fill='#fdcc0d'/><span className='font-semibold'>{rating || '0'}</span> <span className='text-sm text-gray-500'> ({sessions} Session)</span>
             </div>
             <p className={`${isAvailable ? "text-green-500" : "text-red-500"}  text-sm`}>
   {isAvailable ? (

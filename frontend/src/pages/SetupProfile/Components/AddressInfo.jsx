@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin } from 'lucide-react';
 import Loading from '../../../components/Loading';
 import axiosInstance from '../../../utils/axiosInstance';
+import { showToast } from '../../../components/Toast';
 
 function AddressInfo() {
   const [isLoading, setLoading] = useState(false);
@@ -30,13 +31,13 @@ function AddressInfo() {
       });
 
       if (response.status === 200 || response.status === 201) {
-        alert('Address saved successfully.');
+        showToast('Address saved successfully.','success');
       } else {
-        alert('Failed to save address.');
+        showToast('Failed to save address.', 'error');
       }
     } catch (error) {
       console.error(error);
-      alert('An error occurred while saving address.');
+      showToast('An error occurred while saving address.', 'error');
     } finally {
       setLoading(false);
     }

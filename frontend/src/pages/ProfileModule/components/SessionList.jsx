@@ -12,10 +12,10 @@ const SessionList = (props) => {
             {/* Left Section: Text Info */}
             <div className="flex flex-col items-start justify-center h-full min-w-fit">
               <span className="text-base font-bold truncate">
-                {props.heading || "Session Heading"}
+                {props.title || "Session Heading"}
               </span>
               <span className="text-sm text-secondary-500 truncate">
-                Mentor {props.mentor_name || "Mentor's Name"}
+                Mentor {props.mentor || "Mentor's Name"}
               </span>
             </div>
 
@@ -71,10 +71,10 @@ const SessionList = (props) => {
           {/* Left Section: Text Info */}
           <div className="flex flex-col items-start justify-center h-full min-w-fit">
             <span className="text-base font-bold truncate">
-              {props.heading || "Session Heading"}
+              {props.title || "Session Heading"}
             </span>
             <span className="text-sm text-secondary-500 truncate">
-              Mentor {props.mentor_name || "Mentor's Name"}
+              Mentor {props.mentor}
             </span>
           </div>
 

@@ -14,7 +14,8 @@ export const AuthProvider = ({ children }) => {
   });
 
   const login = (userData) => {
-    setUser(userData);
+    // setUser(userData);
+    fetchUser(userData.username, userData.role)
     setIsLoggedIn(true);
     setIsLoading(false);
     localStorage.setItem("isLoggedIn", "true");
@@ -86,17 +87,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const initAuth = async () => {
-      if (localStorage.getItem("isLoggedIn") === "true") {
-        await fetchUser();
-      } else {
-        setIsLoading(false);
-      }
-    };
-    
-    initAuth();
-  }, []);
+useEffect(() => {
+  const initAuth = async () => {
+    await fetchUser();
+  };
+  initAuth();
+}, []);
+
 
   return (
     <AuthContext.Provider value={{ 

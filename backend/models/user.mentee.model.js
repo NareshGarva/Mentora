@@ -13,13 +13,13 @@ const userSchema = new mongoose.Schema(
       index: true,
     },
 
-    profession: { type: String},
+    profession: { type: String },
 
     dob: { type: Date },
 
     alternativeNumber: { type: String },
 
-    alternativeEmail: { type: String, unique: true },
+    alternativeEmail: { type: String, sparse: true }, 
 
     email: { type: String, required: [true, "Email is required"], unique: true },
 
@@ -27,16 +27,16 @@ const userSchema = new mongoose.Schema(
 
     avatar: { type: String },
 
-    number: { type: String, default: "+91 74398-74728" },
+    number: { type: String, default: "" }, 
 
-    role: { type: String, required: true },
+    role: { type: String, required: true, enum: ["Mentee", "Mentor", "Admin"] },
 
     refreshToken: { type: String, default: "", select: false },
 
     twoStepVerification: { type: Boolean, default: false },
 
     favoriteMentors: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "FavoriteMentor" },
+      { type: mongoose.Schema.Types.ObjectId, ref: "MentorUser" }, 
     ],
 
     sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Session" }],

@@ -1,5 +1,6 @@
 import { Calendar, Star } from "lucide-react";
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AboutMentor from "../components/AboutMentor";
 import MentorAvailability from "../components/MentorAvailability";
@@ -11,10 +12,12 @@ import {MentorContext} from '../../../context/mentor.context';
 import { useParams } from "react-router-dom";
 
 
-const ViewMentor = (props) => {
+const ViewMentor = () => {
+  const navigate = useNavigate();
     const {mentors, loading} = useContext(MentorContext);
 const { username } = useParams();
   const [activeTab, setActiveTab] = useState("About");
+  const [total, setTotal] = useState('00');
 
    if(loading){
       return;
@@ -31,7 +34,7 @@ const currency = '₹'
       case 'Reviews':
         return <><MentorReviewCard reviews={mentor.reviews}/></>
         case 'Experience':
-          return <><Experience experience={mentor.experience}/> <Education education={mentor.education}/></>
+          return <><Experience workHistory={mentor.workHistory}/> <Education education={mentor.education}/></>
       case 'Availability':
         return <MentorAvailability availability={mentor.availability} />
       default:
@@ -45,7 +48,7 @@ const currency = '₹'
         <div className="md:w-2/3">
           {/* Mentor Overview Container */}
         <div className="bg-white p-7 rounded-xl mb-5">
-          <MentorOverview position={mentor.profession} avatar={mentor.avatar} name={mentor.name} isAvailable={mentor.availability} rating={mentor.reviews.length}/>
+          <MentorOverview sessions={mentor.sessions.length} position={mentor.profession} avatar={mentor.avatar} name={mentor.name} isAvailable={mentor.availability} rating={mentor.reviews.length}/>
         </div>
 
           {/* Tabs */}
@@ -69,46 +72,55 @@ const currency = '₹'
           </div>
         </div>
         {/* right section*/}
-        <div className="right-section bg-white md:w-1/3 border-2 border-gray-100 rounded-xl p-7 top-20 sticky">
-       <div className="flex justify-left items-center gap-1 text-xl font-semibold text-green-500">
-        <Calendar size={20}/> <p>Book A Session</p>
-       </div>
-       <p className=" text-gray-400">Session Duration</p>
+       <div className="right-section bg-white md:w-1/3 border-2 border-gray-100 rounded-xl p-7 top-20 sticky">
+      <div className="flex justify-left items-center gap-1 text-xl font-semibold text-green-500">
+        <Calendar size={20} /> <p>Book A Session</p>
+      </div>
+      <p className=" text-gray-400">Session Duration</p>
 
-            <div className="mt-5">
+      <div className="mt-5">
+        <div onClick={() =>setTotal(((mentor.rate.perHour / 60) * 15).toFixed(2))} className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
+          <p className="font-semibold text-black">15 minute</p>
+          <p>
+            {currency}{" "}
+            {parseFloat(((mentor.rate.perHour / 60) * 15).toFixed(2))}
+          </p>
+        </div>
+        <div onClick={() =>setTotal(((mentor.rate.perHour / 60) * 30).toFixed(2))} className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
+          <p className="font-semibold text-black">30 minute</p>
+          <p>
+            {currency}{" "}
+            {parseFloat(((mentor.rate.perHour / 60) * 30).toFixed(2))}
+          </p>
+        </div>
+        <div onClick={() =>setTotal(((mentor.rate.perHour / 60) * 45).toFixed(2))} className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
+          <p className="font-semibold text-black">45 minute</p>
+          <p>
+            {currency}{" "}
+            {parseFloat(((mentor.rate.perHour / 60) * 45).toFixed(2))}
+          </p>
+        </div>
+        <div onClick={() =>setTotal((mentor.rate.perHour).toFixed(2))} className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
+          <p className="font-semibold text-black">1 hour</p>
+          <p>
+            {currency} {mentor.rate.perHour}
+          </p>
+        </div>
 
-              <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">15 minute</p>
-             <p>{currency} 238</p>
-              </div>
-               <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">30 minute</p>
-             <p>{currency} 238</p>
-              </div>
-               <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">45 minute</p>
-             <p>{currency} 238</p>
-              </div>
-               <div className="text-gray-700 my-2 border rounded-full border-gray-300 w-full py-2 px-4 flex justify-between items-center cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-50">
-             <p className="font-semibold text-black">1 hour</p>
-             <p>{currency} 238</p>
-              </div>
+        <hr />
 
-
-
-              <hr />
-            
-              <div className="flex justify-between mt-2">
-                  <span className="text-base text-m-gray-600">Total: </span>
-                <span className="text-base text-black">
-                  {props.total || "0"}
-                </span>
-              </div>
-                <button className="bg-indigo-500 rounded-full w-full py-2.5 text-white mt-3 font-semibold cursor-pointer transition-all ease-in-out duration-300 hover:bg-indigo-600">Book Now</button>
-              
-              
-            </div>
-          </div>
+        <div className="flex justify-between mt-2">
+          <span className="text-base text-m-gray-600">Total: </span>
+          <span className="text-base text-black">{total || "0"}</span>
+        </div>
+        <button
+          onClick={()=>{navigate(`/book-session/${mentor.username}/${mentor._id}`)}}
+          className="bg-indigo-500 rounded-full w-full py-2.5 text-white mt-3 font-semibold cursor-pointer transition-all ease-in-out duration-300 hover:bg-indigo-600"
+        >
+          Book Now
+        </button>
+      </div>
+    </div>
         </div>
 </div>
     </section>
