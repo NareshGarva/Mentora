@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  createBooking,
   getAllBookings,
   getBookingById,
   updateBookingStatus,
@@ -9,7 +8,6 @@ import {
 
 const router = express.Router();
 
-router.post("/", createBooking);
 router.get("/", getAllBookings);
 router.get("/:id", getBookingById);
 router.put("/:id/status", updateBookingStatus);

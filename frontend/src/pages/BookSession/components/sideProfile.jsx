@@ -1,8 +1,35 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Avatar from "../../../components/Avatar";
 import { Star, Calendar,Minus, Plus,AlertCircle } from "lucide-react";
 
+
 function SideProfile({ mentor, selectedDate, sessionTypeOptions, sessionType,setSessionType, handleDurationChange,errors,setCustomDuration,customDuration, sessionDuration,setSessionDuration, getCurrentDuration, calculatePrice, setSelectedDate }) {
+
+const getAvailabilityForSelectedDate = () => {
+  if (!mentor || !mentor.availability || mentor.availability.length === 0) return null;
+
+  const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+  const todayAvailability = mentor.availability[0]?.[dayName];
+
+  if (!todayAvailability || !todayAvailability.isAvailable) {
+    return 'Not available on this day';
+  }
+
+  const formatTime = (timeStr) => {
+    const [hour, minute] = timeStr.split(':');
+    const hourNum = parseInt(hour, 10);
+    const period = hourNum >= 12 ? 'PM' : 'AM';
+    const displayHour = hourNum % 12 || 12;
+    return `${displayHour}:${minute} ${period}`;
+  };
+
+  return `Available: ${formatTime(todayAvailability.startTime)} – ${formatTime(todayAvailability.endTime)}`;
+};
+
+useEffect(()=>{
+getAvailabilityForSelectedDate();
+},[selectedDate])
+
   return (
     <div className="lg:col-span-1">
       <div className="bg-white rounded-xl shadow-lg p-4 sticky top-20">
@@ -15,13 +42,13 @@ function SideProfile({ mentor, selectedDate, sessionTypeOptions, sessionType,set
               </h3>
               <div className="flex items-center justify-center gap-1">
                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                <span className="text-xs font-semibold">{mentor.rating}</span>
+                <span className="text-xs font-semibold">{mentor.reviews.length}</span>
                 <span className="text-xs text-gray-500">
-                  ({mentor.totalSessions})
+                  ({mentor.sessions.length})
                 </span>
               </div>
             </div>
-            <p className="text-xs text-gray-600 truncate">{mentor.title}</p>
+            <p className="text-xs text-gray-600 truncate">{mentor.username}</p>
           </div>
         </div>
 
@@ -37,8 +64,7 @@ function SideProfile({ mentor, selectedDate, sessionTypeOptions, sessionType,set
 
         {/* Available Hours */}
         <div className="text-center text-xs text-gray-600 bg-gray-100 p-2 rounded-lg">
-          Available: {mentor.availableFrom}:00 AM -{" "}
-          {mentor.availableTo === 19 ? "7:00" : mentor.availableTo + ":00"} PM
+          {getAvailabilityForSelectedDate()}
         </div>
 
 

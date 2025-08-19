@@ -5,7 +5,6 @@ function PaymentSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
   const booking = location.state?.booking;
-console.log("Booking", booking);
 
   if (!booking) {
     return (
@@ -31,7 +30,7 @@ console.log("Booking", booking);
         <p><strong>Date & Time:</strong> {new Date(booking.sessionDate).toLocaleString()}</p>
         <p><strong>Mentor:</strong> {booking.mentorName}</p>
         <p><strong>Session Type:</strong> {booking.sessionType}</p>
-        <p><strong>Price:</strong> ₹{booking.price}</p>
+        <p><strong>Price:</strong> ₹{booking.sessionPrice}</p>
         <p>
           <strong>Meeting Link:</strong>{" "}
           <a

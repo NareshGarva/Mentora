@@ -16,7 +16,7 @@ function ProfileDropdown() {
   return (
     <div className='min-w-full border border-gray-300 rounded-lg bg-white'>
         <div className='header p-3 flex justify-left items-center gap-3'>
-        <Avatar/>
+        <Avatar AvatarImg={user.avatar}/>
         <div>
             <p className='font-semibold text-xs' >{user.name}</p>
             <p className='text-xs text-gray-400'>@{user.username}</p>
@@ -45,8 +45,7 @@ function ProfileDropdown() {
         <hr className='text-gray-300' />
        <div onClick={async () => {
   setIsOut(true);
-  const result = await logout();
-  if (result) window.location.reload();
+  await logout();
   setIsOut(false);
 }}
  className='p-3 cursor-pointer'>

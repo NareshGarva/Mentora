@@ -26,7 +26,6 @@ function isEmail(input) {
 
 
 const generateAccessToken = (user) => {
-  console.log(`user is : ${user}`)
   return jwt.sign(
     { _id: user._id, role: user.role, username: user.username },
     process.env.ACCESS_SECRET,
@@ -77,8 +76,7 @@ const createUser = async (req, res) => {
     });
     
     console.log("User created");
-     req.body = { usernameORemail:email, password }; 
-    return await loginUser(req, res);
+    return res.status(200).json({ message: "user created"});
   } catch (error) {
     console.log("error in user creation :", error);
     console.log("User not created")
@@ -106,16 +104,12 @@ const loginUser = async (req, res) => {
   try {
     const user = await MentorUser.findOne(searchQuery).select("+password") || await MenteeUser.findOne(searchQuery).select("+password");
     
-    console.log(user);
-    
     if (!user) {
-      console.log('err');
       return res.status(401).json({ message: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log("aa gya")
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -147,7 +141,8 @@ const loginUser = async (req, res) => {
         username: user.username,
         role: user.role,
         email: user.email,
-        name: user.name
+        name: user.name,
+        avatar:user.avatar
       }
     });
 
@@ -194,8 +189,8 @@ console.log("Token generated")
         message: "New access token generated",
       });
   } catch (err) {
-    console.log(err);
     console.log("Token not generated")
+    console.log(err);
     const status =
       err.name === "JsonWebTokenError" || err.name === "TokenExpiredError"
         ? 401
@@ -228,7 +223,6 @@ const logoutUser = async (req, res) => {
 
     const user = mentee || mentor;
 
-    console.log(`user`, mentor, mentee);
     if (!user) {
       throw new ApiError(403, "Unauthorized request");
     }

@@ -1,22 +1,55 @@
 import React, { useState } from 'react';
-import { Camera } from 'lucide-react';
+import { Camera, ChevronDown } from 'lucide-react';
 import Loading from '../../../components/Loading';
 import axiosInstance from '../../../utils/axiosInstance';
+import { showToast } from '../../../components/Toast';
 
 function PersonalInfo() {
   const [isLoading, setLoading] = useState(false);
+  
+  const [avatar, setAvatar] = useState(null);
   const [formData, setFormData] = useState({
-    avatar: null,
     username: '',
     name: '',
     number: '+91 74398-74728',
     bio: '',
     gender: '',
     dob: '',
-    location: '',
+    profession: '',
   });
   const [checking, setChecking] = useState(false);
   const [available, setAvailable] = useState(null);
+  
+  // Profession dropdown states
+  const [professionDropdownOpen, setProfessionDropdownOpen] = useState(false);
+  
+  // Preset professions list
+  const presetProfessions = [
+    'Software Developer',
+    'Data Scientist',
+    'Product Manager',
+    'Designer',
+    'Marketing Manager',
+    'Sales Executive',
+    'Doctor',
+    'Teacher',
+    'Engineer',
+    'Lawyer',
+    'Nurse',
+    'Accountant',
+    'Business Analyst',
+    'Consultant',
+    'Project Manager',
+    'HR Manager',
+    'Content Writer',
+    'Digital Marketer',
+    'Photographer',
+    'Artist',
+    'Student',
+    'Entrepreneur',
+    'Freelancer',
+    'Other'
+  ];
 
   const updateFormData = (key, value) => {
     setFormData(prev => ({
@@ -26,57 +59,83 @@ function PersonalInfo() {
   };
 
   const handleImageUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const imageURL = URL.createObjectURL(file);
-    updateFormData('avatar', imageURL); 
-  }
-};
-
-
+    const file = event.target.files[0];
+    if (file) {
+      setAvatar(file); // Save image separately
+    }
+  };
   
-const checkUsernameAvailability = async () => {
-  const username = formData.username.trim();
-  if (!username) return;
+  const checkUsernameAvailability = async () => {
+    const username = formData.username.trim();
+    if (!username) return;
 
-  setChecking(true);
-  setAvailable(null);
+    setChecking(true);
+    setAvailable(null);
 
-  try {
-    const res = await axiosInstance.get(`/user/check-username`, {
-      params: { username },
-      withCredentials: true
-    });
+    try {
+      const res = await axiosInstance.get(`/user/check-username`, {
+        params: { username },
+        withCredentials: true
+      });
 
-    setAvailable(res.data.available);  // We'll return this from backend
-  } catch (err) {
-    console.log(err);
-    setAvailable(false);
-  } finally {
-    setChecking(false);
-  }
-};
+      setAvailable(res.data.available);  // We'll return this from backend
+    } catch (err) {
+      console.log(err);
+      setAvailable(false);
+    } finally {
+      setChecking(false);
+    }
+  };
 
+  // Filter professions based on search
+  const filteredProfessions = presetProfessions.filter(profession =>
+    profession.toLowerCase().includes(formData.profession.toLowerCase())
+  );
+
+  const handleProfessionSelect = (profession) => {
+    updateFormData('profession', profession);
+    setProfessionDropdownOpen(false);
+  };
+
+  const handleProfessionInputChange = (e) => {
+    const value = e.target.value;
+    updateFormData('profession', value);
+    setProfessionDropdownOpen(true);
+  };
+
+  const handleProfessionFocus = () => {
+    setProfessionDropdownOpen(true);
+  };
+
+  const handleProfessionBlur = () => {
+    // Delay closing to allow click events on dropdown items
+    setTimeout(() => setProfessionDropdownOpen(false), 150);
+  };
 
   const handleSave = async () => {
-console.log("this is form data :",formData)
-
     setLoading(true);
     try {
-      const response = await axiosInstance.put(
-        '/profile/update-profile',
-        formData,
-        { withCredentials: true }
-      );
+      const data = new FormData();
+      data.append('avatar', avatar); // must be File object from <input type="file" />
+
+      // Append all other fields
+      Object.entries(formData).forEach(([key, value]) => {
+        data.append(key, value);
+      });
+
+      const response = await axiosInstance.put('/profile/update-profile', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true,
+      });
 
       if (response.status === 200) {
-        alert('Profile updated successfully.');
+        showToast('Profile updated successfully.', 'success');
       } else {
-        alert('Failed to update profile.');
+        showToast('Failed to update profile.', 'error');
       }
     } catch (error) {
       console.error(error);
-      alert('An error occurred while updating profile.');
+    showToast('An error occurred while updating profile.', 'error');
     } finally {
       setLoading(false);
     }
@@ -93,8 +152,8 @@ console.log("this is form data :",formData)
       <div className="flex flex-col items-center space-y-4">
         <div className="relative">
           <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow-lg">
-            {formData.avatar ? (
-              <img src={formData.avatar} alt="Avatar" className="w-full h-full object-cover" />
+            {avatar ? (
+              <img src={URL.createObjectURL(avatar)} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200">
                 <Camera size={32} className="text-blue-600" />
@@ -143,6 +202,51 @@ console.log("this is form data :",formData)
             />
           </div>
 
+          {/* Searchable Profession Field */}
+          <div className="relative">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Profession</label>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search or enter your profession"
+                className="w-full p-4 border-2 border-gray-200 rounded-xl pr-10"
+                value={formData.profession}
+                onChange={handleProfessionInputChange}
+                onFocus={handleProfessionFocus}
+                onBlur={handleProfessionBlur}
+              />
+              <ChevronDown 
+                size={20} 
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                onClick={() => setProfessionDropdownOpen(!professionDropdownOpen)}
+              />
+            </div>
+            
+            {/* Dropdown */}
+            {professionDropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white border-2 border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+                {filteredProfessions.length > 0 ? (
+                  filteredProfessions.map((profession, index) => (
+                    <div
+                      key={index}
+                      className="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                      onMouseDown={(e) => {
+                        e.preventDefault(); // Prevent blur event
+                        handleProfessionSelect(profession);
+                      }}
+                    >
+                      {profession}
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-3 text-gray-500">
+                    No matches found. Press Enter to use "{formData.profession}" as custom profession.
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
             <input
@@ -174,17 +278,6 @@ console.log("this is form data :",formData)
               className="w-full p-4 border-2 border-gray-200 rounded-xl"
               value={formData.dob}
               onChange={(e) => updateFormData('dob', e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Location</label>
-            <input
-              type="text"
-              placeholder="City, Country"
-              className="w-full p-4 border-2 border-gray-200 rounded-xl"
-              value={formData.location}
-              onChange={(e) => updateFormData('location', e.target.value)}
             />
           </div>
         </div>

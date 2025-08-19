@@ -7,8 +7,6 @@ function FavoriteMentors() {
         <MentorList/>
         <MentorList/>
         <MentorList/>
-        <MentorList/>
-        <MentorList/>
     </div>
 
   )

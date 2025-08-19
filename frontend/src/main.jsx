@@ -13,15 +13,15 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/register/Register";
 import SearchResult from "./pages/browse-mentor/components/SearchResult";
 import SearchSection from "./pages/browse-mentor/components/SearchSection";
-import Dashboard from './pages/ProfileModule/MenteeProfile/Dashboard'
+import Dashboard from './pages/ProfileModule/Profile/Dashboard'
 
 
 //import contexts and providers
 import {AuthProvider} from './context/auth.context'
 import MentorContext  from "./context/mentor.context";
-import FavoriteMentors from "./pages/ProfileModule/MenteeProfile/components/FavoriteMentors";
+import FavoriteMentors from "./pages/ProfileModule/Profile/components/FavoriteMentors";
 import Settings from "./pages/ProfileModule/components/Settings";
-import MySession from "./pages/ProfileModule/MenteeProfile/components/MySession";
+import MySession from "./pages/ProfileModule/Profile/components/MySession";
 import Overview from "./pages/ProfileModule/components/Overview";
 import SetupProfile from "./pages/SetupProfile/SetupProfile";
 import PersonalInfo from "./pages/SetupProfile/Components/PersonalInfo";
@@ -34,7 +34,9 @@ import Expertise from "./pages/SetupProfile/Components/Expertise";
 import ViewMentor from './pages/ProfileModule/VIewProfile/ViewMentor'
 import BookSession from "./pages/BookSession/BookSession";
 import PaymentSuccess from "./pages/BookSession/PaymentSuccess";
-import Earnings from "./pages/ProfileModule/MenteeProfile/components/Earnings";
+import Earnings from "./pages/ProfileModule/Profile/components/Earnings";
+import Toast from "./components/Toast";
+import AddressInfo from "./pages/SetupProfile/Components/AddressInfo";
 
 
 
@@ -44,7 +46,6 @@ createRoot(document.getElementById("root")).render(
     <AuthProvider> 
       <MentorContext>
         <Header />
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about-us" element={<About />} />
@@ -64,6 +65,7 @@ createRoot(document.getElementById("root")).render(
           {/* Setup profile nested routes */}
           <Route path="/setup-profile/" element={<SetupProfile />}>
             <Route path="personal-info" element={<PersonalInfo />} />
+            <Route path="address-info" element={<AddressInfo />} />
             <Route path="work-experience" element={<WorkExperience />} />
             <Route path="education-info" element={<EducationInfo />} />
             <Route path="expertise-info" element={<Expertise />} />
@@ -84,7 +86,7 @@ createRoot(document.getElementById("root")).render(
 
           <Route path="*" element={<h2>404 - Page Not Found 😢</h2>} />
         </Routes>
-
+<Toast/>
         <Footer />
       </MentorContext>
     </AuthProvider>

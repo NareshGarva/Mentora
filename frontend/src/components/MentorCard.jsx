@@ -4,7 +4,7 @@ import { Calendar, Star } from 'lucide-react';
 import SkillTag from './SkillTag';
 import { useNavigate } from 'react-router-dom';
 
-function MentorCard({ name, title, rating, sessions=[], skills = [], hourlyRate, nextAvailable, username, id }) {
+function MentorCard({ avatar,name, profession, rating, sessions=[], skills = [], hourlyRate, nextAvailable, username, id }) {
   const currency = "₹";
   const navigateToProfile = useNavigate();
   const navigateToBookSession = useNavigate();
@@ -14,11 +14,11 @@ function MentorCard({ name, title, rating, sessions=[], skills = [], hourlyRate,
       {/* Top: Avatar & Details */}
       <div className="flex items-center gap-5">
         <div className="overflow-hidden">
-          <Avatar />
+          <Avatar AvatarImg={avatar}/>
         </div>
         <div className="text-left">
           <h3 className="text-sm font-semibold text-gray-900">{name}</h3>
-          <p className="text-xs text-gray-500">{title}</p>
+          <p className="text-xs text-gray-500">{profession}</p>
           <div className="flex items-center text-xs text-gray-600 mt-1 gap-1">
             <Star size={14} fill="#ffa500" stroke="0" />
             <span className="font-semibold text-black ml-1">{rating}</span>

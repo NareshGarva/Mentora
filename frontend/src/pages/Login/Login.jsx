@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from "js-cookie";
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
 import {useAuth} from '../../context/auth.context';
+import { showToast } from '../../components/Toast';
 
 function Login() {
 const {login} = useAuth()
@@ -76,12 +76,11 @@ const {login} = useAuth()
       });
 
       if (response.status === 200) {
-        alert(response.data.message);
+        showToast(`${response.data.message}`, "success")
 login(response.data.user)
 handleRedirect();
-window.location.reload();
       } else {
-        alert(response.data.message || 'Invalid credentials');
+        showToast(`${response.data.message}`, "error")
         throw new Error(response.data.message || 'Invalid credentials');
       }
 
@@ -99,8 +98,9 @@ window.location.reload();
   };
 
   return (
-    <section className="w-full py-10 min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-md px-6 py-8 mx-4 bg-gradient-to-br from-indigo-100 via-yellow-50 to-pink-100">
+    <section className="w-full py-10 min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary-300 via-yellow-100 to-tertiary-200">
+
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-md px-6 py-8 mx-4 ">
         <div className="text-center mb-6">
           <div className="flex justify-center mb-3">
             <span className="w-12 h-12">
@@ -165,6 +165,22 @@ window.location.reload();
           >
             {isLoading ? <Loading /> : 'Login'}
           </button>
+          <div className='border border-gray-400 py-2 px-5 rounded-xl bg-gradient-to-br from-red-50 to-green-50 text-sm'>
+            <div>
+              <p className='font-bold text-black'>Mentee</p>
+              <ul>
+                <li>username : narayansingh5774</li>
+                <li>password : Narayan@123</li>
+              </ul>
+            </div>
+            <div>
+              <p className='font-bold text-black'>Mentor</p>
+              <ul>
+                <li>username : rohit1248</li>
+                <li>password : Rohit@123</li>
+              </ul>
+            </div>
+          </div>
 
           {disabled && (
             <p className="text-xs text-gray-500 text-center mt-2">

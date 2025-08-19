@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Loading from '../../../components/Loading'
 import axiosInstance from '../../../utils/axiosInstance'
+import { showToast } from '../../../components/Toast';
 
 function WeeklyAvailability() {     
    const [isLoading, setLoading] = useState(false)
@@ -29,7 +30,7 @@ function WeeklyAvailability() {
    const handleSave = async () => {
       setLoading(true);
       if (!formData.availability || formData.availability.length === 0) {
-        alert("Please add at least one social link.");
+        showToast("Please add at least one Availability.", 'error');
         return;
       }
     
@@ -40,14 +41,14 @@ function WeeklyAvailability() {
     
     
         if (response.status === 200) {
-          alert("Social links updated successfully.");
+          showToast("Availability updated successfully.", 'success');
         } else {
-          alert("Failed to update social links.");
+          showToast("Failed to update Availability.", 'error');
         }
     setLoading(false)
       } catch (error) {
         console.error(error);
-        alert("An error occurred while updating social links.");
+        showToast("An error occurred while updating Availability.", 'error');
       }
     };
   

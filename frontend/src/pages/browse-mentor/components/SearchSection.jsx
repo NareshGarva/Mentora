@@ -5,7 +5,6 @@ import {MentorContext} from '../../../context/mentor.context';
 function SearchSection({setFilteredMentors}) {
   const inputRef = useRef(null);
   const {mentors} = useContext(MentorContext)
-  console.log("all mentor in search :", mentors)
 
 
   const filterMentors = () => {
@@ -20,7 +19,6 @@ function SearchSection({setFilteredMentors}) {
       return nameMatch || titleMatch || skillMatch;
     });
     setFilteredMentors(result);
-    console.log("all mentor in result in search :", result)
   };
 
   

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../../utils/axiosInstance'
 import Loading from '../../../components/Loading'
+import { showToast } from '../../../components/Toast';
 
 function SocialLinks() {
   const [isLoading, setLoading] = useState(false)
@@ -50,7 +51,7 @@ function SocialLinks() {
 const handleSave = async () => {
   setLoading(true);
   if (!socialLinks || socialLinks.length === 0) {
-    alert("Please add at least one social link.");
+    showToast("Please add at least one social link.", 'error');
     return;
   }
 
@@ -61,14 +62,14 @@ const handleSave = async () => {
 
 
     if (response.status === 200) {
-      alert("Social links updated successfully.");
+      showToast("Social links updated successfully.", 'success');
     } else {
-      alert("Failed to update social links.");
+      showToast("Failed to update social links.", 'error');
     }
 setLoading(false)
   } catch (error) {
     console.error(error);
-    alert("An error occurred while updating social links.");
+    showToast("An error occurred while updating social links.", 'error');
   }
 };
 

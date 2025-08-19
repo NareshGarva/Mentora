@@ -1,5 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion'
+
 
 function HeroSection() {
    const navigate = useNavigate();
@@ -7,9 +9,11 @@ function HeroSection() {
     navigate('/browse-mentor/search-mentors')
   }
   return (
-     <section data-aos="fade-in" data-aos-duration="1000" data-aos-delay="100" className='w-full bg-gradient-to-b from-transparent to-orange-100' >
+     <motion.section initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}  className='w-full bg-gradient-to-b from-transparent to-orange-100' >
  <div className='mx-5 md:mx-28 flex justify-center items-center h-screen'>
 <div className='w-full'>
+
     {/* section heading text */}
   <div className='text-center'>
   <h1 className='text-3xl md:text-6xl font-bold' >Connect with <span className='bg-gradient-to-r from-indigo-500 via-purple-500 to-orange-500 bg-clip-text text-transparent'>Expert Mentors</span> for 1:1 Sessions</h1>
@@ -43,7 +47,8 @@ function HeroSection() {
 </div>
 </div>
   </div>
-    </section>
+
+    </motion.section>
   )
 }
 

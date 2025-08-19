@@ -13,36 +13,29 @@ import Availability from '../models/availability.model.js'
 
 
 const updateUserProfile = async (req, res) => {
-  console.log("aa gya");
   const username = req.user?.username;
-  const data = req.body.data;
 
   if (!username) {
     return res.status(400).json({ message: "Username missing in token" });
   }
 
-  const {
-    avatar,
-    name,
-    number,
-    bio,
-    gender,
-    dob,
-    location
-  } = data;
+  // Body fields come directly, not inside "data"
+  const { name, number, bio, dob, profession, gender } = req.body;
+  const avatar = req.file?.path || req.body.avatar; 
+
+  const updateFields = {};
+  if (avatar !== undefined) updateFields.avatar = avatar;
+  if (name) updateFields.name = name;
+  if (number) updateFields.number = number;
+  if (bio) updateFields.bio = bio;
+  if (dob) updateFields.dob = dob;
+  if (profession) updateFields.profession = profession;
+  // if (gender) updateFields.gender = gender; // add gender in schema if needed
 
   try {
     const updatedUser = await MentorUser.findOneAndUpdate(
       { username },
-      {
-        ...(avatar !== undefined && { avatar }),
-        ...(name && { name }),
-        ...(number && { number }),
-        ...(bio && { bio }),
-        ...(gender && { gender }),
-        ...(dob && { dob }),
-        ...(location && { location }),
-      },
+      updateFields,
       { new: true }
     );
 
@@ -56,9 +49,11 @@ const updateUserProfile = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating profile:", error);
-    throw new ApiError(500, "Internal Server Error");
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 
 
@@ -160,9 +155,6 @@ const updateRate = async (req, res) => {
     if (user.rate) {
       // If a rate already exists, update it
       user.rate.perHour = rate.perHour;
-      user.rate.perMinute = rate.perMinute;
-      user.rate.per15Minutes = rate.per15Minutes;
-      user.rate.per30Minutes = rate.per30Minutes;
       user.rate.currency = rate.currency || 'INR';
       await user.rate.save();
       newRate = user.rate;
@@ -170,9 +162,6 @@ const updateRate = async (req, res) => {
       // Create a new rate and assign it
       newRate = await new Rate({
         perHour: rate.perHour,
-        perMinute: rate.perMinute,
-        per15Minutes: rate.per15Minutes,
-        per30Minutes: rate.per30Minutes,
         currency: rate.currency || 'INR',
       }).save();
 
@@ -236,7 +225,6 @@ const updateExpertise = async (req, res) => {
 const updateWorkExperience = async (req, res) => {
   const username = req.user?.username;
   const data = req.body.workExperiences; 
-console.log(data);
   if (!username) {
     return res.status(400).json({ message: "Username is missing in token" });
   }
@@ -256,12 +244,12 @@ console.log(data);
 
     // Add their IDs to user's profile
     user.workExperience = user.workExperience || [];
-    user.workExperience.push(...insertedWork.map((exp) => exp._id));
+    user.workHistory.push(...insertedWork.map((exp) => exp._id));
     await user.save();
 
     return res.status(200).json({
       message: "Work experience added successfully",
-      workExperience: insertedWork,
+      workHistory: insertedWork,
     });
   } catch (error) {
     console.error("Error updating work experience:", error);

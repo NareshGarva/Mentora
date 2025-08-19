@@ -8,6 +8,7 @@ import Logo from './Logo';
 import { useAuth } from '../context/auth.context';
 
 function Header() {
+    const { user } = useAuth();
   const {isLoggedIn} = useAuth()
   //         // check if new notification or not 
   //   const isNewNotification = false;
@@ -63,7 +64,7 @@ function Header() {
 <div className='relative'  onMouseOver={()=>handleMouseOver('profileDropdown')}
   onMouseLeave={()=>handleMouseLeave('profileDropdown')}>
   <div className='w-[40px] h-[40px] object-contain'>
-  <Avatar onClick={()=>handleToggleClick('profileDropdown')}/>
+  <Avatar AvatarImg={user?.avatar} onClick={()=>handleToggleClick('profileDropdown')}/>
 </div>
 <div  className="absolute right-0 top-10.5 w-60 bg-white shadow-lg rounded-lg hidden z-50"
     id="profileDropdown">

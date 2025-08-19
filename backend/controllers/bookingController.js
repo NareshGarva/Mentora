@@ -1,15 +1,5 @@
 import Bookings from "../models/booking.model.js";
 
-export const createBooking = async (req, res) => {
-  try {
-    const newBooking = new Bookings(req.body);
-    const saved = await newBooking.save();
-    res.status(201).json(saved);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
 export const getAllBookings = async (req, res) => {
   try {
     const bookings = await Bookings.find().populate("menteeId mentorId sessionId paymentId");

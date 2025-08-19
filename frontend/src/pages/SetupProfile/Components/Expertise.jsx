@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Loading from '../../../components/Loading'
 import axiosInstance from '../../../utils/axiosInstance'
+import { showToast } from '../../../components/Toast';
 
 
 
@@ -52,7 +53,7 @@ function Expertise() {
   const handleSave = async () => {
     setLoading(true);
     if (!expertises || expertises.length === 0) {
-      alert("Please add at least one social link.");
+      showToast("Please add at least one Expertise.", 'error');
       return;
     }
   
@@ -63,14 +64,14 @@ function Expertise() {
   
   
       if (response.status === 200) {
-        alert("Social links updated successfully.");
+        showToast("Expertise updated successfully.",'success');
       } else {
-        alert("Failed to update social links.");
+        showToast("Failed to update Expertise.", 'error');
       }
   setLoading(false)
     } catch (error) {
       console.error(error);
-      alert("An error occurred while updating social links.");
+      showToast("An error occurred while updating Expertise.", 'error');
     }
   };
 

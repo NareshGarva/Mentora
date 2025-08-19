@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Loading from '../../../components/Loading'
 import axiosInstance from '../../../utils/axiosInstance'
+import { showToast } from '../../../components/Toast';
 
 function EducationInfo() {
       const [isLoading, setLoading] = useState(false)
@@ -61,7 +62,7 @@ function EducationInfo() {
   const handleSave = async () => {
     setLoading(true);
     if (!educations || educations.length === 0) {
-      alert("Please add at least one social link.");
+      showToast("Please add at least one Education.", 'error');
       return;
     }
   
@@ -72,14 +73,14 @@ function EducationInfo() {
   
   
       if (response.status === 200) {
-        alert("Social links updated successfully.");
+        showToast("Education updated successfully.", 'success');
       } else {
-        alert("Failed to update social links.");
+        showToast("Failed to update Education.", 'error');
       }
   setLoading(false)
     } catch (error) {
       console.error(error);
-      alert("An error occurred while updating social links.");
+      showToast("An error occurred while updating Education.", 'error');
     }
   };
 

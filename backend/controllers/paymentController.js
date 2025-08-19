@@ -1,14 +1,6 @@
 import Payments from "../models/payment.model.js";
 
-export const createPayment = async (req, res) => {
-  try {
-    const payment = new Payments(req.body);
-    const saved = await payment.save();
-    res.status(201).json(saved);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
+
 
 export const getAllPayments = async (req, res) => {
   try {

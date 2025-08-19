@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Loading from '../../../components/Loading'
 import axiosInstance from '../../../utils/axiosInstance'
+import { showToast } from '../../../components/Toast';
 
 function WorkExperience() {
       const [isLoading, setLoading] = useState(false)
@@ -60,7 +61,7 @@ function WorkExperience() {
   const handleSave = async () => {
     setLoading(true);
     if (!workExperiences || workExperiences.length === 0) {
-      alert("Please add at least one social link.");
+      showToast("Please add at least one work history.", 'error');
       return;
     }
   
@@ -71,14 +72,14 @@ function WorkExperience() {
   
   
       if (response.status === 200) {
-        alert("Social links updated successfully.");
+        showToast("work history updated successfully.", 'success');
       } else {
-        alert("Failed to update social links.");
+        showToast("Failed to update work history.", 'error');
       }
   setLoading(false)
     } catch (error) {
       console.error(error);
-      alert("An error occurred while updating social links.");
+      showToast("An error occurred while updating work history.", 'error');
     }
   };
 

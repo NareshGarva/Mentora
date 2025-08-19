@@ -4,7 +4,7 @@ import PastSession from '../../components/PastSession'
 
 function MySession() {
   return (
-    <div>
+    <div className='flex flex-col gap-8'>
         <UpcomingSession/>
         <PastSession/>
     </div>
