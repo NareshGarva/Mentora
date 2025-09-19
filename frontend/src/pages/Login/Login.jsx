@@ -5,6 +5,7 @@ import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
 import {useAuth} from '../../context/auth.context';
 import { showToast } from '../../components/Toast';
+const api = import.meta.env.VITE_API_URL;
 
 function Login() {
 const {login} = useAuth()
@@ -71,7 +72,7 @@ const {login} = useAuth()
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', formData,{
+      const response = await axios.post(`${api}/api/auth/login`, formData,{
         withCredentials:true
       });
 
