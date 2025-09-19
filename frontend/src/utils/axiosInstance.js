@@ -1,7 +1,8 @@
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL;
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api/',
+  baseURL: api,
   withCredentials: true,
 });
 
@@ -13,7 +14,7 @@ axiosInstance.interceptors.response.use(
     if ((error.response?.status === 401 || error.response?.status === 500) && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await axios.post('http://localhost:3000/api/auth/refresh-token', {}, {
+        await axios.post(`${api}/api/auth/refresh-token`, {}, {
           withCredentials: true
         });
 

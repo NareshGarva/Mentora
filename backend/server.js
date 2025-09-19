@@ -17,7 +17,7 @@ dotenv.config()
 const app = new express();
 app.use(cookieParser())
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:'https://mentor.project.artifyr.in/',
     credentials:true
 }))
 

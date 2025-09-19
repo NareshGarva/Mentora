@@ -5,6 +5,7 @@ function PaymentSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
   const booking = location.state?.booking;
+  // window.location.reload();
 
   if (!booking) {
     return (

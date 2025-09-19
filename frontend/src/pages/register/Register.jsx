@@ -4,7 +4,7 @@ import axios from 'axios'
 import Loading from '../../components/Loading';
 import { showToast } from '../../components/Toast';
 import {useAuth} from '../../context/auth.context';
-
+const api = import.meta.env.VITE_API_URL;
 
 function Register() {
   const {login} = useAuth()
@@ -61,7 +61,7 @@ function Register() {
       usernameORemail:email,password
     }
     try {
-      const loginResponse = await axios.post('http://localhost:3000/api/auth/login', formData,{
+      const loginResponse = await axios.post(`${api}/api/auth/login`, formData,{
         withCredentials:true
       });
       
@@ -92,7 +92,7 @@ login(loginResponse.data.user)
       try {
         setLoading(true);
         
-        const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
+        const response = await axios.post(`${api}/api/auth/create-user`, formData);
         
         // Fixed: Check if status is NOT 200/201
         if (response.status !== 200 && response.status !== 201) {

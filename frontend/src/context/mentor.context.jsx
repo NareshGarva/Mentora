@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL;
 
 const MentorContext = createContext();
 
@@ -12,7 +13,7 @@ function MentorProvider({ children }) {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/user/get-mentors`, {
+        const response = await axios.get(`${api}/api/user/get-mentors`, {
           withCredentials: true,
         });
 

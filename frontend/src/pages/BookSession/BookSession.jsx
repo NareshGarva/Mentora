@@ -8,6 +8,7 @@ import Loading from "../../components/Loading";
 import { useAuth } from "../../context/auth.context";
 import { MentorContext } from "../../context/mentor.context";
 import { showToast } from "../../components/Toast";
+const razerpay_key = import.meta.env.VITE_RAZORPAY_KEY;
 
 const BookSession = () => {
   const { user } = useAuth();
@@ -185,7 +186,7 @@ const BookSession = () => {
         if (!isLoaded) return showToast("Failed to load Razorpay", 'error');
 
         const options = {
-          key: "rzp_test_4eUvKQWERKoSWn",
+          key: razerpay_key,
           amount: order.amount,
           currency: order.currency,
           name: "Mentora",
@@ -200,7 +201,6 @@ const BookSession = () => {
                 { withCredentials: true }
               );
               if (verifyRes.data.success) {
-                window.reload();
                 navigate("/payment-success", {
                   state: { booking: verifyRes.data.booking, mentorName: mentor.name },
                 });
