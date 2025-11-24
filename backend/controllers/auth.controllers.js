@@ -86,6 +86,72 @@ const createUser = async (req, res) => {
 
 
 
+// const loginUser = async (req, res) => {
+//   const { usernameORemail, password } = req.body;
+
+//   if (!usernameORemail || !password) {
+//     return res.status(400).json({ message: "All fields are required" });
+//   }
+
+//   // Clean the input: remove all whitespace and lowercase
+//   const cleanedInput = String(usernameORemail).replace(/\s+/g, "").toLowerCase();
+
+//   // Decide which field to query
+//   const searchQuery = isEmail(cleanedInput)
+//     ? { email: cleanedInput }
+//     : { username: cleanedInput };
+
+//   try {
+//     const user = await MentorUser.findOne(searchQuery).select("+password") || await MenteeUser.findOne(searchQuery).select("+password");
+    
+//     if (!user) {
+//       return res.status(401).json({ message: "User not found" });
+//     }
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(401).json({ message: "Invalid credentials" });
+//     }
+
+//     const accessToken = generateAccessToken(user);
+//     const refreshToken = generateRefreshToken(user);
+
+//     user.refreshToken = refreshToken;
+//     await user.save();
+
+//     res.cookie("refreshToken", refreshToken, {
+//       httpOnly: true,
+//       secure: false,
+//       sameSite: "strict",
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
+//     });
+
+//     res.cookie("accessToken", accessToken, {
+//       httpOnly: true,
+//       secure: false,
+//       sameSite: "strict",
+//       maxAge: 15 * 60 * 1000,
+//     });
+
+//     console.log("User logged in:", user.username);
+
+//     return res.status(200).json({
+//       message: "Login successful",
+//       user: {
+//         username: user.username,
+//         role: user.role,
+//         email: user.email,
+//         name: user.name,
+//         avatar:user.avatar
+//       }
+//     });
+
+//   } catch (error) {
+//     console.error("Login Error:", error);
+//     return res.status(500).json({ message: "Something went wrong. Please try again." });
+//   }
+// };
+
 const loginUser = async (req, res) => {
   const { usernameORemail, password } = req.body;
 
@@ -93,17 +159,28 @@ const loginUser = async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  // Clean the input: remove all whitespace and lowercase
-  const cleanedInput = String(usernameORemail).replace(/\s+/g, "").toLowerCase();
-
-  // Decide which field to query
-  const searchQuery = isEmail(cleanedInput)
-    ? { email: cleanedInput }
-    : { username: cleanedInput };
+  // Clean input: remove all whitespace and trim
+  const cleanedInput = String(usernameORemail).replace(/\s+/g, "").trim();
 
   try {
-    const user = await MentorUser.findOne(searchQuery).select("+password") || await MenteeUser.findOne(searchQuery).select("+password");
-    
+    let user;
+
+    // If input looks like an email → case-insensitive search
+    if (isEmail(cleanedInput)) {
+      user = await MentorUser.findOne({ email: cleanedInput })
+        .collation({ locale: 'en', strength: 2 }) // case-insensitive
+        .select("+password")
+        || await MenteeUser.findOne({ email: cleanedInput })
+        .collation({ locale: 'en', strength: 2 }) // case-insensitive
+        .select("+password");
+    } 
+    // Otherwise treat as username → lowercase search (both schemas store username lowercase)
+    else {
+      const usernameQuery = { username: cleanedInput.toLowerCase() };
+      user = await MentorUser.findOne(usernameQuery).select("+password")
+        || await MenteeUser.findOne(usernameQuery).select("+password");
+    }
+
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
@@ -142,7 +219,7 @@ const loginUser = async (req, res) => {
         role: user.role,
         email: user.email,
         name: user.name,
-        avatar:user.avatar
+        avatar: user.avatar
       }
     });
 
@@ -151,7 +228,6 @@ const loginUser = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 };
-
 
 
 const refreshAccessToken = async (req, res) => {
