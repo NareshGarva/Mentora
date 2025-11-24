@@ -1,26 +1,22 @@
 import jwt from "jsonwebtoken";
 import ApiError from "../utils/ApiError.js";
-import User from "../models/user.model.js";
+import MentorUser from '../models/user.mentor.model.js'
+import MenteeUser from '../models/user.mentee.model.js'
 
 const verifyToken = async (req, res, next) => {
-  console.log(`aa gya`)
   const token =
     req.cookies?.accessToken ||
     req.header("Authorization")?.replace("Bearer ", "");
-
   if (!token) {
     return next(new ApiError(401, "Access token not found"));
   }
 
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_SECRET);
-
-    const user = await User.findById(decoded._id);
-
+    const user = await (decoded.role==='Mentee'?MenteeUser:MentorUser).findById(decoded._id);
     if (!user) {
       return next(new ApiError(404, "User not found"));
     }
-
     req.user = decoded;
     next();
   } catch (err) {

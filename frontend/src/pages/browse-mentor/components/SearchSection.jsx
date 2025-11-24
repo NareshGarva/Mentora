@@ -1,23 +1,27 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { UserSearch } from 'lucide-react';
-import {Mentors} from '../../../sample/MentorCard'
+import {MentorContext} from '../../../context/mentor.context';
 
 function SearchSection({setFilteredMentors}) {
   const inputRef = useRef(null);
+  const {mentors} = useContext(MentorContext)
+
 
   const filterMentors = () => {
     const query = inputRef.current.value.toLowerCase();
-    const result = Mentors.filter((mentor) => {
+    const result = mentors.filter((mentor) => {
       const nameMatch = mentor.name.toLowerCase().includes(query);
-      const titleMatch = mentor.title.toLowerCase().includes(query);
-      const skillMatch = mentor.skills.some(skill =>
-        skill.toLowerCase().includes(query)
+      const titleMatch = mentor.username.toLowerCase().includes(query);
+      const skillMatch = mentor.expertise.some(skill =>
+        skill.expertise.toLowerCase().includes(query)
       );
 
       return nameMatch || titleMatch || skillMatch;
     });
     setFilteredMentors(result);
   };
+
+  
 
   const addInput = (tag) => {
     inputRef.current.value = tag;

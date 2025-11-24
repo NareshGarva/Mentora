@@ -1,9 +1,8 @@
 import React from 'react'
-import AvatarImg from '../assets/avatar.jpg'
 import { User } from 'lucide-react';
 
-function Avatar() {
-  const isAvatar = false;
+function Avatar({AvatarImg}) {
+  const isAvatar = AvatarImg == null ?true:false;
  const bgColors = [
   'bg-green-100',
   'bg-orange-100',
@@ -27,7 +26,7 @@ const randomBg = bgColors[Math.floor(Math.random() * bgColors.length)];
   return (
     <>
       {isAvatar ? (
-        <img src={AvatarImg} alt="User Avatar" className="w-[50px] h-[50px] rounded-full" />
+        <img src={AvatarImg} alt="User Avatar" width={50} height={50} className="w-[50px] h-[50px] rounded-full" />
       ) : (
         defaultAvatar
       )}
