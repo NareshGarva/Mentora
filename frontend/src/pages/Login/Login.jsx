@@ -5,6 +5,7 @@ import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
 import {useAuth} from '../../context/auth.context';
 import { showToast } from '../../components/Toast';
+const api = import.meta.env.VITE_API_URL;
 
 function Login() {
 const {login} = useAuth()
