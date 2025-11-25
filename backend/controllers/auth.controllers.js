@@ -5,25 +5,16 @@ import MenteeUser from "../models/user.mentee.model.js";
 import MentorUser from "../models/user.mentor.model.js";
 import ApiError from "../utils/ApiError.js";
 
-
 const getUsername = (query = "") => {
   const name = query.trim().toLowerCase().replace(/\s+/g, "");
   const uniqueSuffix = Date.now().toString().slice(-4);
   return `${name}${uniqueSuffix}`;
 };
 
-
-
-
 function isEmail(input) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(input);
 }
-
-
-
-
-
 
 const generateAccessToken = (user) => {
   return jwt.sign(
@@ -33,11 +24,6 @@ const generateAccessToken = (user) => {
   );
 };
 
-
-
-
-
-
 const generateRefreshToken = (user) => {
   return jwt.sign(
     { _id: user._id, role: user.role, username: user.username },
@@ -45,14 +31,6 @@ const generateRefreshToken = (user) => {
     { expiresIn: "7d" }
   );
 };
-
-
-
-
-
-
-
-
 
 const createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -83,74 +61,6 @@ const createUser = async (req, res) => {
     throw new ApiError(400, "Error in account creation");
   }
 };
-
-
-
-// const loginUser = async (req, res) => {
-//   const { usernameORemail, password } = req.body;
-
-//   if (!usernameORemail || !password) {
-//     return res.status(400).json({ message: "All fields are required" });
-//   }
-
-//   // Clean the input: remove all whitespace and lowercase
-//   const cleanedInput = String(usernameORemail).replace(/\s+/g, "").toLowerCase();
-
-//   // Decide which field to query
-//   const searchQuery = isEmail(cleanedInput)
-//     ? { email: cleanedInput }
-//     : { username: cleanedInput };
-
-//   try {
-//     const user = await MentorUser.findOne(searchQuery).select("+password") || await MenteeUser.findOne(searchQuery).select("+password");
-    
-//     if (!user) {
-//       return res.status(401).json({ message: "User not found" });
-//     }
-
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) {
-//       return res.status(401).json({ message: "Invalid credentials" });
-//     }
-
-//     const accessToken = generateAccessToken(user);
-//     const refreshToken = generateRefreshToken(user);
-
-//     user.refreshToken = refreshToken;
-//     await user.save();
-
-//     res.cookie("refreshToken", refreshToken, {
-//       httpOnly: true,
-//       secure: false,
-//       sameSite: "strict",
-//       maxAge: 7 * 24 * 60 * 60 * 1000,
-//     });
-
-//     res.cookie("accessToken", accessToken, {
-//       httpOnly: true,
-//       secure: false,
-//       sameSite: "strict",
-//       maxAge: 15 * 60 * 1000,
-//     });
-
-//     console.log("User logged in:", user.username);
-
-//     return res.status(200).json({
-//       message: "Login successful",
-//       user: {
-//         username: user.username,
-//         role: user.role,
-//         email: user.email,
-//         name: user.name,
-//         avatar:user.avatar
-//       }
-//     });
-
-//   } catch (error) {
-//     console.error("Login Error:", error);
-//     return res.status(500).json({ message: "Something went wrong. Please try again." });
-//   }
-// };
 
 const loginUser = async (req, res) => {
   const { usernameORemail, password } = req.body;
@@ -196,17 +106,19 @@ const loginUser = async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "strict",
       maxAge: 15 * 60 * 1000,
     });
 
@@ -229,7 +141,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 const refreshAccessToken = async (req, res) => {
   const token =
     req.cookies?.refreshToken ||
@@ -249,15 +160,17 @@ const refreshAccessToken = async (req, res) => {
 
     const newAccessToken = generateAccessToken(user);
     
+    const isProduction = process.env.NODE_ENV === "production";
 
-       //set access token in cookie-only
-  res.cookie("accessToken", newAccessToken, {
-    httpOnly: true,
-    secure: false,
-    sameSite: "strict",
-    maxAge: 15 * 60 * 1000, // 15 minutes only
-  });
-console.log("Token generated")
+    //set access token in cookie-only
+    res.cookie("accessToken", newAccessToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "strict",
+      maxAge: 15 * 60 * 1000, // 15 minutes only
+    });
+    
+    console.log("Token generated")
     return res
       .status(201)
       .json({
@@ -273,13 +186,11 @@ console.log("Token generated")
         : 500;
 
     return res
-  .status(status)
-  .json({ message: "Unauthorized: Invalid or expired token from refresh token" });
+      .status(status)
+      .json({ message: "Unauthorized: Invalid or expired token from refresh token" });
 
   }
 };
-
-
 
 const logoutUser = async (req, res) => {
   const token =
@@ -306,16 +217,20 @@ const logoutUser = async (req, res) => {
     user.refreshToken = '';
     await user.save();
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "strict",
     });
-     res.clearCookie("accessToken", {
+    
+    res.clearCookie("accessToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "strict",
     });
+    
     console.log("User logout")
     return res.status(200).json({ message: "User logged out successfully" });
   } catch (err) {
@@ -324,7 +239,5 @@ const logoutUser = async (req, res) => {
     throw new ApiError(500, "Error during logout");
   }
 };
-
-
 
 export { createUser, loginUser, refreshAccessToken, logoutUser };

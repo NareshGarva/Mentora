@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
 import {useAuth} from '../../context/auth.context';
@@ -71,9 +71,7 @@ const {login} = useAuth()
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', formData,{
-        withCredentials:true
-      });
+      const response = await axiosInstance.post('/auth/login', formData);
 
       if (response.status === 200) {
         showToast(`${response.data.message}`, "success")

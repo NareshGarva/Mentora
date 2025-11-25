@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
-
+import axiosInstance from '../utils/axiosInstance';
 const MentorContext = createContext();
 
 function MentorProvider({ children }) {
@@ -12,7 +11,7 @@ function MentorProvider({ children }) {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/user/get-mentors`, {
+        const response = await axiosInstance.get(`/user/get-mentors`, {
           withCredentials: true,
         });
 

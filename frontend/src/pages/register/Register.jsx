@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import axiosInstance from '../../utils/axiosInstance';
 import Loading from '../../components/Loading';
 import { showToast } from '../../components/Toast';
 import {useAuth} from '../../context/auth.context';
-
 
 function Register() {
   const {login} = useAuth()
@@ -61,7 +60,7 @@ function Register() {
       usernameORemail:email,password
     }
     try {
-      const loginResponse = await axios.post('http://localhost:3000/api/auth/login', formData,{
+      const loginResponse = await axiosInstance.post('/auth/login', formData,{
         withCredentials:true
       });
       
@@ -92,7 +91,7 @@ login(loginResponse.data.user)
       try {
         setLoading(true);
         
-        const response = await axios.post('http://localhost:3000/api/auth/create-user', formData);
+        const response = await axiosInstance.post('/auth/create-user', formData);
         
         // Fixed: Check if status is NOT 200/201
         if (response.status !== 200 && response.status !== 201) {
